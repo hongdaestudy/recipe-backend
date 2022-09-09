@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-// TODO jaesay: 재료그룹, 태그 맵핑 추가
 @Table(name = "recipe")
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -48,6 +47,10 @@ public class RecipeEntity {
 
     private String tip;
 
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<RecipeTag> recipeTags = new ArrayList<>();
+
     // TODO jaesay: Enum 값에 attribute converter 추가할지... , description 값은 프론트에 의존적이라 enum 그대로 저장하면 될것같다
     @Enumerated(EnumType.STRING)
     private RecipeStatus status;
@@ -75,5 +78,10 @@ public class RecipeEntity {
     public void addRecipeStep(RecipeStepEntity recipeStep) {
         this.recipeSteps.add(recipeStep);
         recipeStep.setRecipe(this);
+    }
+
+    public void addRecipeTag(RecipeTag recipeTag) {
+        this.recipeTags.add(recipeTag);
+        recipeTag.setRecipe(this);
     }
 }

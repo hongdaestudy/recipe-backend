@@ -49,7 +49,7 @@ public class RecipeEntity {
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<RecipeTag> recipeTags = new ArrayList<>();
+    private List<RecipeTagEntity> recipeTags = new ArrayList<>();
 
     // TODO jaesay: Enum 값에 attribute converter 추가할지... , description 값은 프론트에 의존적이라 enum 그대로 저장하면 될것같다
     @Enumerated(EnumType.STRING)
@@ -80,7 +80,7 @@ public class RecipeEntity {
         recipeStep.setRecipe(this);
     }
 
-    public void addRecipeTag(RecipeTag recipeTag) {
+    public void addRecipeTag(RecipeTagEntity recipeTag) {
         this.recipeTags.add(recipeTag);
         recipeTag.setRecipe(this);
     }

@@ -14,8 +14,8 @@ public enum RecipeCookingTime {
   THIRTY_MINUTES_LESS("30분 이내"),
   SIXTY_MINUTES_LESS("60분 이내"),
   NINETY_MINUTES_LESS("90분 이내"),
-  TWO_HOUR_LESS("2시간 이내"),
-  TWO_HOUR_MORE("2시간 이후");
+  TWO_HOURS_LESS("2시간 이내"),
+  TWO_HOURS_MORE("2시간 이후");
 
   private final String description;
 }

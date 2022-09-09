@@ -13,25 +13,27 @@ import java.util.Objects;
 @Getter
 @ToString
 public class RecipeInformation {
-    @Enumerated(EnumType.STRING)
-    private RecipeDifficultyLevel servingCount;
-    @Enumerated(EnumType.STRING)
-    private RecipeCookingTime cookingTime;
-    @Enumerated(EnumType.STRING)
-    private RecipeDifficultyLevel difficultyLevel;
+  @Enumerated(EnumType.STRING)
+  private RecipeDifficultyLevel servingCount;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        RecipeInformation that = (RecipeInformation) o;
-        return servingCount != null && Objects.equals(servingCount, that.servingCount)
-                && cookingTime != null && Objects.equals(cookingTime, that.cookingTime)
-                && difficultyLevel != null && Objects.equals(difficultyLevel, that.difficultyLevel);
-    }
+  @Enumerated(EnumType.STRING)
+  private RecipeCookingTime cookingTime;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(servingCount, cookingTime, difficultyLevel);
-    }
+  @Enumerated(EnumType.STRING)
+  private RecipeDifficultyLevel difficultyLevel;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    RecipeInformation that = (RecipeInformation) o;
+    return servingCount != null && Objects.equals(servingCount, that.servingCount)
+        && cookingTime != null && Objects.equals(cookingTime, that.cookingTime)
+        && difficultyLevel != null && Objects.equals(difficultyLevel, that.difficultyLevel);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(servingCount, cookingTime, difficultyLevel);
+  }
 }

@@ -19,42 +19,40 @@ import java.util.Objects;
 @ToString
 public class IngredientEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ingredient_id")
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "ingredient_id")
+  private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ingredient_group_id")
-    @ToString.Exclude
-    private IngredientGroupEntity ingredientGroup;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "ingredient_group_id")
+  @ToString.Exclude
+  private IngredientGroupEntity ingredientGroup;
 
-    private String name;
+  private String name;
 
-    private String amount;
+  private String amount;
 
-    private int sortOrder;
+  private int sortOrder;
 
-    @CreatedDate
-    private LocalDateTime createdAt;
+  @CreatedDate private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
+  @LastModifiedDate private LocalDateTime updatedAt;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        IngredientEntity that = (IngredientEntity) o;
-        return id != null && Objects.equals(id, that.id);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    IngredientEntity that = (IngredientEntity) o;
+    return id != null && Objects.equals(id, that.id);
+  }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
+  }
 
-    public void setIngredientGroup(IngredientGroupEntity ingredientGroup) {
-        this.ingredientGroup = ingredientGroup;
-    }
+  public void setIngredientGroup(IngredientGroupEntity ingredientGroup) {
+    this.ingredientGroup = ingredientGroup;
+  }
 }

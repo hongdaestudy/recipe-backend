@@ -21,67 +21,64 @@ import java.util.Objects;
 @ToString
 public class RecipeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recipe_id")
-    // TODO jaesay: ID 값을 그냥 Long으로 할지 클래스로 하나 정의할지..
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "recipe_id")
+  // TODO jaesay: ID 값을 그냥 Long으로 할지 클래스로 하나 정의할지..
+  private Long id;
 
-    private Long memberId;
+  private Long memberId;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private List<RecipeStepEntity> recipeSteps = new ArrayList<>();
+  @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+  @ToString.Exclude
+  private List<RecipeStepEntity> recipeSteps = new ArrayList<>();
 
-    // TODO jaesay: 컬럼들 상세 정보들 추가할지.. null 여부, 코멘트 등등...
-    private String title;
+  // TODO jaesay: 컬럼들 상세 정보들 추가할지.. null 여부, 코멘트 등등...
+  private String title;
 
-    private String description;
+  private String description;
 
-    private String videoUrl;
+  private String videoUrl;
 
-    @Embedded
-    private RecipeInformation information;
+  @Embedded private RecipeInformation information;
 
-    private String completionPhotoUrl;
+  private String completionPhotoUrl;
 
-    private String tip;
+  private String tip;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private List<RecipeTagEntity> recipeTags = new ArrayList<>();
+  @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+  @ToString.Exclude
+  private List<RecipeTagEntity> recipeTags = new ArrayList<>();
 
-    // TODO jaesay: Enum 값에 attribute converter 추가할지... , description 값은 프론트에 의존적이라 enum 그대로 저장하면 될것같다
-    @Enumerated(EnumType.STRING)
-    private RecipeStatus status;
+  // TODO jaesay: Enum 값에 attribute converter 추가할지... , description 값은 프론트에 의존적이라 enum 그대로 저장하면 될것같다
+  @Enumerated(EnumType.STRING)
+  private RecipeStatus status;
 
-    // TODO jaesay: Auditing 으로 뺼지...
-    @CreatedDate
-    private LocalDateTime createdAt;
+  // TODO jaesay: Auditing 으로 뺼지...
+  @CreatedDate private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
+  @LastModifiedDate private LocalDateTime updatedAt;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        RecipeEntity that = (RecipeEntity) o;
-        return id != null && Objects.equals(id, that.id);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    RecipeEntity that = (RecipeEntity) o;
+    return id != null && Objects.equals(id, that.id);
+  }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
+  }
 
-    public void addRecipeStep(RecipeStepEntity recipeStep) {
-        this.recipeSteps.add(recipeStep);
-        recipeStep.setRecipe(this);
-    }
+  public void addRecipeStep(RecipeStepEntity recipeStep) {
+    this.recipeSteps.add(recipeStep);
+    recipeStep.setRecipe(this);
+  }
 
-    public void addRecipeTag(RecipeTagEntity recipeTag) {
-        this.recipeTags.add(recipeTag);
-        recipeTag.setRecipe(this);
-    }
+  public void addRecipeTag(RecipeTagEntity recipeTag) {
+    this.recipeTags.add(recipeTag);
+    recipeTag.setRecipe(this);
+  }
 }

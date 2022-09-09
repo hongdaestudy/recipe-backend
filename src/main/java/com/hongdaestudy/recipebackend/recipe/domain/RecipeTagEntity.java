@@ -19,40 +19,38 @@ import java.util.Objects;
 @ToString
 public class RecipeTagEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recipe_step_id")
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "recipe_step_id")
+  private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recipe_id")
-    @ToString.Exclude
-    private RecipeEntity recipe;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "recipe_id")
+  @ToString.Exclude
+  private RecipeEntity recipe;
 
-    private String name;
+  private String name;
 
-    private int sortOrder;
+  private int sortOrder;
 
-    @CreatedDate
-    private LocalDateTime createdAt;
+  @CreatedDate private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
+  @LastModifiedDate private LocalDateTime updatedAt;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        RecipeTagEntity recipeTag = (RecipeTagEntity) o;
-        return id != null && Objects.equals(id, recipeTag.id);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    RecipeTagEntity recipeTag = (RecipeTagEntity) o;
+    return id != null && Objects.equals(id, recipeTag.id);
+  }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
+  }
 
-    public void setRecipe(RecipeEntity recipe) {
-        this.recipe = recipe;
-    }
+  public void setRecipe(RecipeEntity recipe) {
+    this.recipe = recipe;
+  }
 }

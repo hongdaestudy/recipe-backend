@@ -8,9 +8,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum RecipeDifficultyLevel {
-    EASY("쉬움"),
-    NORMAL("보통"),
-    DIFFICULT("어려움");
+  EASY("쉬움"),
+  NORMAL("보통"),
+  DIFFICULT("어려움");
 
-    private final String description;
+  private final String description;
 }

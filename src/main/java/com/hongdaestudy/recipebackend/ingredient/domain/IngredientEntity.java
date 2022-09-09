@@ -10,31 +10,30 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-@Table(name = "ingredient_group")
+@Table(name = "ingredient")
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-public class IngredientGroupEntity {
+public class IngredientEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ingredient_group_id")
+    @Column(name = "ingredient_id")
     private Long id;
 
-    private Long recipeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ingredient_group_id")
+    @ToString.Exclude
+    private IngredientGroupEntity ingredientGroup;
 
     private String name;
 
-    private String sortOrder;
+    private String amount;
 
-    @OneToMany(mappedBy = "ingredientGroup", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private List<IngredientEntity> ingredients = new ArrayList<>();
+    private int sortOrder;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -46,7 +45,7 @@ public class IngredientGroupEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        IngredientGroupEntity that = (IngredientGroupEntity) o;
+        IngredientEntity that = (IngredientEntity) o;
         return id != null && Objects.equals(id, that.id);
     }
 
@@ -55,8 +54,7 @@ public class IngredientGroupEntity {
         return getClass().hashCode();
     }
 
-    public void addIngredient(IngredientEntity ingredient) {
-        this.ingredients.add(ingredient);
-        ingredient.setIngredientGroup(this);
+    public void setIngredientGroup(IngredientGroupEntity ingredientGroup) {
+        this.ingredientGroup = ingredientGroup;
     }
 }

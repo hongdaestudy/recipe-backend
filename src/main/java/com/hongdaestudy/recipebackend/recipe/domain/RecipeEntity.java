@@ -43,7 +43,7 @@ public class RecipeEntity {
 
     private String tip;
 
-    // TODO jaesay: Enum 값에 attribute converter 추가할지...
+    // TODO jaesay: Enum 값에 attribute converter 추가할지... , description 값은 프론트에 의존적이라 enum 그대로 저장하면 될것같다
     @Enumerated(EnumType.STRING)
     private RecipeStatus status;
 

@@ -10,8 +10,11 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+// TODO jaesay: 재료그룹, 태그 맵핑 추가
 @Table(name = "recipe")
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,7 +30,9 @@ public class RecipeEntity {
 
     private Long memberId;
 
-    // TODO jaesay: 재료그룹, 요리순서, 태그 맵핑 추가
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<RecipeStepEntity> recipeSteps = new ArrayList<>();
 
     // TODO jaesay: 컬럼들 상세 정보들 추가할지.. null 여부, 코멘트 등등...
     private String title;
@@ -65,5 +70,10 @@ public class RecipeEntity {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public void addRecipeStep(RecipeStepEntity recipeStep) {
+        this.recipeSteps.add(recipeStep);
+        recipeStep.setRecipe(this);
     }
 }

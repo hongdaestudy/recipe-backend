@@ -35,9 +35,11 @@ public class IngredientEntity {
 
   private int sortOrder;
 
-  @CreatedDate private LocalDateTime createdAt;
+  @CreatedDate
+  private LocalDateTime createdAt;
 
-  @LastModifiedDate private LocalDateTime updatedAt;
+  @LastModifiedDate
+  private LocalDateTime updatedAt;
 
   @Override
   public boolean equals(Object o) {

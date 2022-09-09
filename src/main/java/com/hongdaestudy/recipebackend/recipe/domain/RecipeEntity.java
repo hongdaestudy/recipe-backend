@@ -55,9 +55,11 @@ public class RecipeEntity {
   private RecipeStatus status;
 
   // TODO jaesay: Auditing 으로 뺼지...
-  @CreatedDate private LocalDateTime createdAt;
+  @CreatedDate
+  private LocalDateTime createdAt;
 
-  @LastModifiedDate private LocalDateTime updatedAt;
+  @LastModifiedDate
+  private LocalDateTime updatedAt;
 
   @Override
   public boolean equals(Object o) {

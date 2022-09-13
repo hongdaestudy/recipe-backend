@@ -5,7 +5,7 @@ import com.hongdaestudy.recipebackend.recipe.application.mapper.RecipeMapper;
 import com.hongdaestudy.recipebackend.recipe.application.out.RecipeCommandResult;
 import com.hongdaestudy.recipebackend.recipe.domain.RecipeEntity;
 import com.hongdaestudy.recipebackend.recipe.domain.service.RecipeIngredientService;
-import com.hongdaestudy.recipebackend.recipe.repository.RecipeRepository;
+import com.hongdaestudy.recipebackend.recipe.domain.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

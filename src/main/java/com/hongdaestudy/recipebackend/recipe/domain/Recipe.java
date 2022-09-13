@@ -19,40 +19,42 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-public class Recipe {
+public class RecipeEntity {
 
-  // TODO: key 생성 전략? 은 뭔지 확인하기
-  @EmbeddedId
-  private RecipeId id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "recipe_id")
+  // TODO jaesay: ID 값을 그냥 Long으로 할지 클래스로 하나 정의할지..
+  private Long id;
 
-  // TODO jaesay: member 엔티티 생성되면 수정
   private Long memberId;
 
   @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
   @ToString.Exclude
-  private List<RecipeStep> recipeSteps = new ArrayList<>();
+  private List<RecipeStepEntity> recipeSteps = new ArrayList<>();
 
+  // TODO jaesay: 컬럼들 상세 정보들 추가할지.. null 여부, 코멘트 등등...
   private String title;
 
   private String description;
 
-  private Long videoFileId;
+  private String videoUrl;
 
-  @Embedded
-  private RecipeInformation information;
+  @Embedded private RecipeInformation information;
 
-  private Long completionPhotoFileId;
+  private String completionPhotoUrl;
 
   private String tip;
 
   @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
   @ToString.Exclude
-  private List<RecipeTag> recipeTags = new ArrayList<>();
+  private List<RecipeTagEntity> recipeTags = new ArrayList<>();
 
+  // TODO jaesay: Enum 값에 attribute converter 추가할지... , description 값은 프론트에 의존적이라 enum 그대로 저장하면 될것같다
   @Enumerated(EnumType.STRING)
   private RecipeStatus status;
 
-  // TODO jaesay: Auditing 으로 수정
+  // TODO jaesay: Auditing 으로 뺼지...
   @CreatedDate
   private LocalDateTime createdAt;
 
@@ -63,7 +65,7 @@ public class Recipe {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-    Recipe that = (Recipe) o;
+    RecipeEntity that = (RecipeEntity) o;
     return id != null && Objects.equals(id, that.id);
   }
 
@@ -72,17 +74,17 @@ public class Recipe {
     return getClass().hashCode();
   }
 
-  public void addRecipeStep(RecipeStep recipeStep) {
+  public void addRecipeStep(RecipeStepEntity recipeStep) {
     this.recipeSteps.add(recipeStep);
     recipeStep.setRecipe(this);
   }
 
-  public void addRecipeTag(RecipeTag recipeTag) {
+  public void addRecipeTag(RecipeTagEntity recipeTag) {
     this.recipeTags.add(recipeTag);
     recipeTag.setRecipe(this);
   }
 
-  public static Recipe create() {
-    return new Recipe();
+  public static RecipeEntity create() {
+    return new RecipeEntity();
   }
 }

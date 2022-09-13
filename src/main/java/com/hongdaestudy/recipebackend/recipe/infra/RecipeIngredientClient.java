@@ -9,10 +9,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RecipeIngredientClient implements RecipeIngredientService {
 
-    private final IngredientService ingredientService;
+  private final IngredientService ingredientService;
 
-    @Override
-    public void createIngredients() {
-
-    }
+  @Override
+  public void createIngredients() {}
 }

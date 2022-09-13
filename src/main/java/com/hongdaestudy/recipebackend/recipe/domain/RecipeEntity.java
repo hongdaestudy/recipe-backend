@@ -83,4 +83,8 @@ public class RecipeEntity {
     this.recipeTags.add(recipeTag);
     recipeTag.setRecipe(this);
   }
+
+  public static RecipeEntity create() {
+    return new RecipeEntity();
+  }
 }

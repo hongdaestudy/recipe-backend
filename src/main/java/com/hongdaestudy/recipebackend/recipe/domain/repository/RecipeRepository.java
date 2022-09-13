@@ -1,4 +1,4 @@
-package com.hongdaestudy.recipebackend.recipe.repository;
+package com.hongdaestudy.recipebackend.recipe.domain.repository;
 
 import com.hongdaestudy.recipebackend.recipe.domain.RecipeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

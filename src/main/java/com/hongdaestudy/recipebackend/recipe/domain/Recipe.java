@@ -36,12 +36,12 @@ public class Recipe {
 
   private String description;
 
-  private String videoUrl;
+  private Long videoFileId;
 
   @Embedded
   private RecipeInformation information;
 
-  private String completionPhotoUrl;
+  private Long completionPhotoFileId;
 
   private String tip;
 

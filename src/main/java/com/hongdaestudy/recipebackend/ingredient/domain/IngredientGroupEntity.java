@@ -29,7 +29,7 @@ public class IngredientGroupEntity {
 
   private String name;
 
-  private String sortOrder;
+  private int sort;
 
   @OneToMany(mappedBy = "ingredientGroup", cascade = CascadeType.ALL)
   @ToString.Exclude

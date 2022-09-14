@@ -29,7 +29,7 @@ public class RecipeTag {
 
   private String name;
 
-  private int sortOrder;
+  private int sort;
 
   @CreatedDate
   private LocalDateTime createdAt;

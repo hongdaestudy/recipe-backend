@@ -31,7 +31,7 @@ public class IngredientEntity {
 
   private String amount;
 
-  private int sortOrder;
+  private int sort;
 
   @CreatedDate
   private LocalDateTime createdAt;

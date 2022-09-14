@@ -1,5 +1,6 @@
 package com.hongdaestudy.recipebackend.ingredient.domain;
 
+import com.hongdaestudy.recipebackend.recipe.domain.RecipeId;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,12 +22,10 @@ import java.util.Objects;
 @ToString
 public class IngredientGroupEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ingredient_group_id")
-  private Long id;
+  @EmbeddedId
+  private IngredientGroupId id;
 
-  private Long recipeId;
+  private RecipeId recipeId;
 
   private String name;
 

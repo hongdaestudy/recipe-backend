@@ -19,10 +19,8 @@ import java.util.Objects;
 @ToString
 public class IngredientEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ingredient_id")
-  private Long id;
+  @EmbeddedId
+  private IngredientId id;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "ingredient_group_id")

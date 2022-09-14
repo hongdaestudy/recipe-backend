@@ -17,7 +17,7 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-public class RecipeTagEntity {
+public class RecipeTag {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class RecipeTagEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "recipe_id")
   @ToString.Exclude
-  private RecipeEntity recipe;
+  private Recipe recipe;
 
   private String name;
 
@@ -43,7 +43,7 @@ public class RecipeTagEntity {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-    RecipeTagEntity recipeTag = (RecipeTagEntity) o;
+    RecipeTag recipeTag = (RecipeTag) o;
     return id != null && Objects.equals(id, recipeTag.id);
   }
 
@@ -52,7 +52,7 @@ public class RecipeTagEntity {
     return getClass().hashCode();
   }
 
-  public void setRecipe(RecipeEntity recipe) {
+  public void setRecipe(Recipe recipe) {
     this.recipe = recipe;
   }
 }

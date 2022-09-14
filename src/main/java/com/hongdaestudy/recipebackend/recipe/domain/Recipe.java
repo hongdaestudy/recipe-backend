@@ -19,7 +19,7 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-public class RecipeEntity {
+public class Recipe {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class RecipeEntity {
 
   @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
   @ToString.Exclude
-  private List<RecipeStepEntity> recipeSteps = new ArrayList<>();
+  private List<RecipeStep> recipeSteps = new ArrayList<>();
 
   // TODO jaesay: 컬럼들 상세 정보들 추가할지.. null 여부, 코멘트 등등...
   private String title;
@@ -48,7 +48,7 @@ public class RecipeEntity {
 
   @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
   @ToString.Exclude
-  private List<RecipeTagEntity> recipeTags = new ArrayList<>();
+  private List<RecipeTag> recipeTags = new ArrayList<>();
 
   // TODO jaesay: Enum 값에 attribute converter 추가할지... , description 값은 프론트에 의존적이라 enum 그대로 저장하면 될것같다
   @Enumerated(EnumType.STRING)
@@ -65,7 +65,7 @@ public class RecipeEntity {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-    RecipeEntity that = (RecipeEntity) o;
+    Recipe that = (Recipe) o;
     return id != null && Objects.equals(id, that.id);
   }
 
@@ -74,13 +74,17 @@ public class RecipeEntity {
     return getClass().hashCode();
   }
 
-  public void addRecipeStep(RecipeStepEntity recipeStep) {
+  public void addRecipeStep(RecipeStep recipeStep) {
     this.recipeSteps.add(recipeStep);
     recipeStep.setRecipe(this);
   }
 
-  public void addRecipeTag(RecipeTagEntity recipeTag) {
+  public void addRecipeTag(RecipeTag recipeTag) {
     this.recipeTags.add(recipeTag);
     recipeTag.setRecipe(this);
+  }
+
+  public static Recipe create() {
+    return new Recipe();
   }
 }

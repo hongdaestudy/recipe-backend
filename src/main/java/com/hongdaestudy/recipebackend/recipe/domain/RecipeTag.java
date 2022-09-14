@@ -19,10 +19,8 @@ import java.util.Objects;
 @ToString
 public class RecipeTag {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "recipe_step_id")
-  private Long id;
+  @EmbeddedId
+  private RecipeTagId id;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "recipe_id")

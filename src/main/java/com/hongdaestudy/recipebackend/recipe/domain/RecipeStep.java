@@ -31,7 +31,7 @@ public class RecipeStep {
 
   private String photoUrl;
 
-  private int sortOrder;
+  private int sort;
 
   @CreatedDate
   private LocalDateTime createdAt;

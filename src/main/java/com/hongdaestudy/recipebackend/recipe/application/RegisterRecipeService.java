@@ -2,7 +2,7 @@ package com.hongdaestudy.recipebackend.recipe.application;
 
 import com.hongdaestudy.recipebackend.ingredient.application.RegisterIngredientGroupService;
 import com.hongdaestudy.recipebackend.ingredient.application.in.RegisterIngredientGroupCommand;
-import com.hongdaestudy.recipebackend.recipe.application.in.RegisterRegisterRecipeCommand;
+import com.hongdaestudy.recipebackend.recipe.application.in.RegisterRecipeCommand;
 import com.hongdaestudy.recipebackend.recipe.application.out.RecipeCommandResult;
 import com.hongdaestudy.recipebackend.recipe.domain.Recipe;
 import com.hongdaestudy.recipebackend.recipe.domain.RecipeInformation;
@@ -24,17 +24,17 @@ public class RegisterRecipeService {
   private final RegisterIngredientGroupService registerIngredientGroupService;
 
   @Transactional
-  public RecipeCommandResult registerRecipe(RegisterRegisterRecipeCommand registerRegisterRecipeCommand, List<RegisterIngredientGroupCommand> registerIngredientGroupCommands) {
-    Recipe recipe = from(registerRegisterRecipeCommand);
+  public RecipeCommandResult registerRecipe(RegisterRecipeCommand registerRecipeCommand, List<RegisterIngredientGroupCommand> registerIngredientGroupCommands) {
+    Recipe recipe = from(registerRecipeCommand);
     recipeRepository.save(recipe);
     registerIngredientGroupService.registerIngredientGroups(recipe.getId(), registerIngredientGroupCommands);
 
     return new RecipeCommandResult(recipe.getId().getValue());
   }
 
-  private Recipe from(RegisterRegisterRecipeCommand registerRegisterRecipeCommand) {
+  private Recipe from(RegisterRecipeCommand registerRecipeCommand) {
     List<RecipeStep> recipeSteps =
-        registerRegisterRecipeCommand.getRecipeSteps().stream()
+        registerRecipeCommand.getRecipeSteps().stream()
             .map(recipeStepCommand -> RecipeStep.create(
                     recipeStepCommand.getDescription(),
                     recipeStepCommand.getPhotoUrl(),
@@ -42,27 +42,27 @@ public class RegisterRecipeService {
             .collect(Collectors.toList());
 
     List<RecipeTag> recipeTags =
-        registerRegisterRecipeCommand.getRecipeTags().stream()
+        registerRecipeCommand.getRecipeTags().stream()
             .map(recipeTagCommand -> RecipeTag.create(
                         recipeTagCommand.getName(),
                         recipeTagCommand.getSort()))
             .collect(Collectors.toList());
 
     RecipeInformation recipeInformation = RecipeInformation.create(
-        registerRegisterRecipeCommand.getInformation().getServingCount(),
-        registerRegisterRecipeCommand.getInformation().getCookingTime(),
-        registerRegisterRecipeCommand.getInformation().getDifficultyLevel());
+        registerRecipeCommand.getInformation().getServingCount(),
+        registerRecipeCommand.getInformation().getCookingTime(),
+        registerRecipeCommand.getInformation().getDifficultyLevel());
 
     return Recipe.create(
-        registerRegisterRecipeCommand.getMemberId(),
-        registerRegisterRecipeCommand.getTitle(),
-        registerRegisterRecipeCommand.getDescription(),
-        registerRegisterRecipeCommand.getVideoFileId(),
+        registerRecipeCommand.getMemberId(),
+        registerRecipeCommand.getTitle(),
+        registerRecipeCommand.getDescription(),
+        registerRecipeCommand.getVideoFileId(),
         recipeInformation,
-        registerRegisterRecipeCommand.getCompletionPhotoFileId(),
-        registerRegisterRecipeCommand.getTip(),
+        registerRecipeCommand.getCompletionPhotoFileId(),
+        registerRecipeCommand.getTip(),
         recipeSteps,
         recipeTags,
-        registerRegisterRecipeCommand.getStatus());
+        registerRecipeCommand.getStatus());
   }
 }

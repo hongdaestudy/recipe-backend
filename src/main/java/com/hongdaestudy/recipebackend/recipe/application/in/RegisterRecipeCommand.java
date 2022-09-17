@@ -9,7 +9,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class RegisterRegisterRecipeCommand {
+public class RegisterRecipeCommand {
   private Long memberId;
   private List<RegisterRecipeStepCommand> recipeSteps;
   private String title;

@@ -19,9 +19,10 @@ import java.util.Objects;
 @ToString
 public class Recipe extends BaseTimeEntity {
 
-  // TODO: key 생성 전략? 은 뭔지 확인하기
-  @EmbeddedId
-  private RecipeId id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "recipe_id")
+  private Long id;
 
   // TODO jaesay: member 엔티티 생성되면 수정
   private Long memberId;

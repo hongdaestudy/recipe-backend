@@ -17,8 +17,10 @@ import java.util.Objects;
 @ToString
 public class RecipeStep extends BaseTimeEntity {
 
-  @EmbeddedId
-  private RecipeStepId id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "recipe_step_id")
+  private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "recipe_id")

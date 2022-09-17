@@ -1,7 +1,6 @@
 package com.hongdaestudy.recipebackend.ingredient.domain;
 
 import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
-import com.hongdaestudy.recipebackend.recipe.domain.RecipeId;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,10 +19,12 @@ import java.util.Objects;
 @ToString
 public class IngredientGroup extends BaseTimeEntity {
 
-  @EmbeddedId
-  private IngredientGroupId id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "ingredient_group_id")
+  private Long id;
 
-  private RecipeId recipeId;
+  private long recipeId;
 
   private String name;
 
@@ -51,7 +52,7 @@ public class IngredientGroup extends BaseTimeEntity {
     ingredient.setIngredientGroup(this);
   }
 
-  public static IngredientGroup create(RecipeId recipeId, String name, int sort, List<Ingredient> ingredients) {
+  public static IngredientGroup create(long recipeId, String name, int sort, List<Ingredient> ingredients) {
     IngredientGroup ingredientGroup = new IngredientGroup();
     ingredientGroup.recipeId = recipeId;
     ingredientGroup.name = name;

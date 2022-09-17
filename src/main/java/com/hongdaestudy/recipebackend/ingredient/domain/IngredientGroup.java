@@ -1,25 +1,24 @@
 package com.hongdaestudy.recipebackend.ingredient.domain;
 
+import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
 import com.hongdaestudy.recipebackend.recipe.domain.RecipeId;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Table(name = "ingredient_group")
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Setter
 @ToString
-@AllArgsConstructor
-public class IngredientGroup {
+public class IngredientGroup extends BaseTimeEntity {
 
   @EmbeddedId
   private IngredientGroupId id;
@@ -33,12 +32,6 @@ public class IngredientGroup {
   @OneToMany(mappedBy = "ingredientGroup", cascade = CascadeType.ALL)
   @ToString.Exclude
   private List<Ingredient> ingredients = new ArrayList<>();
-
-  @CreatedDate
-  private LocalDateTime createdAt;
-
-  @LastModifiedDate
-  private LocalDateTime updatedAt;
 
   @Override
   public boolean equals(Object o) {

@@ -1,15 +1,13 @@
 package com.hongdaestudy.recipebackend.recipe.domain;
 
+import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Table(name = "recipe_step")
@@ -17,7 +15,7 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-public class RecipeStep {
+public class RecipeStep extends BaseTimeEntity {
 
   @EmbeddedId
   private RecipeStepId id;
@@ -32,12 +30,6 @@ public class RecipeStep {
   private String photoUrl;
 
   private int sort;
-
-  @CreatedDate
-  private LocalDateTime createdAt;
-
-  @LastModifiedDate
-  private LocalDateTime updatedAt;
 
   @Override
   public boolean equals(Object o) {

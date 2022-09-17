@@ -1,15 +1,13 @@
 package com.hongdaestudy.recipebackend.recipe.domain;
 
+import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,30 +17,29 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-public class Recipe {
+public class Recipe extends BaseTimeEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "recipe_id")
-  // TODO jaesay: ID 값을 그냥 Long으로 할지 클래스로 하나 정의할지..
-  private Long id;
+  // TODO: key 생성 전략? 은 뭔지 확인하기
+  @EmbeddedId
+  private RecipeId id;
 
+  // TODO jaesay: member 엔티티 생성되면 수정
   private Long memberId;
 
   @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
   @ToString.Exclude
   private List<RecipeStep> recipeSteps = new ArrayList<>();
 
-  // TODO jaesay: 컬럼들 상세 정보들 추가할지.. null 여부, 코멘트 등등...
   private String title;
 
   private String description;
 
-  private String videoUrl;
+  private Long videoFileId;
 
-  @Embedded private RecipeInformation information;
+  @Embedded
+  private RecipeInformation information;
 
-  private String completionPhotoUrl;
+  private Long completionPhotoFileId;
 
   private String tip;
 
@@ -50,16 +47,8 @@ public class Recipe {
   @ToString.Exclude
   private List<RecipeTag> recipeTags = new ArrayList<>();
 
-  // TODO jaesay: Enum 값에 attribute converter 추가할지... , description 값은 프론트에 의존적이라 enum 그대로 저장하면 될것같다
   @Enumerated(EnumType.STRING)
   private RecipeStatus status;
-
-  // TODO jaesay: Auditing 으로 뺼지...
-  @CreatedDate
-  private LocalDateTime createdAt;
-
-  @LastModifiedDate
-  private LocalDateTime updatedAt;
 
   @Override
   public boolean equals(Object o) {

@@ -1,21 +1,21 @@
 package com.hongdaestudy.recipebackend.ingredient.domain;
 
-import lombok.*;
+import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Table(name = "ingredient")
 @Entity
-@NoArgsConstructor
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-public class Ingredient {
+public class Ingredient extends BaseTimeEntity {
 
   @EmbeddedId
   private IngredientId id;
@@ -30,12 +30,6 @@ public class Ingredient {
   private String amount;
 
   private int sort;
-
-  @CreatedDate
-  private LocalDateTime createdAt;
-
-  @LastModifiedDate
-  private LocalDateTime updatedAt;
 
   @Override
   public boolean equals(Object o) {

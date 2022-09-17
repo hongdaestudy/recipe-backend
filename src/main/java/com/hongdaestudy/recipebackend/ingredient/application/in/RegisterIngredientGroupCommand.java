@@ -6,7 +6,6 @@ import java.util.List;
 
 @Data
 public class RegisterIngredientGroupCommand {
-  private Long recipeId;
   private String name;
   private int sort;
   private List<RegisterIngredientCommand> ingredients;

@@ -17,8 +17,10 @@ import java.util.Objects;
 @ToString
 public class Ingredient extends BaseTimeEntity {
 
-  @EmbeddedId
-  private IngredientId id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "ingredient_id")
+  private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "ingredient_group_id")

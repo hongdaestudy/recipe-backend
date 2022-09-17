@@ -29,10 +29,10 @@ public class RegisterRecipeService {
     recipeRepository.save(recipe);
     registerIngredientGroupService.registerIngredientGroups(recipe.getId(), registerIngredientGroupCommands);
 
-    return new RecipeCommandResult(recipe.getId().getValue());
+    return new RecipeCommandResult(recipe.getId());
   }
 
-  private Recipe from(RegisterRecipeCommand registerRecipeCommand) {
+  public Recipe from(RegisterRecipeCommand registerRecipeCommand) {
     List<RecipeStep> recipeSteps =
         registerRecipeCommand.getRecipeSteps().stream()
             .map(recipeStepCommand -> RecipeStep.create(

@@ -52,7 +52,16 @@ public class RecipeStep {
     return getClass().hashCode();
   }
 
-  public void setRecipe(Recipe recipe) {
+  void setRecipe(Recipe recipe) {
     this.recipe = recipe;
+  }
+
+  public static RecipeStep create(String description, String photoUrl, int sort) {
+    RecipeStep recipeStep = new RecipeStep();
+    recipeStep.description = description;
+    recipeStep.photoUrl = photoUrl;
+    recipeStep.sort = sort;
+
+    return recipeStep;
   }
 }

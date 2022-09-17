@@ -1,9 +1,6 @@
 package com.hongdaestudy.recipebackend.ingredient.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -14,10 +11,11 @@ import java.util.Objects;
 
 @Table(name = "ingredient")
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@Setter
 @Getter
 @ToString
-public class IngredientEntity {
+public class Ingredient {
 
   @EmbeddedId
   private IngredientId id;
@@ -25,7 +23,7 @@ public class IngredientEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "ingredient_group_id")
   @ToString.Exclude
-  private IngredientGroupEntity ingredientGroup;
+  private IngredientGroup ingredientGroup;
 
   private String name;
 
@@ -43,7 +41,7 @@ public class IngredientEntity {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-    IngredientEntity that = (IngredientEntity) o;
+    Ingredient that = (Ingredient) o;
     return id != null && Objects.equals(id, that.id);
   }
 
@@ -52,7 +50,16 @@ public class IngredientEntity {
     return getClass().hashCode();
   }
 
-  public void setIngredientGroup(IngredientGroupEntity ingredientGroup) {
+  void setIngredientGroup(IngredientGroup ingredientGroup) {
     this.ingredientGroup = ingredientGroup;
+  }
+
+  public static Ingredient create(String name, String amount, int sort) {
+    Ingredient ingredient = new Ingredient();
+    ingredient.name = name;
+    ingredient.amount = amount;
+    ingredient.sort = sort;
+
+    return ingredient;
   }
 }

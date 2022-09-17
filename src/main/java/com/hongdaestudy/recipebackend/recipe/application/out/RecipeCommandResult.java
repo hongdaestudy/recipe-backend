@@ -1,8 +1,10 @@
 package com.hongdaestudy.recipebackend.recipe.application.out;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Data
+@Getter
+@AllArgsConstructor
 public class RecipeCommandResult {
-    private Long id;
+    private long id;
 }

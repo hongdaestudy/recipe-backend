@@ -16,7 +16,7 @@ import java.util.Objects;
 public class RecipeId implements Serializable {
 
   @Column(name = "recipe_id")
-  private Long id;
+  private Long value;
 
   public static RecipeId of(Long id) {
     return new RecipeId(id);
@@ -27,11 +27,11 @@ public class RecipeId implements Serializable {
     if (this == o) return true;
     if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
     RecipeId recipeId = (RecipeId) o;
-    return id != null && Objects.equals(id, recipeId.id);
+    return value != null && Objects.equals(value, recipeId.value);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id);
+    return Objects.hash(value);
   }
 }

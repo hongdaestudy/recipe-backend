@@ -1,10 +1,7 @@
 package com.hongdaestudy.recipebackend.ingredient.domain;
 
 import com.hongdaestudy.recipebackend.recipe.domain.RecipeId;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -17,10 +14,12 @@ import java.util.Objects;
 
 @Table(name = "ingredient_group")
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
+@Setter
 @ToString
-public class IngredientGroupEntity {
+@AllArgsConstructor
+public class IngredientGroup {
 
   @EmbeddedId
   private IngredientGroupId id;
@@ -33,7 +32,7 @@ public class IngredientGroupEntity {
 
   @OneToMany(mappedBy = "ingredientGroup", cascade = CascadeType.ALL)
   @ToString.Exclude
-  private List<IngredientEntity> ingredients = new ArrayList<>();
+  private List<Ingredient> ingredients = new ArrayList<>();
 
   @CreatedDate
   private LocalDateTime createdAt;
@@ -45,7 +44,7 @@ public class IngredientGroupEntity {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-    IngredientGroupEntity that = (IngredientGroupEntity) o;
+    IngredientGroup that = (IngredientGroup) o;
     return id != null && Objects.equals(id, that.id);
   }
 
@@ -54,8 +53,19 @@ public class IngredientGroupEntity {
     return getClass().hashCode();
   }
 
-  public void addIngredient(IngredientEntity ingredient) {
+  public void addIngredient(Ingredient ingredient) {
     this.ingredients.add(ingredient);
     ingredient.setIngredientGroup(this);
+  }
+
+  public static IngredientGroup create(RecipeId recipeId, String name, int sort, List<Ingredient> ingredients) {
+    IngredientGroup ingredientGroup = new IngredientGroup();
+    ingredientGroup.recipeId = recipeId;
+    ingredientGroup.name = name;
+    ingredientGroup.sort = sort;
+
+    ingredients.forEach(ingredientGroup::addIngredient);
+
+    return ingredientGroup;
   }
 }

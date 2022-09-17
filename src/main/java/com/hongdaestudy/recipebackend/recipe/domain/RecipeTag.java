@@ -50,7 +50,14 @@ public class RecipeTag {
     return getClass().hashCode();
   }
 
-  public void setRecipe(Recipe recipe) {
+  void setRecipe(Recipe recipe) {
     this.recipe = recipe;
+  }
+
+  public static RecipeTag create(String name, int sort) {
+    RecipeTag recipeTag = new RecipeTag();
+    recipeTag.name = name;
+    recipeTag.sort = sort;
+    return recipeTag;
   }
 }

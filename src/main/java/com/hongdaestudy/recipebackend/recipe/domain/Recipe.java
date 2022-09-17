@@ -84,7 +84,31 @@ public class Recipe {
     recipeTag.setRecipe(this);
   }
 
-  public static Recipe create() {
-    return new Recipe();
+  public static Recipe create(
+      Long memberId,
+      String title,
+      String description,
+      Long videoFileId,
+      RecipeInformation information,
+      Long completionPhotoFileId,
+      String tip,
+      List<RecipeStep> recipeSteps,
+      List<RecipeTag> recipeTags,
+      RecipeStatus status) {
+
+    Recipe recipe = new Recipe();
+    recipe.memberId = memberId;
+    recipe.title = title;
+    recipe.description = description;
+    recipe.videoFileId = videoFileId;
+    recipe.information = information;
+    recipe.completionPhotoFileId = completionPhotoFileId;
+    recipe.tip = tip;
+    recipe.status = status;
+
+    recipeSteps.forEach(recipe::addRecipeStep);
+    recipeTags.forEach(recipe::addRecipeTag);
+
+    return recipe;
   }
 }

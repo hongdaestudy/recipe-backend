@@ -2,7 +2,7 @@ package com.hongdaestudy.recipebackend.recipe.application;
 
 import com.hongdaestudy.recipebackend.ingredient.application.RegisterIngredientGroupService;
 import com.hongdaestudy.recipebackend.recipe.application.in.RegisterRecipeCommand;
-import com.hongdaestudy.recipebackend.recipe.application.out.RecipeCommandResult;
+import com.hongdaestudy.recipebackend.recipe.application.out.RegisterRecipeCommandResult;
 import com.hongdaestudy.recipebackend.recipe.domain.Recipe;
 import com.hongdaestudy.recipebackend.recipe.domain.RecipeInformation;
 import com.hongdaestudy.recipebackend.recipe.domain.RecipeStep;
@@ -22,7 +22,7 @@ public class RegisterRecipeService {
   private final RegisterIngredientGroupService registerIngredientGroupService;
 
   @Transactional
-  public RecipeCommandResult registerRecipe(RegisterRecipeCommand registerRecipeCommand) {
+  public RegisterRecipeCommandResult registerRecipe(RegisterRecipeCommand registerRecipeCommand) {
     Recipe recipe = from(registerRecipeCommand);
     recipeRepository.save(recipe);
 
@@ -30,7 +30,7 @@ public class RegisterRecipeService {
         recipe.getId(), registerRecipeCommand.getIngredientGroups()
     );
 
-    return new RecipeCommandResult(recipe.getId());
+    return new RegisterRecipeCommandResult(recipe.getId());
   }
 
   private Recipe from(RegisterRecipeCommand registerRecipeCommand) {

@@ -29,7 +29,7 @@ public class RecipeStep extends BaseTimeEntity {
 
   private String description;
 
-  private String photoUrl;
+  private Long photoFileId;
 
   private int sort;
 
@@ -50,10 +50,10 @@ public class RecipeStep extends BaseTimeEntity {
     this.recipe = recipe;
   }
 
-  public static RecipeStep create(String description, String photoUrl, int sort) {
+  public static RecipeStep create(String description, Long photoFileId, int sort) {
     RecipeStep recipeStep = new RecipeStep();
     recipeStep.description = description;
-    recipeStep.photoUrl = photoUrl;
+    recipeStep.photoFileId = photoFileId;
     recipeStep.sort = sort;
 
     return recipeStep;

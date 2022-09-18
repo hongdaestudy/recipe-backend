@@ -1,7 +1,6 @@
 package com.hongdaestudy.recipebackend.recipe.application;
 
 import com.hongdaestudy.recipebackend.ingredient.application.RegisterIngredientGroupService;
-import com.hongdaestudy.recipebackend.ingredient.application.in.RegisterIngredientGroupCommand;
 import com.hongdaestudy.recipebackend.recipe.application.in.RegisterRecipeCommand;
 import com.hongdaestudy.recipebackend.recipe.application.out.RecipeCommandResult;
 import com.hongdaestudy.recipebackend.recipe.domain.Recipe;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// TODO jaesay: interface 로 정의할지
 @Service
 @RequiredArgsConstructor
 public class RegisterRecipeService {
@@ -24,25 +22,26 @@ public class RegisterRecipeService {
   private final RegisterIngredientGroupService registerIngredientGroupService;
 
   @Transactional
-  public RecipeCommandResult registerRecipe(RegisterRecipeCommand registerRecipeCommand, List<RegisterIngredientGroupCommand> registerIngredientGroupCommands) {
+  public RecipeCommandResult registerRecipe(RegisterRecipeCommand registerRecipeCommand) {
     Recipe recipe = from(registerRecipeCommand);
     recipeRepository.save(recipe);
-    registerIngredientGroupService.registerIngredientGroups(recipe.getId(), registerIngredientGroupCommands);
+
+    registerIngredientGroupService.registerIngredientGroups(
+        recipe.getId(), registerRecipeCommand.getIngredientGroups()
+    );
 
     return new RecipeCommandResult(recipe.getId());
   }
 
-  public Recipe from(RegisterRecipeCommand registerRecipeCommand) {
-    List<RecipeStep> recipeSteps =
-        registerRecipeCommand.getRecipeSteps().stream()
+  private Recipe from(RegisterRecipeCommand registerRecipeCommand) {
+    List<RecipeStep> recipeSteps = registerRecipeCommand.getRecipeSteps().stream()
             .map(recipeStepCommand -> RecipeStep.create(
                     recipeStepCommand.getDescription(),
-                    recipeStepCommand.getPhotoUrl(),
+                    recipeStepCommand.getPhotoFileId(),
                     recipeStepCommand.getSort()))
             .collect(Collectors.toList());
 
-    List<RecipeTag> recipeTags =
-        registerRecipeCommand.getRecipeTags().stream()
+    List<RecipeTag> recipeTags = registerRecipeCommand.getRecipeTags().stream()
             .map(recipeTagCommand -> RecipeTag.create(
                         recipeTagCommand.getName(),
                         recipeTagCommand.getSort()))

@@ -1,5 +1,6 @@
 package com.hongdaestudy.recipebackend.recipe.application.in;
 
+import com.hongdaestudy.recipebackend.ingredient.application.in.RegisterIngredientGroupCommand;
 import com.hongdaestudy.recipebackend.recipe.domain.RecipeCookingTime;
 import com.hongdaestudy.recipebackend.recipe.domain.RecipeDifficultyLevel;
 import com.hongdaestudy.recipebackend.recipe.domain.RecipeServingCount;
@@ -20,11 +21,12 @@ public class RegisterRecipeCommand {
   private String tip;
   private List<RegisterRecipeTagCommand> recipeTags;
   private RecipeStatus status;
+  private List<RegisterIngredientGroupCommand> ingredientGroups;
 
   @Data
   public static class RegisterRecipeStepCommand {
     private String description;
-    private String photoUrl;
+    private Long photoFileId;
     private int sort;
   }
 

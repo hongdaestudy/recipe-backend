@@ -14,7 +14,7 @@ import java.util.Objects;
 @ToString
 public class RecipeInformation {
   @Enumerated(EnumType.STRING)
-  private RecipeDifficultyLevel servingCount;
+  private RecipeServingCount servingCount;
 
   @Enumerated(EnumType.STRING)
   private RecipeCookingTime cookingTime;
@@ -35,5 +35,14 @@ public class RecipeInformation {
   @Override
   public int hashCode() {
     return Objects.hash(servingCount, cookingTime, difficultyLevel);
+  }
+
+  public static RecipeInformation create(RecipeServingCount servingCount, RecipeCookingTime cookingTime, RecipeDifficultyLevel difficultyLevel) {
+    RecipeInformation recipeInformation = new RecipeInformation();
+    recipeInformation.servingCount = servingCount;
+    recipeInformation.cookingTime = cookingTime;
+    recipeInformation.difficultyLevel = difficultyLevel;
+
+    return recipeInformation;
   }
 }

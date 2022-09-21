@@ -1,15 +1,13 @@
 package com.hongdaestudy.recipebackend.ingredient.domain;
 
+import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Table(name = "ingredient")
@@ -17,15 +15,17 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-public class IngredientEntity {
+public class Ingredient extends BaseTimeEntity {
 
-  @EmbeddedId
-  private IngredientId id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "ingredient_id")
+  private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "ingredient_group_id")
   @ToString.Exclude
-  private IngredientGroupEntity ingredientGroup;
+  private IngredientGroup ingredientGroup;
 
   private String name;
 
@@ -33,17 +33,11 @@ public class IngredientEntity {
 
   private int sort;
 
-  @CreatedDate
-  private LocalDateTime createdAt;
-
-  @LastModifiedDate
-  private LocalDateTime updatedAt;
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-    IngredientEntity that = (IngredientEntity) o;
+    Ingredient that = (Ingredient) o;
     return id != null && Objects.equals(id, that.id);
   }
 
@@ -52,7 +46,16 @@ public class IngredientEntity {
     return getClass().hashCode();
   }
 
-  public void setIngredientGroup(IngredientGroupEntity ingredientGroup) {
+  void setIngredientGroup(IngredientGroup ingredientGroup) {
     this.ingredientGroup = ingredientGroup;
+  }
+
+  public static Ingredient create(String name, String amount, int sort) {
+    Ingredient ingredient = new Ingredient();
+    ingredient.name = name;
+    ingredient.amount = amount;
+    ingredient.sort = sort;
+
+    return ingredient;
   }
 }

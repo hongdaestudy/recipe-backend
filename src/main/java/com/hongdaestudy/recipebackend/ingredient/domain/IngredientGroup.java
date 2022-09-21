@@ -1,16 +1,13 @@
 package com.hongdaestudy.recipebackend.ingredient.domain;
 
-import com.hongdaestudy.recipebackend.recipe.domain.RecipeId;
+import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,12 +17,14 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-public class IngredientGroupEntity {
+public class IngredientGroup extends BaseTimeEntity {
 
-  @EmbeddedId
-  private IngredientGroupId id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "ingredient_group_id")
+  private Long id;
 
-  private RecipeId recipeId;
+  private long recipeId;
 
   private String name;
 
@@ -33,19 +32,13 @@ public class IngredientGroupEntity {
 
   @OneToMany(mappedBy = "ingredientGroup", cascade = CascadeType.ALL)
   @ToString.Exclude
-  private List<IngredientEntity> ingredients = new ArrayList<>();
-
-  @CreatedDate
-  private LocalDateTime createdAt;
-
-  @LastModifiedDate
-  private LocalDateTime updatedAt;
+  private List<Ingredient> ingredients = new ArrayList<>();
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-    IngredientGroupEntity that = (IngredientGroupEntity) o;
+    IngredientGroup that = (IngredientGroup) o;
     return id != null && Objects.equals(id, that.id);
   }
 
@@ -54,8 +47,19 @@ public class IngredientGroupEntity {
     return getClass().hashCode();
   }
 
-  public void addIngredient(IngredientEntity ingredient) {
+  public void addIngredient(Ingredient ingredient) {
     this.ingredients.add(ingredient);
     ingredient.setIngredientGroup(this);
+  }
+
+  public static IngredientGroup create(long recipeId, String name, int sort, List<Ingredient> ingredients) {
+    IngredientGroup ingredientGroup = new IngredientGroup();
+    ingredientGroup.recipeId = recipeId;
+    ingredientGroup.name = name;
+    ingredientGroup.sort = sort;
+
+    ingredients.forEach(ingredientGroup::addIngredient);
+
+    return ingredientGroup;
   }
 }

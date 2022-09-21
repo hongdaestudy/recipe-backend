@@ -1,15 +1,13 @@
 package com.hongdaestudy.recipebackend.recipe.domain;
 
+import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Table(name = "recipe_step")
@@ -17,10 +15,12 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-public class RecipeStep {
+public class RecipeStep extends BaseTimeEntity {
 
-  @EmbeddedId
-  private RecipeStepId id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "recipe_step_id")
+  private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "recipe_id")
@@ -29,15 +29,9 @@ public class RecipeStep {
 
   private String description;
 
-  private String photoUrl;
+  private Long photoFileId;
 
   private int sort;
-
-  @CreatedDate
-  private LocalDateTime createdAt;
-
-  @LastModifiedDate
-  private LocalDateTime updatedAt;
 
   @Override
   public boolean equals(Object o) {
@@ -52,7 +46,16 @@ public class RecipeStep {
     return getClass().hashCode();
   }
 
-  public void setRecipe(Recipe recipe) {
+  void setRecipe(Recipe recipe) {
     this.recipe = recipe;
+  }
+
+  public static RecipeStep create(String description, Long photoFileId, int sort) {
+    RecipeStep recipeStep = new RecipeStep();
+    recipeStep.description = description;
+    recipeStep.photoFileId = photoFileId;
+    recipeStep.sort = sort;
+
+    return recipeStep;
   }
 }

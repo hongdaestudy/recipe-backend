@@ -1,15 +1,13 @@
 package com.hongdaestudy.recipebackend.recipe.domain;
 
+import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Table(name = "recipe_tag")
@@ -17,10 +15,12 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-public class RecipeTag {
+public class RecipeTag extends BaseTimeEntity {
 
-  @EmbeddedId
-  private RecipeTagId id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "recipe_tag_id")
+  private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "recipe_id")
@@ -30,12 +30,6 @@ public class RecipeTag {
   private String name;
 
   private int sort;
-
-  @CreatedDate
-  private LocalDateTime createdAt;
-
-  @LastModifiedDate
-  private LocalDateTime updatedAt;
 
   @Override
   public boolean equals(Object o) {
@@ -50,7 +44,14 @@ public class RecipeTag {
     return getClass().hashCode();
   }
 
-  public void setRecipe(Recipe recipe) {
+  void setRecipe(Recipe recipe) {
     this.recipe = recipe;
+  }
+
+  public static RecipeTag create(String name, int sort) {
+    RecipeTag recipeTag = new RecipeTag();
+    recipeTag.name = name;
+    recipeTag.sort = sort;
+    return recipeTag;
   }
 }

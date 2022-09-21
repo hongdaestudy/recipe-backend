@@ -1,15 +1,13 @@
 package com.hongdaestudy.recipebackend.recipe.domain;
 
+import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,11 +17,12 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-public class Recipe {
+public class Recipe extends BaseTimeEntity {
 
-  // TODO: key 생성 전략? 은 뭔지 확인하기
-  @EmbeddedId
-  private RecipeId id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "recipe_id")
+  private Long id;
 
   // TODO jaesay: member 엔티티 생성되면 수정
   private Long memberId;
@@ -52,13 +51,6 @@ public class Recipe {
   @Enumerated(EnumType.STRING)
   private RecipeStatus status;
 
-  // TODO jaesay: Auditing 으로 수정
-  @CreatedDate
-  private LocalDateTime createdAt;
-
-  @LastModifiedDate
-  private LocalDateTime updatedAt;
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -82,7 +74,31 @@ public class Recipe {
     recipeTag.setRecipe(this);
   }
 
-  public static Recipe create() {
-    return new Recipe();
+  public static Recipe create(
+      Long memberId,
+      String title,
+      String description,
+      Long videoFileId,
+      RecipeInformation information,
+      Long completionPhotoFileId,
+      String tip,
+      List<RecipeStep> recipeSteps,
+      List<RecipeTag> recipeTags,
+      RecipeStatus status) {
+
+    Recipe recipe = new Recipe();
+    recipe.memberId = memberId;
+    recipe.title = title;
+    recipe.description = description;
+    recipe.videoFileId = videoFileId;
+    recipe.information = information;
+    recipe.completionPhotoFileId = completionPhotoFileId;
+    recipe.tip = tip;
+    recipe.status = status;
+
+    recipeSteps.forEach(recipe::addRecipeStep);
+    recipeTags.forEach(recipe::addRecipeTag);
+
+    return recipe;
   }
 }

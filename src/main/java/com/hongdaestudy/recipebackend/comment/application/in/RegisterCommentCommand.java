@@ -1,24 +1,42 @@
 package com.hongdaestudy.recipebackend.comment.application.in;
 
+import com.hongdaestudy.recipebackend.common.SelfValidating;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 @Data
-public class RegisterCommentCommand {
-    private Long id;
+public class RegisterCommentCommand extends SelfValidating<RegisterCommentCommand> {
 
-    private Long recipeId;
+  @NotNull
+  private Long recipeId;
 
-    private Long userId;
+  private Long userId;
 
-    private String content;
+  private String content;
 
-    private Long parentCommentId;
+  private Long parentCommentId;
 
-    private Integer level;
+  @NotNull
+  private Integer level;
 
-    private Integer sort;
+  private Integer sort;
 
-    private String score;
+  private String score;
 
-    private Long photoFileId;
+  private Long photoFileId;
+
+  public RegisterCommentCommand(Long recipeId, Long userId, String content, Long parentCommentId, Integer level, Integer sort, String score, Long photoFileId) {
+
+    this.recipeId = recipeId;
+    this.userId = userId;
+    this.content = content;
+    this.parentCommentId = parentCommentId;
+    this.level = level;
+    this.sort = sort;
+    this.score = score;
+    this.photoFileId = photoFileId;
+
+    this.validateSelf();
+  }
 }

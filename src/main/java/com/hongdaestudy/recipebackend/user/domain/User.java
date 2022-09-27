@@ -29,6 +29,7 @@ public class User extends BaseTimeEntity<User, Long> {
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+        registerEvent(new UserCreatedEvent(this));
     }
 
     public void changeUserProfile(UserProfile userProfile) {

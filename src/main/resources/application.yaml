@@ -26,3 +26,7 @@ logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: trace
 
+jwt:
+  secret: aG9uZ2RhZXN0dWR5MTAwMHJlY2VpcGViYWNrZW5kdG9rZW4=
+  access-token-valid-seconds: 7200 # 2 hour
+  refresh-token-valid-seconds: 604800 # 7 day

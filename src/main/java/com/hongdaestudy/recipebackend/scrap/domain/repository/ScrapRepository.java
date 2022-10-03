@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ScrapRepository extends JpaRepository<Scrap, Long> {
 
-  boolean existsByRecipeIdAndUserID(Long recipeId, Long userId);
+  boolean existsByRecipeIdAndUserId(Long recipeId, Long userId);
 
 }

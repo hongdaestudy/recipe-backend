@@ -1,9 +1,12 @@
 package com.hongdaestudy.recipebackend.scrap;
 
+import com.hongdaestudy.recipebackend.config.error.ErrorResponse;
+import com.hongdaestudy.recipebackend.config.error.exception.DuplicationException;
 import com.hongdaestudy.recipebackend.scrap.application.RegisterScrapService;
 import com.hongdaestudy.recipebackend.scrap.application.in.RegisterScrapCommand;
 import com.hongdaestudy.recipebackend.scrap.application.out.RegisterScrapCommandResult;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,9 +20,9 @@ public class ScrapCommandController {
   private final RegisterScrapService registerScrapService;
 
   @ExceptionHandler
-  public ResponseEntity controllerExceptionHandler(Exception e) {
-    // TODO sieun: 에러/성공 메세지 처리 방식
-    return ResponseEntity.ok().body(e.getMessage());
+  public ResponseEntity<ErrorResponse> controllerExceptionHandler(DuplicationException e) {
+    final ErrorResponse response = new ErrorResponse(e.getMessage(), null);
+    return new ResponseEntity<>(response, HttpStatus.valueOf(409));
   }
 
   @PostMapping("/scrap")

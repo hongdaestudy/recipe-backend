@@ -1,12 +1,12 @@
 package com.hongdaestudy.recipebackend.scrap.application.in;
 
-import com.hongdaestudy.recipebackend.common.SelfValidatin;
+import com.hongdaestudy.recipebackend.common.SelfValidating;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
 @Data
-public class RegisterScrapCommand extends SelfValidatin<RegisterScrapCommand> {
+public class RegisterScrapCommand extends SelfValidating<RegisterScrapCommand> {
 
   @NotNull
   private Long recipeId;

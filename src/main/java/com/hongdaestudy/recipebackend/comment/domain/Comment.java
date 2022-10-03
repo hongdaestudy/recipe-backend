@@ -25,7 +25,6 @@ public class Comment extends BaseTimeEntity {
   @NotNull
   private long recipeId;
 
-  // TODO sieun: userProfileId -> userId (프로필 변경시, 변경전 프로필이 보일수 있음)
   @NotNull
   private long userId;
 

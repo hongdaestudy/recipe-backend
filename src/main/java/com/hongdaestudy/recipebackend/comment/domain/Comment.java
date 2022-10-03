@@ -15,52 +15,51 @@ import javax.persistence.*;
 @Getter
 @ToString
 public class Comment extends BaseTimeEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "comment_id")
+  private Long id;
 
-    @NotNull
-    private Long recipeId;
+  @NotNull
+  private long recipeId;
 
-    // TODO sieun: userProfileId -> userId (프로필 변경시, 변경전 프로필이 보일수 있음)
-    @NotNull
-    private Long userId;
+  // TODO sieun: userProfileId -> userId (프로필 변경시, 변경전 프로필이 보일수 있음)
+  @NotNull
+  private long userId;
 
-    private String content;
+  private String content;
 
-    private Long parentCommentId;
+  private Long parentCommentId;
 
-    @NotNull
-    private Integer level;
+  @NotNull
+  private int level;
 
-    @NotNull
-    private Integer sort;
+  private int sort;
 
-    private String score;
+  private String score;
 
-    private Long photoFileId;
+  private Long photoFileId;
 
-    public static Comment create(
-             Long recipeId
-            ,Long userId
-            ,String content
-            ,Long parentCommentId
-            ,Integer level
-            ,Integer sort
-            ,String score
-            ,Long photoFileId) {
+  public static Comment create(
+      Long recipeId
+      , Long userId
+      , String content
+      , Long parentCommentId
+      , int level
+      , int sort
+      , String score
+      , Long photoFileId) {
 
-        Comment comment = new Comment();
-        comment.recipeId = recipeId;
-        comment.userId = userId;
-        comment.content = content;
-        comment.parentCommentId = parentCommentId;
-        comment.level = level;
-        comment.sort = sort;
-        comment.score = score;
-        comment.photoFileId = photoFileId;
+    Comment comment = new Comment();
+    comment.recipeId = recipeId;
+    comment.userId = userId;
+    comment.content = content;
+    comment.parentCommentId = parentCommentId;
+    comment.level = level;
+    comment.sort = sort;
+    comment.score = score;
+    comment.photoFileId = photoFileId;
 
-        return comment;
-    }
+    return comment;
+  }
 }

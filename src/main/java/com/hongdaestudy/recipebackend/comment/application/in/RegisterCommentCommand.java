@@ -9,24 +9,25 @@ import javax.validation.constraints.NotNull;
 public class RegisterCommentCommand extends SelfValidating<RegisterCommentCommand> {
 
   @NotNull
-  private Long recipeId;
+  private long recipeId;
 
-  private Long userId;
+  private long userId;
 
   private String content;
 
   private Long parentCommentId;
 
   @NotNull
-  private Integer level;
+  private int level;
 
-  private Integer sort;
+  private int sort;
 
   private String score;
 
   private Long photoFileId;
 
-  public RegisterCommentCommand(Long recipeId, Long userId, String content, Long parentCommentId, Integer level, Integer sort, String score, Long photoFileId) {
+
+  public RegisterCommentCommand(long recipeId, long userId, String content, Long parentCommentId, int level, int sort, String score, Long photoFileId) {
 
     this.recipeId = recipeId;
     this.userId = userId;

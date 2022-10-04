@@ -6,7 +6,6 @@ import com.hongdaestudy.recipebackend.user.repository.BearerTokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -41,7 +40,7 @@ public class JwtTokenGenerator {
     }
 
     public Tokens exchangeAccessToken(User user,UserProfile profile, String accessToken) {
-        BearerToken token = bearerTokenRepository.findFirstByAccessToken(accessToken)
+        BearerToken token = bearerTokenRepository.findByAccessToken(accessToken)
                 .orElseThrow(() -> new UserTokenNotFoundException("accessToken not found. token : " + accessToken));
         long nowInMilliseconds = new Date().getTime();
         String changedAccessToken = createAccessToken(String.valueOf(user.getId()), String.valueOf(profile.getId()), "ROLE_USER", new Date(nowInMilliseconds + accessTokenValidSeconds * 1000));

@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface BearerTokenRepository extends JpaRepository<BearerToken, Long> {
-    Optional<BearerToken> findFirstByRefreshToken(String refreshToken);
-    Optional<BearerToken> findFirstByAccessToken(String accessToken);
+    Optional<BearerToken> findByRefreshToken(String refreshToken);
+    Optional<BearerToken> findByAccessToken(String accessToken);
 }

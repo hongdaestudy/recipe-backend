@@ -1,7 +1,6 @@
 package com.hongdaestudy.recipebackend.comment.domain;
 
 import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
-import com.sun.istack.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +8,9 @@ import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
+import java.util.Optional;
 
 @Table(name = "comment")
 @Entity
@@ -23,14 +24,16 @@ public class Comment extends BaseTimeEntity {
   private Long id;
 
   @NotNull
-  private long recipeId;
+  private Long recipeId;
 
   @NotNull
-  private long userId;
+  private Long userId;
 
   private String content;
 
-  private Long parentCommentId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "parent_comment_id")
+  private Comment parent;
 
   @NotNull
   private int level;
@@ -41,11 +44,12 @@ public class Comment extends BaseTimeEntity {
 
   private Long photoFileId;
 
+
   public static Comment create(
       Long recipeId
       , Long userId
       , String content
-      , Long parentCommentId
+      , Optional<Comment> parent
       , int level
       , int sort
       , String score
@@ -55,12 +59,13 @@ public class Comment extends BaseTimeEntity {
     comment.recipeId = recipeId;
     comment.userId = userId;
     comment.content = content;
-    comment.parentCommentId = parentCommentId;
+    if (parent.isPresent()) {
+      comment.parent = parent.get();
+    }
     comment.level = level;
     comment.sort = sort;
     comment.score = score;
     comment.photoFileId = photoFileId;
-
     return comment;
   }
 

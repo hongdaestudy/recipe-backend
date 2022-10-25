@@ -41,4 +41,22 @@ public class UserService {
                 .map(user -> tokenGenerator.create(user, user.getUserProfile()))
                 .orElseThrow(() -> new IllegalArgumentException("이메일 또는 비밀번호를 잘못 입력하셨습니다."));
     }
+
+    @Transactional
+    public Tokens refresh(String refreshToken) {
+        try {
+            tokenProvider.decode(refreshToken);
+        } catch (ExpiredJwtException e) {
+            throw new ExpiredJwtException(e.getHeader(), e.getClaims(), "Refresh token was expired.", e);
+        }
+
+        BearerToken token = bearerTokenRepository.findByRefreshToken(refreshToken)
+                .orElseThrow(() -> new IllegalArgumentException("Could not find refresh token."));
+        Long userId = token.getUserId();
+        User user = userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("Not Found User"));
+
+        Long userProfileId = token.getUserProfileId();
+        UserProfile userProfile = userProfileRepository.findById(userProfileId).orElseThrow(()-> new IllegalArgumentException("Not Found UserProfile"));
+        return tokenGenerator.create(user, userProfile);
+    }
 }

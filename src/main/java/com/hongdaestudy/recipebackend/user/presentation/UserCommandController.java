@@ -25,4 +25,8 @@ public class UserCommandController {
         return ResponseEntity.ok(userService.create(request));
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<Tokens> login(@RequestBody UserLoginCommand userLoginCommand) {
+        return ResponseEntity.ok(userService.login(userLoginCommand));
+    }
 }

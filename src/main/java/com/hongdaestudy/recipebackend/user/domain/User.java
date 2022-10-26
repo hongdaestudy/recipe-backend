@@ -21,8 +21,10 @@ public class User extends BaseTimeEntity<User, Long> {
     @JoinColumn(name = "user_profile_id")
     private UserProfile userProfile;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     // todo: validate

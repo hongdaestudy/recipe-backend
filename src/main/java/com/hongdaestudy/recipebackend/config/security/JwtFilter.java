@@ -39,6 +39,10 @@ public class JwtFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException e) {
             ErrorResponse res = ErrorResponse.of(ErrorCode.ACCESS_TOKEN_EXPIRED);
+
+            response.setStatus(401);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("utf-8");
             response.getWriter().write(new ObjectMapper().writeValueAsString(res));
             response.getWriter().flush();
         }

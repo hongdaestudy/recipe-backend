@@ -21,4 +21,9 @@ public class EmailCommandController {
     public ResponseEntity<EmailCodeResult> sendEmail(@RequestBody EmailCommand request) {
         return ResponseEntity.ok(emailSenderService.sendEmailMessage(request));
     }
+
+    @PostMapping("/verify-code")
+    public ResponseEntity<Boolean> verifyCode(@RequestBody EmailCodeCommand request) {
+        return ResponseEntity.ok(emailSenderService.verifyEmail(request));
+    }
 }

@@ -34,6 +34,20 @@ public class EmailSenderService {
 
         return EmailCodeResult.from(code);
     }
+
+    public Boolean verifyEmail(EmailCodeCommand req) {
+        try {
+            String email = redisUtil.getData(req.getCode());
+            if (email.equals(req.getEmail())) {
+                redisUtil.deleteData(req.getCode());
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
+
     private static String createCode() {
         StringBuilder code = new StringBuilder();
         Random rnd = new Random();

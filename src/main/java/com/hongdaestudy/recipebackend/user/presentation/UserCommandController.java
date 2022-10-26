@@ -6,16 +6,13 @@ import com.hongdaestudy.recipebackend.user.application.out.UserRegisterCommandRe
 import com.hongdaestudy.recipebackend.user.domain.Tokens;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/auth")
 public class UserCommandController {
 
     private final UserService userService;
@@ -25,4 +22,8 @@ public class UserCommandController {
         return ResponseEntity.ok(userService.create(request));
     }
 
+    @GetMapping("/email-check")
+    public ResponseEntity<Boolean> isAvailableEmail(@RequestParam String email) {
+        return ResponseEntity.ok(userService.isAvailableEmail(email));
+    }
 }

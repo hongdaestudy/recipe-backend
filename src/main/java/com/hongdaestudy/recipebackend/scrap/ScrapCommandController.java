@@ -2,22 +2,23 @@ package com.hongdaestudy.recipebackend.scrap;
 
 import com.hongdaestudy.recipebackend.config.error.ErrorResponse;
 import com.hongdaestudy.recipebackend.config.error.exception.DuplicationException;
+import com.hongdaestudy.recipebackend.scrap.application.DeleteScrapService;
 import com.hongdaestudy.recipebackend.scrap.application.RegisterScrapService;
+import com.hongdaestudy.recipebackend.scrap.application.in.DeleteScrapCommand;
 import com.hongdaestudy.recipebackend.scrap.application.in.RegisterScrapCommand;
+import com.hongdaestudy.recipebackend.scrap.application.out.DeleteScrapCommandResult;
 import com.hongdaestudy.recipebackend.scrap.application.out.RegisterScrapCommandResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 public class ScrapCommandController {
 
   private final RegisterScrapService registerScrapService;
+  private final DeleteScrapService deleteScrapService;
 
   @ExceptionHandler
   public ResponseEntity<ErrorResponse> controllerExceptionHandler(DuplicationException e) {
@@ -33,4 +34,11 @@ public class ScrapCommandController {
     return ResponseEntity.ok(result);
   }
 
+  @DeleteMapping("/scrap")
+  public ResponseEntity<DeleteScrapCommandResult> deleteScrap(@RequestBody DeleteScrapCommand deleteScrapCommand) throws Exception {
+
+    DeleteScrapCommandResult result = deleteScrapService.deleteScrap(deleteScrapCommand);
+
+    return ResponseEntity.ok(result);
+  }
 }

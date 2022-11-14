@@ -56,4 +56,36 @@ class ScrapRepositoryTest {
       }
     }
   }
+
+  @Nested
+  @DisplayName("delete 메소드")
+  class Describe_delete {
+
+    @BeforeEach
+    void prepare() {
+      repository.deleteAll();
+    }
+
+    @Nested
+    @DisplayName("스크랩 객체가 주어지면")
+    class Context_with_a_scrap {
+      final Scrap givenScrap = Scrap.create(
+          1L
+          , 1L
+      );
+
+      @Test
+      @DisplayName("주어진 객체를 삭제한다")
+      void it_deletes_obj() {
+        repository.save(givenScrap);
+
+        boolean duplicationCheck = repository.existsByRecipeIdAndUserId(givenScrap.getRecipeId(), givenScrap.getUserId());
+        Assertions.assertEquals(duplicationCheck, true, "저장된 객체가 존재합니다.");
+        repository.deleteByRecipeIdAndUserId(givenScrap.getRecipeId(), givenScrap.getUserId());
+
+        duplicationCheck = repository.existsByRecipeIdAndUserId(givenScrap.getRecipeId(), givenScrap.getUserId());
+        Assertions.assertEquals(duplicationCheck, false, "저장된 객체가 삭제되었습니다.");
+      }
+    }
+  }
 }

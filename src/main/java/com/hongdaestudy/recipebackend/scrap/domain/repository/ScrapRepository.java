@@ -7,4 +7,5 @@ public interface ScrapRepository extends JpaRepository<Scrap, Long> {
 
   boolean existsByRecipeIdAndUserId(Long recipeId, Long userId);
 
+  void deleteByRecipeIdAndUserId(Long recipeId, Long userId);
 }

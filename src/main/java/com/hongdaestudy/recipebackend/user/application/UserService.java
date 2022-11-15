@@ -25,4 +25,8 @@ public class UserService {
         user = userRepository.findById(user.getId()).orElseThrow();
         return UserRegisterCommandResult.from(user, tokenGenerator.create(user, user.getUserProfile()));
     }
+
+    public Boolean isAvailableEmail(String email) {
+        return userRepository.findByEmail(email).isEmpty();
+    }
 }

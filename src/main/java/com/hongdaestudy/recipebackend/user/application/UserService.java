@@ -33,7 +33,6 @@ public class UserService {
         user = userRepository.findById(user.getId()).orElseThrow();
         return UserRegisterCommandResult.from(user, tokenGenerator.create(user, user.getUserProfile()));
     }
-
     @Transactional
     public Tokens login(UserLoginCommand userLoginCommand) {
         return userRepository.findByEmail(userLoginCommand.getEmail())
@@ -58,5 +57,8 @@ public class UserService {
         Long userProfileId = token.getUserProfileId();
         UserProfile userProfile = userProfileRepository.findById(userProfileId).orElseThrow(()-> new IllegalArgumentException("Not Found UserProfile"));
         return tokenGenerator.create(user, userProfile);
+    }
+    public Boolean isAvailableEmail(String email) {
+        return userRepository.findByEmail(email).isEmpty();
     }
 }

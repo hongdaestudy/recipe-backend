@@ -32,6 +32,7 @@ public class IngredientGroup extends BaseTimeEntity {
 
   @OneToMany(mappedBy = "ingredientGroup", cascade = CascadeType.ALL)
   @ToString.Exclude
+  @OrderBy("sort asc")
   private List<Ingredient> ingredients = new ArrayList<>();
 
   @Override

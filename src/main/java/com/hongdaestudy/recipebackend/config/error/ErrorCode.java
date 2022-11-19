@@ -3,7 +3,7 @@ package com.hongdaestudy.recipebackend.config.error;
 public enum ErrorCode {
   HANDLE_ACCESS_DENIED(403, "C_001", "권한이 없습니다."),
   MEMBER_NOT_FOUND(400, "C_002", "사용자 정보를 찾을 수 없습니다."),
-  ACCESS_TOKEN_EXPIRED(400, "C_003", "토큰이 만료되었습니다.");
+  ACCESS_TOKEN_EXPIRED(400, "C_003", "토큰이 만료되었습니다."),
   HANDLE_ACCESS_DENIED(403, "C_001", "권한이 없습니다."),
   MEMBER_NOT_FOUND(400, "C_002", "사용자 정보를 찾을 수 없습니다."),
 

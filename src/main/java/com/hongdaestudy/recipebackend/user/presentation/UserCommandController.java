@@ -31,6 +31,7 @@ public class UserCommandController {
     @PostMapping("/refresh")
     public ResponseEntity<Tokens> refresh(@RequestBody RefreshTokenCommand refreshTokenCommand) {
         return ResponseEntity.ok(userService.refresh(refreshTokenCommand.getRefreshToken()));
+    }
 
     @GetMapping("/email-check")
     public ResponseEntity<Boolean> isAvailableEmail(@RequestParam String email) {

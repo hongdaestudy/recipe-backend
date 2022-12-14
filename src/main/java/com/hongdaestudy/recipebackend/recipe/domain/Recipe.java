@@ -51,6 +51,8 @@ public class Recipe extends BaseTimeEntity {
   @Enumerated(EnumType.STRING)
   private RecipeStatus status;
 
+  private char deleteAt;
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -84,7 +86,8 @@ public class Recipe extends BaseTimeEntity {
       String tip,
       List<RecipeStep> recipeSteps,
       List<RecipeTag> recipeTags,
-      RecipeStatus status) {
+      RecipeStatus status,
+      char deleteAt) {
 
     Recipe recipe = new Recipe();
     recipe.memberId = memberId;
@@ -95,6 +98,7 @@ public class Recipe extends BaseTimeEntity {
     recipe.completionPhotoFileId = completionPhotoFileId;
     recipe.tip = tip;
     recipe.status = status;
+    recipe.deleteAt = deleteAt;
 
     recipeSteps.forEach(recipe::addRecipeStep);
     recipeTags.forEach(recipe::addRecipeTag);

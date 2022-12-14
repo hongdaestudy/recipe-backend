@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.EntityManager;
@@ -33,10 +35,12 @@ class RecipeRepositoryTest {
   @DisplayName("retrieve 메소드")
   class Describe_retrieve {
 
+    /*
     @BeforeEach
     void prepare() {
       repository.deleteAll();
     }
+    */
 
     @Nested
     @DisplayName("레시피 객체가 주어지면")
@@ -64,6 +68,7 @@ class RecipeRepositoryTest {
               RecipeTag.create("tag2", 1)
           )
           , RecipeStatus.valueOf("IN_PROGRESS")
+          , 'N'
       );
 
       @Test
@@ -84,6 +89,63 @@ class RecipeRepositoryTest {
         Assertions.assertEquals(recipe.getStatus(), givenRecipe.getStatus());
 
       }
+    }
+  }
+
+  /**
+   * 1. 검증 로직 만들기.
+   * 2. 순서에 따라 결과가 달라지지 않도록 만들기.
+   */
+  @Nested
+  @DisplayName("객체가 주어지면")
+  @Commit
+  @Rollback(value = false)
+  class 객체가_주어지면 {
+
+    void createdRecipe() {
+      final RecipeInformation givenRecipeInformation = RecipeInformation.create(
+              RecipeServingCount.valueOf("ONE")
+              , RecipeCookingTime.valueOf("FIVE_MINUTES_LESS")
+              , RecipeDifficultyLevel.valueOf("EASY")
+      );
+      final Recipe givenRecipe = Recipe.create(
+              1L
+              , "제목"
+              , "레시피상세"
+              , null
+              , givenRecipeInformation
+              , null
+              , "팁"
+              , List.of(
+                      RecipeStep.create("step1", null, 1),
+                      RecipeStep.create("step2", null, 2),
+                      RecipeStep.create("step3", null, 3)
+              )
+              , List.of(
+                      RecipeTag.create("tag1", 0),
+                      RecipeTag.create("tag2", 1)
+              )
+              , RecipeStatus.valueOf("IN_PROGRESS")
+              , 'N'
+      );
+      repository.save(givenRecipe);
+    }
+
+    @Test
+    @DisplayName("삭제한다.")
+    void deleteRecipe() {
+      createdRecipe();
+      repository.deleteRecipe(1L);
+    }
+
+    /**
+     * 수정된 필드만 update하도록 수정하는 것이 필요
+     */
+    @Test
+    @DisplayName("수정한다.")
+    void updateRecipe() {
+      createdRecipe();
+
     }
   }
 }

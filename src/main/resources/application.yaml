@@ -47,4 +47,12 @@ jwt:
   access-token-valid-seconds: 7200 # 2 hour
   refresh-token-valid-seconds: 604800 # 7 day
 
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  tomcat:
+    uri-encoding: UTF-8
 

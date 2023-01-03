@@ -28,7 +28,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         //, recipe.recipeSteps
         , recipe.title
         , recipe.description
-        , recipe.videoFileId
+        , recipe.videoUrl
         , recipe.information.servingCount
         , recipe.information.cookingTime
         , recipe.information.difficultyLevel

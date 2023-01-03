@@ -15,9 +15,10 @@ public class RegisterRecipeCommand {
   private List<RegisterRecipeStepCommand> recipeSteps;
   private String title;
   private String description;
-  private Long videoFileId;
+  private String videoUrl;
   private RegisterRecipeInformationCommand information;
-  private Long completionPhotoFileId;
+  private Long mainPhotoFileId;
+  private List<Long> completionPhotoFileId; //TODO 추후 변경
   private String tip;
   private List<RegisterRecipeTagCommand> recipeTags;
   private RecipeStatus status;

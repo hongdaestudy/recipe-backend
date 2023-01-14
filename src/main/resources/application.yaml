@@ -1,12 +1,9 @@
 spring:
+  profiles:
+    active: ${COMMON_SPRING_PROFILES_ACTIVE}
+
   application:
     name: recipe-backend
-
-  datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
 
   jpa:
     hibernate:
@@ -22,10 +19,10 @@ spring:
     port: 6379
 
   mail:
-    host: ${SPRING_MAIL_HOST}
-    port: ${SPRING_MAIL_PORT}
-    username: ${SPRING_MAIL_USERNAME}
-    password: ${SPRING_MAIL_PASSWORD}
+    host: ${COMMON_SPRING_MAIL_HOST}
+    port: ${COMMON_SPRING_MAIL_PORT}
+    username: ${COMMON_SPRING_MAIL_USERNAME}
+    password: ${COMMON_SPRING_MAIL_PASSWORD}
 
     properties:
       mail:
@@ -38,12 +35,13 @@ spring:
           connectiontimeout: 5000
           timeout: 3000
           writetimeout: 5000
+
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: trace
 
 jwt:
-  secret: ${JWT_SECRET}
+  secret: ${COMMON_JWT_SECRET}
   access-token-valid-seconds: 7200 # 2 hour
   refresh-token-valid-seconds: 604800 # 7 day
 
@@ -56,3 +54,28 @@ server:
   tomcat:
     uri-encoding: UTF-8
 
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: ${DEV_SPRING_DATASOURCE_URL}
+    driver-class-name: ${DEV_SPRING_DATASOURCE_DRIVER_CLASS_NAME}
+    username: ${DEV_SPRING_DATASOURCE_USERNAME}
+    password: ${DEV_SPRING_DATASOURCE_PASSWORD}
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:

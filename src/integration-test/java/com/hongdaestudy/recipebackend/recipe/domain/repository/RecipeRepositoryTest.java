@@ -47,7 +47,8 @@ class RecipeRepositoryTest {
               RecipeTag.create("태그명1", 1),
               RecipeTag.create("태그명2", 2)
           ),
-          RecipeStatus.IN_PROGRESS);
+          RecipeStatus.IN_PROGRESS,
+              'N');
 
       @Test
       @DisplayName("주어진 레시피를 저장하고, 저장된 레시피를 리턴한다.")

@@ -1,13 +1,11 @@
 package com.hongdaestudy.recipebackend.recipe.domain;
 
 import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -52,6 +50,8 @@ public class Recipe extends BaseTimeEntity {
   private RecipeStatus status;
 
   private char deleteAt;
+
+  private LocalDateTime updatedAt;
 
   @Override
   public boolean equals(Object o) {
@@ -104,5 +104,18 @@ public class Recipe extends BaseTimeEntity {
     recipeTags.forEach(recipe::addRecipeTag);
 
     return recipe;
+  }
+
+  @Builder
+  public void updateRecipeInfo(Long memberId, String title, String description, Long videoFileId,  Long completionPhotoFileId, String tip, char deleteAt) {
+
+      this.memberId = memberId;
+      this.title = title;
+      this.description = description;
+      this.videoFileId = videoFileId;
+      this.completionPhotoFileId = completionPhotoFileId;
+      this.tip = tip;
+      this.deleteAt = deleteAt;
+      this.updatedAt = LocalDateTime.now();
   }
 }

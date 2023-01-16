@@ -28,6 +28,7 @@ public class RetrieveRecipeCommandResult {
   private List<RetrieveRecipeTagCommandResult> recipeTags;
   private RecipeStatus status;
   private List<RetrieveIngredientGroupCommandResult> ingredientGroups;
+  private char deleteAt;
 
   public void addRecipeStep(RetrieveRecipeStepCommandResult recipeStep) {
     this.recipeSteps.add(recipeStep);
@@ -97,7 +98,8 @@ public class RetrieveRecipeCommandResult {
       Long completionPhotoFileId,
       String tip,
       //List<RetrieveRecipeTagCommandResult> recipeTags,
-      RecipeStatus status) {
+      RecipeStatus status,
+      char deleteAt) {
 
     this.id = id;
     this.memberId = memberId;
@@ -108,6 +110,7 @@ public class RetrieveRecipeCommandResult {
     this.completionPhotoFileId = completionPhotoFileId;
     this.tip = tip;
     this.status = status;
+    this.deleteAt = deleteAt;
 
     this.recipeSteps = new ArrayList<>();
     this.recipeTags = new ArrayList<>();

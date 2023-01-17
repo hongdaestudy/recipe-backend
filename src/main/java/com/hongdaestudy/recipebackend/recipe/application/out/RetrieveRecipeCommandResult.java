@@ -21,8 +21,9 @@ public class RetrieveRecipeCommandResult {
   private List<RetrieveRecipeStepCommandResult> recipeSteps;
   private String title;
   private String description;
-  private Long videoFileId;
+  private String videoUrl;
   private RetrieveRecipeInformationCommandResult information;
+  private Long mainPhotoFileId;
   private Long completionPhotoFileId;
   private String tip;
   private List<RetrieveRecipeTagCommandResult> recipeTags;
@@ -89,11 +90,11 @@ public class RetrieveRecipeCommandResult {
       //List<RetrieveRecipeStepCommandResult> recipeSteps,
       String title,
       String description,
-      Long videoFileId,
+      String videoUrl,
       RecipeServingCount servingCount,
       RecipeCookingTime cookingTime,
       RecipeDifficultyLevel difficultyLevel,
-
+      Long mainPhotoFileId,
       Long completionPhotoFileId,
       String tip,
       //List<RetrieveRecipeTagCommandResult> recipeTags,
@@ -103,8 +104,9 @@ public class RetrieveRecipeCommandResult {
     this.memberId = memberId;
     this.title = title;
     this.description = description;
-    this.videoFileId = videoFileId;
+    this.videoUrl = videoUrl;
     this.information = RetrieveRecipeInformationCommandResult.create(servingCount, cookingTime, difficultyLevel);
+    this.mainPhotoFileId = mainPhotoFileId;
     this.completionPhotoFileId = completionPhotoFileId;
     this.tip = tip;
     this.status = status;

@@ -32,6 +32,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         , recipe.information.servingCount
         , recipe.information.cookingTime
         , recipe.information.difficultyLevel
+        , recipe.mainPhotoFileId
         , recipe.completionPhotoFileId
         , recipe.tip
         //, recipe.recipeTags

@@ -53,4 +53,11 @@ public class RecipeCommandController {
 
     return ResponseEntity.ok(result);
   }
+  @GetMapping("/recipes")
+  public ResponseEntity<List<RetrieveRecipeCommandResult>> retrieveRecipeList(@RequestBody RetrieveRecipeCommand retrieveRecipeCommand) {
+
+    List<RetrieveRecipeCommandResult> result = retrieveRecipeService.retrieveRecipeList(retrieveRecipeCommand);
+
+    return ResponseEntity.ok(result);
+  }
 }

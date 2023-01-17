@@ -1,30 +1,23 @@
 package com.hongdaestudy.recipebackend.recipe.repository;
 
 import com.hongdaestudy.recipebackend.config.TestConfig;
+import com.hongdaestudy.recipebackend.config.error.ErrorCode;
 import com.hongdaestudy.recipebackend.recipe.application.out.RetrieveRecipeCommandResult;
 import com.hongdaestudy.recipebackend.recipe.domain.*;
 import com.hongdaestudy.recipebackend.recipe.domain.repository.RecipeRepository;
-import com.hongdaestudy.recipebackend.recipe.presentation.RecipeCommandController;
-import com.querydsl.core.types.Projections;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.hongdaestudy.recipebackend.recipe.domain.QRecipe.recipe;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
@@ -108,6 +101,18 @@ public class RecipeFunctionTest {
         assertThat(recipe.getDeleteAt()).isEqualTo('Y');
     }
 
+	@Test
+	@DisplayName("레시피를 삭제 후 검증한다.(2)")
+	void deleteRecipe2() throws Exception {
+		Long recipeId = createRecipe();
+		Recipe entity = repository.findById(recipeId).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND.getMessage()));
+		entity.delete();
+
+		Recipe entity2 = repository.findById(recipeId).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND.getMessage()));
+
+		assertThat(entity2.getDeleteAt()).isEqualTo('Y');
+	}
+
     @Test
     @DisplayName("레시피를 수정 후 검증한다.")
     void updateRecipe() {
@@ -117,7 +122,6 @@ public class RecipeFunctionTest {
         Recipe recipe = entityManager.find(Recipe.class, recipeId);
 
         recipe.builder()
-              .memberId(1L)
               .title("정선우정선우")
               .description("1")
               .videoFileId(1L)
@@ -130,9 +134,24 @@ public class RecipeFunctionTest {
 
     }
 
-    @Test
-    @DisplayName("테스트")
-    void test() {
+	@Test
+	@DisplayName("레시피를 수정 후 검증한다.(2)")
+	void updateRecipe2() throws Exception {
 
-    }
+		Long recipeId = createRecipe();
+
+		Recipe recipe = repository.findById(recipeId).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND.getMessage()));
+		recipe.updateRecipeInfo("치킨", "상위 1%의 매출을 올리는 치킨", 1234L,
+								1234L, "A", 'N');
+
+		Recipe recipe2 = repository.findById(recipeId).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND.getMessage()));
+		assertThat(recipe2.getTitle()).isEqualTo("치킨");
+		assertThat(recipe2.getDescription()).isEqualTo("상위 1%의 매출을 올리는 치킨");
+		assertThat(recipe2.getVideoFileId()).isEqualTo(1234L);
+		assertThat(recipe2.getCompletionPhotoFileId()).isEqualTo(1234L);
+		assertThat(recipe2.getTip()).isEqualTo("A");
+		assertThat(recipe2.getDeleteAt()).isEqualTo('N');
+	}
+
+
 }

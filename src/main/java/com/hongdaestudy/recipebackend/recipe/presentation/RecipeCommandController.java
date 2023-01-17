@@ -7,7 +7,7 @@ import com.hongdaestudy.recipebackend.recipe.application.in.RegisterRecipeComman
 import com.hongdaestudy.recipebackend.recipe.application.in.RetrieveRecipeCommand;
 import com.hongdaestudy.recipebackend.recipe.application.out.RegisterRecipeCommandResult;
 import com.hongdaestudy.recipebackend.recipe.application.out.RetrieveRecipeCommandResult;
-import com.hongdaestudy.recipebackend.recipe.domain.Recipe;
+import com.hongdaestudy.recipebackend.recipe.domain.RecipeRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,15 +37,14 @@ public class RecipeCommandController {
 
   // 삭제
   @DeleteMapping("/recipe/{id}")
-  public Long delete(@PathVariable final Long id) {
-
+  public Long deleteRecipe(@PathVariable final Long id) throws Exception {
     return modifyRecipeService.deleteRecipe(id);
   }
 
   // 수정
+  // @RestControllerAdvice를 추가하는게 필요해 보인다.
   @PatchMapping("/recipe/{id}")
-  public Long update(@PathVariable final Long id, @RequestBody Recipe recipe) {
-
-    return 1L;
+  public Long updateRecipe(@PathVariable Long id, @RequestBody RecipeRequestDto params) throws Exception {
+    return modifyRecipeService.updateRecipe(id, params);
   }
 }

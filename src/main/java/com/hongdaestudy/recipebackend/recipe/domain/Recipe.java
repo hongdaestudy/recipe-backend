@@ -107,9 +107,8 @@ public class Recipe extends BaseTimeEntity {
   }
 
   @Builder
-  public void updateRecipeInfo(Long memberId, String title, String description, Long videoFileId,  Long completionPhotoFileId, String tip, char deleteAt) {
+  public void updateRecipeInfo(String title, String description, Long videoFileId,  Long completionPhotoFileId, String tip, char deleteAt) {
 
-      this.memberId = memberId;
       this.title = title;
       this.description = description;
       this.videoFileId = videoFileId;
@@ -117,5 +116,9 @@ public class Recipe extends BaseTimeEntity {
       this.tip = tip;
       this.deleteAt = deleteAt;
       this.updatedAt = LocalDateTime.now();
+  }
+
+  public void delete() {
+	  this.deleteAt = 'Y';
   }
 }

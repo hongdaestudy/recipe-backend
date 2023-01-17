@@ -151,6 +151,7 @@ public class RecipeFunctionTest {
 		assertThat(recipe2.getCompletionPhotoFileId()).isEqualTo(1234L);
 		assertThat(recipe2.getTip()).isEqualTo("A");
 		assertThat(recipe2.getDeleteAt()).isEqualTo('N');
+
 	}
 
 

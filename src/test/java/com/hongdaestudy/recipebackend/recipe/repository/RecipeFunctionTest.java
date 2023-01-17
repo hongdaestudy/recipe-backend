@@ -153,6 +153,7 @@ public class RecipeFunctionTest {
 		assertThat(recipe2.getDeleteAt()).isEqualTo('N');
 
 
+
 	}
 
 

@@ -4,6 +4,4 @@ import com.hongdaestudy.recipebackend.recipe.application.out.RetrieveRecipeComma
 
 public interface RecipeRepositoryCustom {
   RetrieveRecipeCommandResult findOneByRecipeId(long recipeId);
-
-  long deleteRecipe(long recipeId);
 }

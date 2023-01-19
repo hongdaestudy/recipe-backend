@@ -23,23 +23,6 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
     @Override
     public RetrieveRecipeCommandResult findOneByRecipeId(long recipeId) {
 
-        RetrieveRecipeCommandResult recipeEntity = queryFactory.select(Projections.constructor(RetrieveRecipeCommandResult.class
-                , recipe.id
-                , recipe.memberId
-                //, recipe.recipeSteps
-                , recipe.title
-                , recipe.description
-                , recipe.videoFileId
-                , recipe.information.servingCount
-                , recipe.information.cookingTime
-                , recipe.information.difficultyLevel
-                , recipe.completionPhotoFileId
-                , recipe.tip
-                //, recipe.recipeTags
-                , recipe.status
-                , recipe.deleteAt
-        )).from(recipe).where(recipe.id.eq(recipeId)).fetchOne();
-
 
         List<RetrieveRecipeCommandResult.RetrieveRecipeStepCommandResult> recipeSteps = queryFactory.select(Projections.constructor(RetrieveRecipeCommandResult.RetrieveRecipeStepCommandResult.class
                         , recipeStep.description.as("description")

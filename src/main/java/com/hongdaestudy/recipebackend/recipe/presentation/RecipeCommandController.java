@@ -1,17 +1,5 @@
 package com.hongdaestudy.recipebackend.recipe.presentation;
 
-import com.hongdaestudy.recipebackend.recipe.application.ModifyRecipeService;
-import com.hongdaestudy.recipebackend.recipe.application.RegisterRecipeService;
-import com.hongdaestudy.recipebackend.recipe.application.RetrieveRecipeService;
-import com.hongdaestudy.recipebackend.recipe.application.in.RegisterRecipeCommand;
-import com.hongdaestudy.recipebackend.recipe.application.in.RetrieveRecipeCommand;
-import com.hongdaestudy.recipebackend.recipe.application.out.RegisterRecipeCommandResult;
-import com.hongdaestudy.recipebackend.recipe.application.out.RetrieveRecipeCommandResult;
-import com.hongdaestudy.recipebackend.recipe.domain.RecipeRequestDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 @RestController
 @RequiredArgsConstructor
 public class RecipeCommandController {
@@ -20,9 +8,26 @@ public class RecipeCommandController {
   private final RetrieveRecipeService retrieveRecipeService;
   private final ModifyRecipeService modifyRecipeService;
 
-  @PostMapping("/recipes")
-  public ResponseEntity<RegisterRecipeCommandResult> registerRecipe(@RequestBody RegisterRecipeCommand registerRecipeCommand) {
+  private final RegisterFileService registerFileService;
 
+  @PostMapping("/recipes")
+  public ResponseEntity<RegisterRecipeCommandResult> registerRecipe(
+      @RequestPart("mainPhotoFile") MultipartFile mainPhotoFile
+      , @RequestPart("completionPhotoFileList") MultipartFile[] completionPhotoFileList
+      , @RequestPart("stepPhotoFileList") MultipartFile[] stepPhotoFileList
+      , @RequestPart("recipe") RegisterRecipeCommand registerRecipeCommand) {
+
+    try {
+      registerRecipeCommand.setMainPhotoFileId(registerFileService.uploadFile(mainPhotoFile));
+      registerRecipeCommand.setCompletionPhotoFileId(registerFileService.uploadFiles(completionPhotoFileList));
+      List<Long> stepFileList = registerFileService.uploadFiles(stepPhotoFileList);
+
+      IntStream.range(0, registerRecipeCommand.getRecipeSteps().size())
+          .forEach(index -> registerRecipeCommand.getRecipeSteps().get(index).setPhotoFileId(stepFileList.get(index)));
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     RegisterRecipeCommandResult result = registerRecipeService.registerRecipe(registerRecipeCommand);
 
     return ResponseEntity.ok(result);

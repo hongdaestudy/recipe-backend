@@ -33,11 +33,12 @@ public class Recipe extends BaseTimeEntity {
 
   private String description;
 
-  private Long videoFileId;
+  private String videoUrl;
 
   @Embedded
   private RecipeInformation information;
-
+  
+  private Long mainPhotoFileId;
   private Long completionPhotoFileId;
 
   private String tip;
@@ -80,8 +81,9 @@ public class Recipe extends BaseTimeEntity {
       Long memberId,
       String title,
       String description,
-      Long videoFileId,
+      String videoUrl,
       RecipeInformation information,
+      Long mainPhotoFileId,
       Long completionPhotoFileId,
       String tip,
       List<RecipeStep> recipeSteps,
@@ -93,8 +95,9 @@ public class Recipe extends BaseTimeEntity {
     recipe.memberId = memberId;
     recipe.title = title;
     recipe.description = description;
-    recipe.videoFileId = videoFileId;
+    recipe.videoUrl = videoUrl;
     recipe.information = information;
+    recipe.mainPhotoFileId = mainPhotoFileId;
     recipe.completionPhotoFileId = completionPhotoFileId;
     recipe.tip = tip;
     recipe.status = status;

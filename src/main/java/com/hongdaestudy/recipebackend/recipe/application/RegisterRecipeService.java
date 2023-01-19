@@ -35,17 +35,17 @@ public class RegisterRecipeService {
 
   private Recipe from(RegisterRecipeCommand registerRecipeCommand) {
     List<RecipeStep> recipeSteps = registerRecipeCommand.getRecipeSteps().stream()
-            .map(recipeStepCommand -> RecipeStep.create(
-                    recipeStepCommand.getDescription(),
-                    recipeStepCommand.getPhotoFileId(),
-                    recipeStepCommand.getSort()))
-            .collect(Collectors.toList());
+        .map(recipeStepCommand -> RecipeStep.create(
+            recipeStepCommand.getDescription(),
+            recipeStepCommand.getPhotoFileId(),
+            recipeStepCommand.getSort()))
+        .collect(Collectors.toList());
 
     List<RecipeTag> recipeTags = registerRecipeCommand.getRecipeTags().stream()
-            .map(recipeTagCommand -> RecipeTag.create(
-                        recipeTagCommand.getName(),
-                        recipeTagCommand.getSort()))
-            .collect(Collectors.toList());
+        .map(recipeTagCommand -> RecipeTag.create(
+            recipeTagCommand.getName(),
+            recipeTagCommand.getSort()))
+        .collect(Collectors.toList());
 
     RecipeInformation recipeInformation = RecipeInformation.create(
         registerRecipeCommand.getInformation().getServingCount(),
@@ -56,9 +56,10 @@ public class RegisterRecipeService {
         registerRecipeCommand.getMemberId(),
         registerRecipeCommand.getTitle(),
         registerRecipeCommand.getDescription(),
-        registerRecipeCommand.getVideoFileId(),
+        registerRecipeCommand.getVideoUrl(),
         recipeInformation,
-        registerRecipeCommand.getCompletionPhotoFileId(),
+        registerRecipeCommand.getMainPhotoFileId(),
+        registerRecipeCommand.getCompletionPhotoFileId().get(0), //TODO 다중파일 데이터.. 파일 테이블 구조 변경?
         registerRecipeCommand.getTip(),
         recipeSteps,
         recipeTags,

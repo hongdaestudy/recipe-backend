@@ -5,12 +5,9 @@ spring:
   application:
     name: recipe-backend
 
-  jpa:
-    hibernate:
-      ddl-auto: update
     properties:
       hibernate:
-        show_sql: true
+        #show_sql: true
         format_sql: true
     open-in-view: false
 
@@ -37,7 +34,7 @@ spring:
           writetimeout: 5000
 
 logging.level:
-  org.hibernate.SQL: debug
+  #org.hibernate.SQL: debug
   org.hibernate.type: trace
 
 jwt:

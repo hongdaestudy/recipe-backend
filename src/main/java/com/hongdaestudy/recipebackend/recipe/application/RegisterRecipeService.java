@@ -63,6 +63,7 @@ public class RegisterRecipeService {
         registerRecipeCommand.getTip(),
         recipeSteps,
         recipeTags,
-        registerRecipeCommand.getStatus());
+        registerRecipeCommand.getStatus(),
+		'N');
   }
 }

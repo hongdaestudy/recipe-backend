@@ -24,14 +24,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .exceptionHandling()
-                    .authenticationEntryPoint(authenticationEntryPoint)
-                .and()
-                    .authorizeRequests()
-                    .antMatchers("/api/auth/**").permitAll()
-                    .anyRequest().hasRole("USER")
-                .and()
-                .addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                    .exceptionHandling();
+                 //   .authenticationEntryPoint(authenticationEntryPoint)
+                //.and()
+                 //   .authorizeRequests()
+                 //   .antMatchers("/api/auth/**").permitAll()
+                 //   .anyRequest().hasRole("USER")
+                //.and()
+                //.addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

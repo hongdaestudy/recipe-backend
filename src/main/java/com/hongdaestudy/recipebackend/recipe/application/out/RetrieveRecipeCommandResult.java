@@ -21,13 +21,14 @@ public class RetrieveRecipeCommandResult {
   private List<RetrieveRecipeStepCommandResult> recipeSteps;
   private String title;
   private String description;
-  private Long videoFileId;
+  private String videoUrl;
   private RetrieveRecipeInformationCommandResult information;
   private Long completionPhotoFileId;
   private String tip;
   private List<RetrieveRecipeTagCommandResult> recipeTags;
   private RecipeStatus status;
   private List<RetrieveIngredientGroupCommandResult> ingredientGroups;
+  private char deleteAt;
 
   public void addRecipeStep(RetrieveRecipeStepCommandResult recipeStep) {
     this.recipeSteps.add(recipeStep);
@@ -89,7 +90,7 @@ public class RetrieveRecipeCommandResult {
       //List<RetrieveRecipeStepCommandResult> recipeSteps,
       String title,
       String description,
-      Long videoFileId,
+      String videoUrl,
       RecipeServingCount servingCount,
       RecipeCookingTime cookingTime,
       RecipeDifficultyLevel difficultyLevel,
@@ -97,13 +98,14 @@ public class RetrieveRecipeCommandResult {
       Long completionPhotoFileId,
       String tip,
       //List<RetrieveRecipeTagCommandResult> recipeTags,
-      RecipeStatus status) {
+      RecipeStatus status,
+	  char deleteAt) {
 
     this.id = id;
     this.memberId = memberId;
     this.title = title;
     this.description = description;
-    this.videoFileId = videoFileId;
+    this.videoUrl = videoUrl;
     this.information = RetrieveRecipeInformationCommandResult.create(servingCount, cookingTime, difficultyLevel);
     this.completionPhotoFileId = completionPhotoFileId;
     this.tip = tip;
@@ -112,5 +114,6 @@ public class RetrieveRecipeCommandResult {
     this.recipeSteps = new ArrayList<>();
     this.recipeTags = new ArrayList<>();
     this.ingredientGroups = new ArrayList<>();
+	this.deleteAt = deleteAt;
   }
 }

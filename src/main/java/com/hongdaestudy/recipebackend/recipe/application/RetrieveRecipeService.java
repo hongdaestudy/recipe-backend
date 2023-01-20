@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +28,26 @@ public class RetrieveRecipeService {
     ingredientGroupList.forEach(recipe::addIngredientGroup);
 
     return recipe;
+  }
+
+  @Transactional
+  public List<RetrieveRecipeCommandResult> retrieveRecipeList(RetrieveRecipeCommand retrieveRecipeCommand) {
+
+    List<RetrieveRecipeCommandResult> recipeList = recipeRepository.findAll().stream().map(recipe -> new RetrieveRecipeCommandResult(recipe.getId()
+        , recipe.getMemberId()
+        //, recipe.recipeSteps
+        , recipe.getTitle()
+        , recipe.getDescription()
+        , recipe.getVideoUrl()
+        , recipe.getInformation().getServingCount()
+        , recipe.getInformation().getCookingTime()
+        , recipe.getInformation().getDifficultyLevel()
+        , recipe.getMainPhotoFileId()
+        , recipe.getCompletionPhotoFileId()
+        , recipe.getTip()
+        //, recipe.recipeTags
+        , recipe.getStatus())).collect(Collectors.toList());
+
+    return recipeList;
   }
 }

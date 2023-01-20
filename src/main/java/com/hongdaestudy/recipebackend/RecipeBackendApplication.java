@@ -20,6 +20,7 @@ public class RecipeBackendApplication extends SpringBootServletInitializer {
   protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
     return application.sources(RecipeBackendApplication.class);
   }
+
   @Bean
   public WebMvcConfigurer corsConfigurer() {
     return new WebMvcConfigurer() {

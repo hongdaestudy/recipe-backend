@@ -53,6 +53,7 @@ class RecipeRepositoryTest {
           , null
           , givenRecipeInformation
           , null
+          , null
           , "팁"
           , List.of(
               RecipeStep.create("step1", null, 1),
@@ -76,7 +77,8 @@ class RecipeRepositoryTest {
         Assertions.assertEquals(recipe.getMemberId(), givenRecipe.getMemberId());
         Assertions.assertEquals(recipe.getTitle(), givenRecipe.getTitle());
         Assertions.assertEquals(recipe.getDescription(), givenRecipe.getDescription());
-        Assertions.assertEquals(recipe.getVideoFileId(), givenRecipe.getVideoFileId());
+        Assertions.assertEquals(recipe.getVideoUrl(), givenRecipe.getVideoUrl());
+        Assertions.assertEquals(recipe.getMainPhotoFileId(), givenRecipe.getMainPhotoFileId());
         Assertions.assertEquals(recipe.getCompletionPhotoFileId(), givenRecipe.getCompletionPhotoFileId());
         Assertions.assertEquals(recipe.getTip(), givenRecipe.getTip());
         Assertions.assertEquals(recipe.getRecipeSteps().size(), 3);

@@ -8,7 +8,6 @@ import com.hongdaestudy.recipebackend.recipe.application.in.RegisterRecipeComman
 import com.hongdaestudy.recipebackend.recipe.application.in.RetrieveRecipeCommand;
 import com.hongdaestudy.recipebackend.recipe.application.out.RegisterRecipeCommandResult;
 import com.hongdaestudy.recipebackend.recipe.application.out.RetrieveRecipeCommandResult;
-import com.hongdaestudy.recipebackend.recipe.domain.RecipeRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,10 +28,10 @@ public class RecipeCommandController {
 
   @PostMapping("/recipes")
   public ResponseEntity<RegisterRecipeCommandResult> registerRecipe(
-      @RequestPart("mainPhotoFile") MultipartFile mainPhotoFile
-      , @RequestPart("completionPhotoFileList") MultipartFile[] completionPhotoFileList
-      , @RequestPart("stepPhotoFileList") MultipartFile[] stepPhotoFileList
-      , @RequestPart("recipe") RegisterRecipeCommand registerRecipeCommand) {
+          @RequestPart("mainPhotoFile") MultipartFile mainPhotoFile
+          , @RequestPart("completionPhotoFileList") MultipartFile[] completionPhotoFileList
+          , @RequestPart("stepPhotoFileList") MultipartFile[] stepPhotoFileList
+          , @RequestPart("recipe") RegisterRecipeCommand registerRecipeCommand) {
 
     try {
       registerRecipeCommand.setMainPhotoFileId(registerFileService.uploadFile(mainPhotoFile));
@@ -40,7 +39,7 @@ public class RecipeCommandController {
       List<Long> stepFileList = registerFileService.uploadFiles(stepPhotoFileList);
 
       IntStream.range(0, registerRecipeCommand.getRecipeSteps().size())
-          .forEach(index -> registerRecipeCommand.getRecipeSteps().get(index).setPhotoFileId(stepFileList.get(index)));
+              .forEach(index -> registerRecipeCommand.getRecipeSteps().get(index).setPhotoFileId(stepFileList.get(index)));
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -56,17 +55,23 @@ public class RecipeCommandController {
 
     return ResponseEntity.ok(result);
   }
+  @GetMapping("/recipes")
+  public ResponseEntity<List<RetrieveRecipeCommandResult>> retrieveRecipeList(@RequestBody RetrieveRecipeCommand retrieveRecipeCommand) {
 
-	// 삭제
-	@DeleteMapping("/recipe/{id}")
-	public Long deleteRecipe(@PathVariable final Long id) throws Exception {
-		return modifyRecipeService.deleteRecipe(id);
-	}
+    List<RetrieveRecipeCommandResult> result = retrieveRecipeService.retrieveRecipeList(retrieveRecipeCommand);
 
-	// 수정
-	// @RestControllerAdvice를 추가하는게 필요해 보인다.
-	@PatchMapping("/recipe/{id}")
-	public Long updateRecipe(@PathVariable Long id, @RequestBody RecipeRequestDto params) throws Exception {
-		return modifyRecipeService.updateRecipe(id, params);
-	}
+    return ResponseEntity.ok(result);
+  }
+  // 삭제
+  @DeleteMapping("/recipe/{id}")
+  public Long deleteRecipe(@PathVariable final Long id) throws Exception {
+    return modifyRecipeService.deleteRecipe(id);
+  }
+
+  // 수정
+  // @RestControllerAdvice를 추가하는게 필요해 보인다.
+  @PatchMapping("/recipe/{id}")
+  public Long updateRecipe(@PathVariable final Long id, @RequestBody final RegisterRecipeCommand params) throws Exception {
+    return modifyRecipeService.updateRecipe(id, params);
+  }
 }

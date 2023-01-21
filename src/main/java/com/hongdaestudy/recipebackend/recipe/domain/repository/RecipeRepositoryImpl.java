@@ -5,7 +5,6 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.hongdaestudy.recipebackend.recipe.domain.QRecipe.recipe;
@@ -25,6 +24,8 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 
     RetrieveRecipeCommandResult recipeEntity = queryFactory.select(Projections.constructor(RetrieveRecipeCommandResult.class
         , recipe.id
+        , recipe.createdAt
+        , recipe.updatedAt
         , recipe.memberId
         //, recipe.recipeSteps
         , recipe.title
@@ -33,11 +34,12 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         , recipe.information.servingCount
         , recipe.information.cookingTime
         , recipe.information.difficultyLevel
+        , recipe.mainPhotoFileId
         , recipe.completionPhotoFileId
         , recipe.tip
         //, recipe.recipeTags
         , recipe.status
-		, recipe.deleteAt
+        , recipe.deleteAt
     )).from(recipe).where(recipe.id.eq(recipeId)).fetchOne();
 
 
@@ -66,14 +68,4 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 
     return recipeEntity;
   }
-
-	@Override
-	public long deleteRecipe(long recipeId) {
-
-		return queryFactory.update(recipe)
-						   .set(recipe.deleteAt, 'Y')
-						   .set(recipe.updatedAt, LocalDateTime.now())
-				  		   .where(recipe.id.eq(recipeId))
-						   .execute();
-	}
 }

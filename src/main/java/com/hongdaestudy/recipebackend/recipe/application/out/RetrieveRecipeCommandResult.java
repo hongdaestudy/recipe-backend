@@ -8,6 +8,8 @@ import com.hongdaestudy.recipebackend.recipe.domain.RecipeStatus;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,18 +19,22 @@ import java.util.List;
 @Data
 public class RetrieveRecipeCommandResult {
   private Long id;
-  private Long memberId;
-  private List<RetrieveRecipeStepCommandResult> recipeSteps;
-  private String title;
-  private String description;
-  private String videoUrl;
-  private RetrieveRecipeInformationCommandResult information;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
   private Long completionPhotoFileId;
-  private String tip;
-  private List<RetrieveRecipeTagCommandResult> recipeTags;
+  private String description;
+  private RetrieveRecipeInformationCommandResult information;
+  private Long mainPhotoFileId;
+  private Long memberId;
   private RecipeStatus status;
-  private List<RetrieveIngredientGroupCommandResult> ingredientGroups;
+  private String tip;
+  private String title;
+  private String videoUrl;
   private char deleteAt;
+
+  private List<RetrieveRecipeStepCommandResult> recipeSteps;
+  private List<RetrieveRecipeTagCommandResult> recipeTags;
+  private List<RetrieveIngredientGroupCommandResult> ingredientGroups;
 
   public void addRecipeStep(RetrieveRecipeStepCommandResult recipeStep) {
     this.recipeSteps.add(recipeStep);
@@ -85,35 +91,40 @@ public class RetrieveRecipeCommandResult {
 
   @QueryProjection
   public RetrieveRecipeCommandResult(
-      Long id,
-      Long memberId,
-      //List<RetrieveRecipeStepCommandResult> recipeSteps,
-      String title,
-      String description,
-      String videoUrl,
-      RecipeServingCount servingCount,
-      RecipeCookingTime cookingTime,
-      RecipeDifficultyLevel difficultyLevel,
-
-      Long completionPhotoFileId,
-      String tip,
-      //List<RetrieveRecipeTagCommandResult> recipeTags,
-      RecipeStatus status,
-	  char deleteAt) {
+          Long id,
+          LocalDateTime createdAt,
+          LocalDateTime updatedAt,
+          Long memberId,
+          //List<RetrieveRecipeStepCommandResult> recipeSteps,
+          String title,
+          String description,
+          String videoUrl,
+          RecipeServingCount servingCount,
+          RecipeCookingTime cookingTime,
+          RecipeDifficultyLevel difficultyLevel,
+          Long mainPhotoFileId,
+          Long completionPhotoFileId,
+          String tip,
+          //List<RetrieveRecipeTagCommandResult> recipeTags,
+          RecipeStatus status,
+          char deleteAt) {
 
     this.id = id;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
     this.memberId = memberId;
     this.title = title;
     this.description = description;
     this.videoUrl = videoUrl;
     this.information = RetrieveRecipeInformationCommandResult.create(servingCount, cookingTime, difficultyLevel);
+    this.mainPhotoFileId = mainPhotoFileId;
     this.completionPhotoFileId = completionPhotoFileId;
     this.tip = tip;
     this.status = status;
+    this.deleteAt = deleteAt;
 
     this.recipeSteps = new ArrayList<>();
     this.recipeTags = new ArrayList<>();
     this.ingredientGroups = new ArrayList<>();
-	this.deleteAt = deleteAt;
   }
 }

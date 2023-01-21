@@ -22,37 +22,38 @@ public class Recipe extends BaseTimeEntity {
   @Column(name = "recipe_id")
   private Long id;
 
-  // TODO jaesay: member 엔티티 생성되면 수정
-  private Long memberId;
-
-  @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-  @ToString.Exclude
-  private List<RecipeStep> recipeSteps = new ArrayList<>();
-
-  private String title;
+  private Long completionPhotoFileId;
 
   private String description;
 
-  private String videoUrl;
-
   @Embedded
   private RecipeInformation information;
-  
+
   private Long mainPhotoFileId;
-  private Long completionPhotoFileId;
 
-  private String tip;
-
-  @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-  @ToString.Exclude
-  private List<RecipeTag> recipeTags = new ArrayList<>();
+  // TODO jaesay: member 엔티티 생성되면 수정
+  private Long memberId;
 
   @Enumerated(EnumType.STRING)
   private RecipeStatus status;
 
+  private String tip;
+
+  private String title;
+
+  private String videoUrl;
+
   private char deleteAt;
 
-  private LocalDateTime updatedAt;
+  // table: recipe_tag
+  @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+  @ToString.Exclude
+  private List<RecipeTag> recipeTags = new ArrayList<>();
+
+  // table: recipe_step
+  @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+  @ToString.Exclude
+  private List<RecipeStep> recipeSteps = new ArrayList<>();
 
   @Override
   public boolean equals(Object o) {
@@ -78,48 +79,51 @@ public class Recipe extends BaseTimeEntity {
   }
 
   public static Recipe create(
-      Long memberId,
-      String title,
-      String description,
-      String videoUrl,
-      RecipeInformation information,
-      Long mainPhotoFileId,
-      Long completionPhotoFileId,
-      String tip,
-      List<RecipeStep> recipeSteps,
-      List<RecipeTag> recipeTags,
-      RecipeStatus status,
-	  char deleteAt) {
+          Long completionPhotoFileId,
+          String description,
+          RecipeInformation information,
+          Long mainPhotoFileId,
+          Long memberId,
+          RecipeStatus status,
+          String tip,
+          String title,
+          String videoUrl,
+          List<RecipeStep> recipeSteps,
+          List<RecipeTag> recipeTags,
+          char deleteAt
+  ) {
 
     Recipe recipe = new Recipe();
-    recipe.memberId = memberId;
-    recipe.title = title;
+    recipe.completionPhotoFileId = completionPhotoFileId;
     recipe.description = description;
-    recipe.videoUrl = videoUrl;
     recipe.information = information;
     recipe.mainPhotoFileId = mainPhotoFileId;
-    recipe.completionPhotoFileId = completionPhotoFileId;
-    recipe.tip = tip;
+    recipe.memberId = memberId;
     recipe.status = status;
-	recipe.deleteAt = deleteAt;
+    recipe.tip = tip;
+    recipe.title = title;
+    recipe.videoUrl = videoUrl;
+    recipe.deleteAt = deleteAt;
 
     recipeSteps.forEach(recipe::addRecipeStep);
     recipeTags.forEach(recipe::addRecipeTag);
 
     return recipe;
   }
-	@Builder
-	public void updateRecipeInfo(String title, String description, String videoUrl, Long completionPhotoFileId, String tip, char deleteAt) {
-		this.title = title;
-		this.description = description;
-		this.videoUrl = videoUrl;
-		this.completionPhotoFileId = completionPhotoFileId;
-		this.tip = tip;
-		this.deleteAt = deleteAt;
-		this.updatedAt = LocalDateTime.now();
-	}
 
-	public void delete() {
-		this.deleteAt = 'Y';
-	}
+  public void delete() {
+    this.deleteAt = 'Y';
+  }
+
+  @Builder
+  public void updateRecipeInfo(Long completionPhotoFileId, String description, Long mainPhotoFileId, RecipeStatus status,
+                               String tip, String title, String videoUrl) {
+    this.completionPhotoFileId = completionPhotoFileId;
+    this.description = description;
+    this.mainPhotoFileId = mainPhotoFileId;
+    this.status = status;
+    this.tip = tip;
+    this.title = title;
+    this.videoUrl = videoUrl;
+  }
 }

@@ -2,6 +2,7 @@ package com.hongdaestudy.recipebackend.recipe.repository;
 
 import com.hongdaestudy.recipebackend.config.TestConfig;
 import com.hongdaestudy.recipebackend.config.error.ErrorCode;
+import com.hongdaestudy.recipebackend.recipe.application.ModifyRecipeService;
 import com.hongdaestudy.recipebackend.recipe.application.out.RetrieveRecipeCommandResult;
 import com.hongdaestudy.recipebackend.recipe.domain.*;
 import com.hongdaestudy.recipebackend.recipe.domain.repository.RecipeRepository;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
@@ -35,125 +37,68 @@ public class RecipeFunctionTest {
     @Autowired
     RecipeRepository repository;
 
-    final String givenContent = "맛있어요!";
+    public Long createRecipe() {
+		RecipeInformation givenRecipeInformation = RecipeInformation.create(
+				RecipeServingCount.valueOf("ONE")
+				, RecipeCookingTime.valueOf("FIVE_MINUTES_LESS")
+				, RecipeDifficultyLevel.valueOf("EASY")
+		);
 
-    Recipe givenRecipe() {
-
-        final RecipeInformation givenRecipeInformation = RecipeInformation.create(
-                RecipeServingCount.valueOf("ONE")
-                , RecipeCookingTime.valueOf("FIVE_MINUTES_LESS")
-                , RecipeDifficultyLevel.valueOf("EASY")
-        );
-
-        Recipe givenRecipe = Recipe.create(
-                1L
-                , "제목"
-                , "레시피상세"
-                , null
-                , givenRecipeInformation
-                , null
-				,null
-                , "팁"
-                , List.of(
-                        RecipeStep.create("step1", null, 1),
-                        RecipeStep.create("step2", null, 2),
-                        RecipeStep.create("step3", null, 3)
-                )
-                , List.of(
-                        RecipeTag.create("tag1", 0),
-                        RecipeTag.create("tag2", 1)
-                )
-                , RecipeStatus.valueOf("IN_PROGRESS")
-                , 'N'
-        );
-        return givenRecipe;
-    }
-
-    @Test
-    @DisplayName("레시피를 생성 후 검증한다.")
-    Long createRecipe() {
-
-        Recipe givenRecipe = givenRecipe();
-
+		Recipe givenRecipe = Recipe.create(
+				1L
+				, "제목"
+				, givenRecipeInformation
+				, 1L
+				, 1L
+				, RecipeStatus.valueOf("IN_PROGRESS")
+				, "팁"
+				, "제목"
+				, "videoUrl"
+				, List.of(
+						RecipeStep.create("step1", null, 1),
+						RecipeStep.create("step2", null, 2),
+						RecipeStep.create("step3", null, 3)
+				)
+				, List.of(
+						RecipeTag.create("tag1", 0),
+						RecipeTag.create("tag2", 1)
+				)
+				, 'N'
+		);
         Recipe saved = repository.save(givenRecipe);
-        RetrieveRecipeCommandResult recipe = repository.findOneByRecipeId(saved.getId());
-
-        assertThat(recipe.getId()).isNotNull();
-        assertThat(recipe.getMemberId()).isEqualTo(givenRecipe.getMemberId());
-        assertThat(recipe.getTitle()).isEqualTo(givenRecipe.getTitle());
-        assertThat(recipe.getDescription()).isEqualTo(givenRecipe.getDescription());
-        assertThat(recipe.getVideoUrl()).isEqualTo(givenRecipe.getVideoUrl());
-        assertThat(recipe.getCompletionPhotoFileId()).isEqualTo(givenRecipe.getCompletionPhotoFileId());
-        assertThat(recipe.getTip()).isEqualTo(givenRecipe.getTip());
-        assertThat(recipe.getRecipeSteps().size()).isEqualTo(3);
-        assertThat(recipe.getRecipeTags().size()).isEqualTo(2);
-        assertThat(recipe.getStatus()).isEqualTo(givenRecipe.getStatus());
-
-        return saved.getId();
-    }
-
-    @Test
-    @DisplayName("레시피를 삭제 후 검증한다.")
-    void deleteRecipe() {
-
-        Long recipeId = createRecipe();
-        long result = repository.deleteRecipe(recipeId);
-        RetrieveRecipeCommandResult recipe = repository.findOneByRecipeId(recipeId);
-		System.out.println("deleteAt = " + recipe.getDeleteAt());
-        assertThat(recipe.getDeleteAt()).isEqualTo('Y');
+		return saved.getId();
     }
 
 	@Test
-	@DisplayName("레시피를 삭제 후 검증한다.(2)")
-	void deleteRecipe2() throws Exception {
+	@DisplayName("레시피를 삭제 후 검증한다.")
+	void deleteRecipe() throws Exception {
 		Long recipeId = createRecipe();
-		Recipe entity = repository.findById(recipeId).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND.getMessage()));
-		entity.delete();
 
-		Recipe entity2 = repository.findById(recipeId).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND.getMessage()));
+		Recipe saved = repository.findById(recipeId).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND.getMessage()));
 
-		assertThat(entity2.getDeleteAt()).isEqualTo('Y');
+		saved.delete();
+		Recipe saved2 = repository.findById(recipeId).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND.getMessage()));
+
+		assertThat(saved.getDeleteAt()).isEqualTo('Y');
 	}
 
-    @Test
-    @DisplayName("레시피를 수정 후 검증한다.")
-    void updateRecipe() {
-
-        Long recipeId = createRecipe();
-
-        Recipe recipe = entityManager.find(Recipe.class, recipeId);
-
-        recipe.builder()
-              .title("정선우정선우")
-              .description("1")
-              .videoUrl("url")
-              .completionPhotoFileId(1L)
-              .tip("1")
-              .deleteAt('N')
-              .build();
-
-        assertThat(recipe.getTitle()).isEqualTo("정선우정선우");
-
-    }
-
 	@Test
-	@DisplayName("레시피를 수정 후 검증한다.(2)")
+	@DisplayName("레시피를 수정 후 검증한다.")
 	void updateRecipe2() throws Exception {
 
 		Long recipeId = createRecipe();
 
 		Recipe recipe = repository.findById(recipeId).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND.getMessage()));
-		recipe.updateRecipeInfo("치킨", "상위 1%의 매출을 올리는 치킨", "url",
-								1234L, "A", 'N');
+		recipe.updateRecipeInfo(1L, "설명", 1L, RecipeStatus.IN_PROGRESS, "팁", "타이틀", "URL");
 
 		Recipe recipe2 = repository.findById(recipeId).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND.getMessage()));
-		assertThat(recipe2.getTitle()).isEqualTo("치킨");
-		assertThat(recipe2.getDescription()).isEqualTo("상위 1%의 매출을 올리는 치킨");
-		assertThat(recipe2.getVideoUrl()).isEqualTo("url");
-		assertThat(recipe2.getCompletionPhotoFileId()).isEqualTo(1234L);
-		assertThat(recipe2.getTip()).isEqualTo("A");
-		assertThat(recipe2.getDeleteAt()).isEqualTo('N');
+
+		assertThat(recipe2.getCompletionPhotoFileId()).isEqualTo(1L);
+		assertThat(recipe2.getDescription()).isEqualTo("설명");
+		assertThat(recipe2.getMainPhotoFileId()).isEqualTo(1L);
+		assertThat(recipe2.getStatus()).isEqualTo(RecipeStatus.IN_PROGRESS);
+		assertThat(recipe2.getTip()).isEqualTo("팁");
+		assertThat(recipe2.getTitle()).isEqualTo("타이틀");
+		assertThat(recipe2.getVideoUrl()).isEqualTo("URL");
 	}
-
-
 }

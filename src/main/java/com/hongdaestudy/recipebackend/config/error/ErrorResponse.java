@@ -19,6 +19,12 @@ public class ErrorResponse {
         this.timestamp = LocalDateTime.now().toString();
     }
 
+    public ErrorResponse(ErrorCode errorCode) {
+        this.message = errorCode.getMessage();
+        this.code = errorCode.getCode();
+        this.timestamp = LocalDateTime.now().toString();
+    }
+
     public static ErrorResponse of(ErrorCode errorCode) {
         return new ErrorResponse(errorCode.getMessage(), errorCode.getCode());
     }

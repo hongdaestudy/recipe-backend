@@ -64,14 +64,13 @@ public class RecipeCommandController {
   }
   // 삭제
   @DeleteMapping("/recipe/{id}")
-  public Long deleteRecipe(@PathVariable final Long id) throws Exception {
-    return modifyRecipeService.deleteRecipe(id);
+  public ResponseEntity<Long> deleteRecipe(@PathVariable final Long id){
+    return ResponseEntity.ok(modifyRecipeService.deleteRecipe(id));
   }
 
   // 수정
-  // @RestControllerAdvice를 추가하는게 필요해 보인다.
   @PatchMapping("/recipe/{id}")
-  public Long updateRecipe(@PathVariable final Long id, @RequestBody final RegisterRecipeCommand params) throws Exception {
-    return modifyRecipeService.updateRecipe(id, params);
+  public ResponseEntity<Long> updateRecipe(@PathVariable final Long id, @RequestBody final RegisterRecipeCommand params) {
+    return ResponseEntity.ok(modifyRecipeService.updateRecipe(id, params));
   }
 }

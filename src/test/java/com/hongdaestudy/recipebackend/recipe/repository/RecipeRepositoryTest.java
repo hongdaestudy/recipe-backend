@@ -46,27 +46,27 @@ class RecipeRepositoryTest {
           , RecipeCookingTime.valueOf("FIVE_MINUTES_LESS")
           , RecipeDifficultyLevel.valueOf("EASY")
       );
-      Recipe givenRecipe = Recipe.create(
-              1L
-              , "제목"
-              , givenRecipeInformation
-              , 1L
-              , 1L
-              , RecipeStatus.valueOf("IN_PROGRESS")
-              , "팁"
-              , "제목"
-              , "videoUrl"
-              , List.of(
-                      RecipeStep.create("step1", null, 1),
-                      RecipeStep.create("step2", null, 2),
-                      RecipeStep.create("step3", null, 3)
-              )
-              , List.of(
-                      RecipeTag.create("tag1", 0),
-                      RecipeTag.create("tag2", 1)
-              )
-              , 'N'
-      );
+    Recipe givenRecipe = Recipe.create(
+                  1L
+                  , "제목"
+                  , givenRecipeInformation
+                  , 1L
+                  , 1L
+                  , RecipeStatus.valueOf("IN_PROGRESS")
+                  , "팁"
+                  , "제목"
+                  , "videoUrl"
+                  , List.of(
+                          RecipeStep.create("step1", null, 1),
+                          RecipeStep.create("step2", null, 2),
+                          RecipeStep.create("step3", null, 3)
+                  )
+                  , List.of(
+                          RecipeTag.create("tag1", 0),
+                          RecipeTag.create("tag2", 1)
+                  )
+                  , 'N'
+          );
 
       @Test
       @DisplayName("주어진 객체를 저장하고, 저장된 객체를 리턴한다")

@@ -53,16 +53,17 @@ public class RegisterRecipeService {
         registerRecipeCommand.getInformation().getDifficultyLevel());
 
     return Recipe.create(
-        registerRecipeCommand.getMemberId(),
-        registerRecipeCommand.getTitle(),
+        registerRecipeCommand.getCompletionPhotoFileId().get(0), //TODO 다중파일 데이터.. 파일 테이블 구조 변경?
         registerRecipeCommand.getDescription(),
-        registerRecipeCommand.getVideoUrl(),
         recipeInformation,
         registerRecipeCommand.getMainPhotoFileId(),
-        registerRecipeCommand.getCompletionPhotoFileId().get(0), //TODO 다중파일 데이터.. 파일 테이블 구조 변경?
+        registerRecipeCommand.getMemberId(),
+        registerRecipeCommand.getStatus(),
         registerRecipeCommand.getTip(),
+        registerRecipeCommand.getTitle(),
+        registerRecipeCommand.getVideoUrl(),
         recipeSteps,
         recipeTags,
-        registerRecipeCommand.getStatus());
+        'N');
   }
 }

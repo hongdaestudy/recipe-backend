@@ -33,7 +33,10 @@ public class RetrieveRecipeService {
   @Transactional
   public List<RetrieveRecipeCommandResult> retrieveRecipeList(RetrieveRecipeCommand retrieveRecipeCommand) {
 
-    List<RetrieveRecipeCommandResult> recipeList = recipeRepository.findAll().stream().map(recipe -> new RetrieveRecipeCommandResult(recipe.getId()
+    List<RetrieveRecipeCommandResult> recipeList = recipeRepository.findAll().stream().map(recipe -> new RetrieveRecipeCommandResult(
+          recipe.getId()
+        , recipe.getCreatedAt()
+        , recipe.getUpdatedAt()
         , recipe.getMemberId()
         //, recipe.recipeSteps
         , recipe.getTitle()
@@ -46,7 +49,8 @@ public class RetrieveRecipeService {
         , recipe.getCompletionPhotoFileId()
         , recipe.getTip()
         //, recipe.recipeTags
-        , recipe.getStatus())).collect(Collectors.toList());
+        , recipe.getStatus()
+        , recipe.getDeleteAt())).collect(Collectors.toList());
 
     return recipeList;
   }

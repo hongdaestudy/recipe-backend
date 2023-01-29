@@ -8,6 +8,7 @@ import com.hongdaestudy.recipebackend.recipe.domain.RecipeStatus;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,17 +18,21 @@ import java.util.List;
 @Data
 public class RetrieveRecipeCommandResult {
   private Long id;
-  private Long memberId;
-  private List<RetrieveRecipeStepCommandResult> recipeSteps;
-  private String title;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
+  private Long completionPhotoFileId;
   private String description;
-  private String videoUrl;
   private RetrieveRecipeInformationCommandResult information;
   private Long mainPhotoFileId;
-  private Long completionPhotoFileId;
-  private String tip;
-  private List<RetrieveRecipeTagCommandResult> recipeTags;
+  private Long memberId;
   private RecipeStatus status;
+  private String tip;
+  private String title;
+  private String videoUrl;
+  private char deleteAt;
+
+  private List<RetrieveRecipeStepCommandResult> recipeSteps;
+  private List<RetrieveRecipeTagCommandResult> recipeTags;
   private List<RetrieveIngredientGroupCommandResult> ingredientGroups;
 
   public void addRecipeStep(RetrieveRecipeStepCommandResult recipeStep) {
@@ -85,22 +90,27 @@ public class RetrieveRecipeCommandResult {
 
   @QueryProjection
   public RetrieveRecipeCommandResult(
-      Long id,
-      Long memberId,
-      //List<RetrieveRecipeStepCommandResult> recipeSteps,
-      String title,
-      String description,
-      String videoUrl,
-      RecipeServingCount servingCount,
-      RecipeCookingTime cookingTime,
-      RecipeDifficultyLevel difficultyLevel,
-      Long mainPhotoFileId,
-      Long completionPhotoFileId,
-      String tip,
-      //List<RetrieveRecipeTagCommandResult> recipeTags,
-      RecipeStatus status) {
+          Long id,
+          LocalDateTime createdAt,
+          LocalDateTime updatedAt,
+          Long memberId,
+          //List<RetrieveRecipeStepCommandResult> recipeSteps,
+          String title,
+          String description,
+          String videoUrl,
+          RecipeServingCount servingCount,
+          RecipeCookingTime cookingTime,
+          RecipeDifficultyLevel difficultyLevel,
+          Long mainPhotoFileId,
+          Long completionPhotoFileId,
+          String tip,
+          //List<RetrieveRecipeTagCommandResult> recipeTags,
+          RecipeStatus status,
+          char deleteAt) {
 
     this.id = id;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
     this.memberId = memberId;
     this.title = title;
     this.description = description;
@@ -110,6 +120,7 @@ public class RetrieveRecipeCommandResult {
     this.completionPhotoFileId = completionPhotoFileId;
     this.tip = tip;
     this.status = status;
+    this.deleteAt = deleteAt;
 
     this.recipeSteps = new ArrayList<>();
     this.recipeTags = new ArrayList<>();

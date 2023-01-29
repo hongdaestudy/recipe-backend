@@ -1,6 +1,7 @@
 package com.hongdaestudy.recipebackend.recipe.presentation;
 
 import com.hongdaestudy.recipebackend.file.application.RegisterFileService;
+import com.hongdaestudy.recipebackend.recipe.application.ModifyRecipeService;
 import com.hongdaestudy.recipebackend.recipe.application.RegisterRecipeService;
 import com.hongdaestudy.recipebackend.recipe.application.RetrieveRecipeService;
 import com.hongdaestudy.recipebackend.recipe.application.in.RegisterRecipeCommand;
@@ -23,13 +24,14 @@ public class RecipeCommandController {
   private final RetrieveRecipeService retrieveRecipeService;
 
   private final RegisterFileService registerFileService;
+  private final ModifyRecipeService modifyRecipeService;
 
   @PostMapping("/recipes")
   public ResponseEntity<RegisterRecipeCommandResult> registerRecipe(
-      @RequestPart("mainPhotoFile") MultipartFile mainPhotoFile
-      , @RequestPart("completionPhotoFileList") MultipartFile[] completionPhotoFileList
-      , @RequestPart("stepPhotoFileList") MultipartFile[] stepPhotoFileList
-      , @RequestPart("recipe") RegisterRecipeCommand registerRecipeCommand) {
+          @RequestPart("mainPhotoFile") MultipartFile mainPhotoFile
+          , @RequestPart("completionPhotoFileList") MultipartFile[] completionPhotoFileList
+          , @RequestPart("stepPhotoFileList") MultipartFile[] stepPhotoFileList
+          , @RequestPart("recipe") RegisterRecipeCommand registerRecipeCommand) {
 
     try {
       registerRecipeCommand.setMainPhotoFileId(registerFileService.uploadFile(mainPhotoFile));
@@ -37,7 +39,7 @@ public class RecipeCommandController {
       List<Long> stepFileList = registerFileService.uploadFiles(stepPhotoFileList);
 
       IntStream.range(0, registerRecipeCommand.getRecipeSteps().size())
-          .forEach(index -> registerRecipeCommand.getRecipeSteps().get(index).setPhotoFileId(stepFileList.get(index)));
+              .forEach(index -> registerRecipeCommand.getRecipeSteps().get(index).setPhotoFileId(stepFileList.get(index)));
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -59,5 +61,16 @@ public class RecipeCommandController {
     List<RetrieveRecipeCommandResult> result = retrieveRecipeService.retrieveRecipeList(retrieveRecipeCommand);
 
     return ResponseEntity.ok(result);
+  }
+  // 삭제
+  @DeleteMapping("/recipe/{id}")
+  public ResponseEntity<Long> deleteRecipe(@PathVariable final Long id){
+    return ResponseEntity.ok(modifyRecipeService.deleteRecipe(id));
+  }
+
+  // 수정
+  @PatchMapping("/recipe/{id}")
+  public ResponseEntity<Long> updateRecipe(@PathVariable final Long id, @RequestBody final RegisterRecipeCommand params) {
+    return ResponseEntity.ok(modifyRecipeService.updateRecipe(id, params));
   }
 }

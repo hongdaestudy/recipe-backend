@@ -24,6 +24,8 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 
     RetrieveRecipeCommandResult recipeEntity = queryFactory.select(Projections.constructor(RetrieveRecipeCommandResult.class
         , recipe.id
+        , recipe.createdAt
+        , recipe.updatedAt
         , recipe.memberId
         //, recipe.recipeSteps
         , recipe.title
@@ -37,6 +39,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         , recipe.tip
         //, recipe.recipeTags
         , recipe.status
+        , recipe.deleteAt
     )).from(recipe).where(recipe.id.eq(recipeId)).fetchOne();
 
 

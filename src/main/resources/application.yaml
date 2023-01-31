@@ -35,6 +35,10 @@ spring:
           connectiontimeout: 5000
           timeout: 3000
           writetimeout: 5000
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 10MB
 
 logging.level:
   org.hibernate.SQL: debug
@@ -54,6 +58,9 @@ server:
   tomcat:
     uri-encoding: UTF-8
 
+file:
+  upload:
+    location: /upload # 로컬 실행시 변경
 ---
 
 spring:

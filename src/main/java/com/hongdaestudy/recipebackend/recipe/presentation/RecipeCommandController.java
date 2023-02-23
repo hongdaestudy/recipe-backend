@@ -24,6 +24,7 @@ public class RecipeCommandController {
   private final RegisterFileService registerFileService;
   private final ModifyRecipeService modifyRecipeService;
 
+  // 레시피 등록
   @PostMapping("/recipes")
   public ResponseEntity<RegisterRecipeCommandResult> registerRecipe(@RequestBody RegisterRecipeCommand registerRecipeCommand) {
 
@@ -31,6 +32,7 @@ public class RecipeCommandController {
     return ResponseEntity.ok(result);
   }
 
+  // 레시피 조회
   @GetMapping("/recipe")
   public ResponseEntity<RetrieveRecipeCommandResult> retrieveRecipe(@RequestBody RetrieveRecipeCommand retrieveRecipeCommand) {
 
@@ -39,23 +41,24 @@ public class RecipeCommandController {
     return ResponseEntity.ok(result);
   }
 
+  // 레시피 리스트 조회
   @GetMapping("/recipes")
-  public ResponseEntity<List<RetrieveRecipeCommandResult>> retrieveRecipeList(@RequestBody RetrieveRecipeCommand retrieveRecipeCommand) {
+  public ResponseEntity<List<RetrieveRecipeCommandResult>> retrieveRecipeList() {
 
-    List<RetrieveRecipeCommandResult> result = retrieveRecipeService.retrieveRecipeList(retrieveRecipeCommand);
+    List<RetrieveRecipeCommandResult> result = retrieveRecipeService.retrieveRecipeList('N');
 
     return ResponseEntity.ok(result);
   }
 
-  // 삭제
-  @DeleteMapping("/recipe/{id}")
-  public ResponseEntity<Long> deleteRecipe(@PathVariable final Long id) {
-    return ResponseEntity.ok(modifyRecipeService.deleteRecipe(id));
+  // 레시피 삭제
+  @DeleteMapping("/recipe")
+  public ResponseEntity<Long> deleteRecipe(@RequestBody RetrieveRecipeCommand retrieveRecipeCommand) {
+    return ResponseEntity.ok(modifyRecipeService.deleteRecipe(retrieveRecipeCommand.getRecipeId()));
   }
 
-  // 수정
-  @PatchMapping("/recipe/{id}")
-  public ResponseEntity<Long> updateRecipe(@PathVariable final Long id, @RequestBody final RegisterRecipeCommand params) {
-    return ResponseEntity.ok(modifyRecipeService.updateRecipe(id, params));
+  // 레시피 수정
+  @PatchMapping("/recipe")
+  public ResponseEntity<Long> updateRecipe(@RequestBody RegisterRecipeCommand registerRecipeCommand) {
+    return ResponseEntity.ok(modifyRecipeService.updateRecipe(registerRecipeCommand));
   }
 }

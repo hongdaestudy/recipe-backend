@@ -1,11 +1,11 @@
 package com.hongdaestudy.recipebackend.recipe.domain;
 
 import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
+import com.hongdaestudy.recipebackend.recipe.application.in.RegisterRecipeCommand;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -115,15 +115,21 @@ public class Recipe extends BaseTimeEntity {
     this.deleteAt = 'Y';
   }
 
+  // 연관관계에 있는 recipe step, tag 수정은 어떻게..?
   @Builder
-  public void updateRecipeInfo(Long completionPhotoFileId, String description, Long mainPhotoFileId, RecipeStatus status,
-                               String tip, String title, String videoUrl) {
-    this.completionPhotoFileId = completionPhotoFileId;
-    this.description = description;
-    this.mainPhotoFileId = mainPhotoFileId;
-    this.status = status;
-    this.tip = tip;
-    this.title = title;
-    this.videoUrl = videoUrl;
+  public void updateRecipeInfo(RegisterRecipeCommand params) {
+    if (params.getTempCompletionPhotoFileId() != null) this.completionPhotoFileId = params.getTempCompletionPhotoFileId();
+    if (params.getDescription() != null) this.description = params.getDescription();
+    if (params.getMainPhotoFileId() != null) this.mainPhotoFileId = params.getMainPhotoFileId();
+    if (params.getStatus() != null) this.status = params.getStatus();
+    if (params.getTip() != null) this.tip = params.getTip();
+    if (params.getTitle() != null) this.title = params.getTitle();
+    if (params.getVideoUrl() != null) this.videoUrl = params.getVideoUrl();
+    if (params.getRecipeTags() != null) {
+
+    }
+    if (params.getRecipeSteps() != null) {
+
+    }
   }
 }

@@ -23,6 +23,8 @@ public class RegisterRecipeCommand {
   private List<RegisterRecipeTagCommand> recipeTags;
   private RecipeStatus status;
   private List<RegisterIngredientGroupCommand> ingredientGroups;
+  private Long recipeId;
+  private Long TempCompletionPhotoFileId;
 
   @Data
   public static class RegisterRecipeStepCommand {

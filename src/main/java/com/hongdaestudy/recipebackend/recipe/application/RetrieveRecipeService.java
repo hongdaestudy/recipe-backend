@@ -31,9 +31,9 @@ public class RetrieveRecipeService {
   }
 
   @Transactional
-  public List<RetrieveRecipeCommandResult> retrieveRecipeList(RetrieveRecipeCommand retrieveRecipeCommand) {
+  public List<RetrieveRecipeCommandResult> retrieveRecipeList(char deleteAt) {
 
-    List<RetrieveRecipeCommandResult> recipeList = recipeRepository.findAll().stream().map(recipe -> new RetrieveRecipeCommandResult(
+    List<RetrieveRecipeCommandResult> recipeList = recipeRepository.findByDeleteAt(deleteAt).stream().map(recipe -> new RetrieveRecipeCommandResult(
           recipe.getId()
         , recipe.getCreatedAt()
         , recipe.getUpdatedAt()

@@ -11,7 +11,6 @@ plugins {
     id 'org.springframework.boot' version '2.7.3'
     id 'io.spring.dependency-management' version '1.0.13.RELEASE'
     id 'java'
-    id 'war'
 }
 
 group = 'com.hongdaestudy'
@@ -35,29 +34,25 @@ dependencies {
     // spring
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-//    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.3'
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
     // querydsl
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-    implementation 'com.querydsl:querydsl-jpa'
+    implementation "com.querydsl:querydsl-core:${queryDslVersion}"
     implementation 'com.querydsl:querydsl-apt'
+    implementation 'com.google.guava:guava:31.1-jre'
 
     // jwt
     compileOnly 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5', 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
+    runtimeOnly 'mysql:mysql-connector-java'
     compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'
-
-    runtimeOnly 'mysql:mysql-connector-java' // MYSQL
-    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'  //MariaDB
-    runtimeOnly 'com.h2database:h2' // H2
-    runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc' // MSSQL
-    runtimeOnly 'org.postgresql:postgresql' // PostgreSQL
 
     implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
 

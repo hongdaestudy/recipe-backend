@@ -40,11 +40,12 @@ dependencies {
 //    implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.3'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
     // querydsl
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-    implementation 'com.querydsl:querydsl-jpa'
+    implementation "com.querydsl:querydsl-core:${queryDslVersion}"
     implementation 'com.querydsl:querydsl-apt'
+    implementation 'com.google.guava:guava:31.1-jre'
 
     // jwt
     compileOnly 'io.jsonwebtoken:jjwt-api:0.11.5'

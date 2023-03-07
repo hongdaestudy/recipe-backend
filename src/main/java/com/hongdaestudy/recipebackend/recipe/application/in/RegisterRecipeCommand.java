@@ -18,7 +18,7 @@ public class RegisterRecipeCommand {
   private String videoUrl;
   private RegisterRecipeInformationCommand information;
   private Long mainPhotoFileId;
-  private List<Long> completionPhotoFileId; //TODO 추후 변경
+  private Long completionPhotoFileId; //TODO 추후 변경
   private String tip;
   private List<RegisterRecipeTagCommand> recipeTags;
   private RecipeStatus status;

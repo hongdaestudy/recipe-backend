@@ -11,6 +11,14 @@
         "difficultyLevel" : {"type" : "keyword"}
       }
     },
+    "category" : {
+      "properties" : {
+        "kind" : {"type" : "keyword"},
+        "situation" : {"type" : "keyword"},
+        "method" : {"type" : "keyword"},
+        "ingredient" : {"type" : "keyword"}
+      }
+    },
     "tags" : {
       "type" : "text",
       "fields" : {

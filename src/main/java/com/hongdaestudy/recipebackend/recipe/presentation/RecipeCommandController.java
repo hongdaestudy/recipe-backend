@@ -24,7 +24,7 @@ public class RecipeCommandController {
   private final RegisterFileService registerFileService;
   private final ModifyRecipeService modifyRecipeService;
 
-  @PostMapping("/recipes")
+  @PostMapping("/recipe")
   public ResponseEntity<RegisterRecipeCommandResult> registerRecipe(@RequestBody RegisterRecipeCommand registerRecipeCommand) {
 
     RegisterRecipeCommandResult result = registerRecipeService.registerRecipe(registerRecipeCommand);

@@ -30,7 +30,17 @@ public class RecipeIndex {
 
     @Field(type = FieldType.Text)
     private String title;
+    @Field(type = FieldType.Keyword)
+    private String kind;
 
+    @Field(type = FieldType.Keyword)
+    private String situation;
+
+    @Field(type = FieldType.Keyword)
+    private String method;
+
+    @Field(type = FieldType.Keyword)
+    private String ingredient;
     @Field(type = FieldType.Keyword)
     private String servingCount;
 
@@ -55,6 +65,11 @@ public class RecipeIndex {
         recipeIndex.memberId = recipe.getMemberId();
         recipeIndex.tip = recipe.getTip();
         recipeIndex.title = recipe.getTitle();
+
+        recipeIndex.kind = String.valueOf(recipe.getCategory().getKind());
+        recipeIndex.situation = String.valueOf(recipe.getCategory().getSituation());
+        recipeIndex.method = String.valueOf(recipe.getCategory().getMethod());
+        recipeIndex.ingredient = String.valueOf(recipe.getCategory().getIngredient());
 
         recipeIndex.servingCount = String.valueOf(recipe.getInformation().getServingCount());
         recipeIndex.cookingTime = String.valueOf(recipe.getInformation().getCookingTime());

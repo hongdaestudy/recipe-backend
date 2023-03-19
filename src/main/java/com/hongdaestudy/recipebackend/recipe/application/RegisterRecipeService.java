@@ -49,6 +49,12 @@ public class RegisterRecipeService {
             recipeTagCommand.getSort()))
         .collect(Collectors.toList());
 
+    RecipeCategory recipeCategory = RecipeCategory.create(
+            registerRecipeCommand.getCategory().getKind(),
+            registerRecipeCommand.getCategory().getSituation(),
+            registerRecipeCommand.getCategory().getMethod(),
+            registerRecipeCommand.getCategory().getIngredient());
+
     RecipeInformation recipeInformation = RecipeInformation.create(
         registerRecipeCommand.getInformation().getServingCount(),
         registerRecipeCommand.getInformation().getCookingTime(),
@@ -57,6 +63,7 @@ public class RegisterRecipeService {
     return Recipe.create(
         registerRecipeCommand.getCompletionPhotoFileId(), //TODO 다중파일 데이터.. 파일 테이블 구조 변경?
         registerRecipeCommand.getDescription(),
+        recipeCategory,
         recipeInformation,
         registerRecipeCommand.getMainPhotoFileId(),
         registerRecipeCommand.getMemberId(),

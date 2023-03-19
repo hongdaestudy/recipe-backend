@@ -5,7 +5,6 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +25,8 @@ public class Recipe extends BaseTimeEntity {
 
   private String description;
 
+  @Embedded
+  private RecipeCategory category;
   @Embedded
   private RecipeInformation information;
 
@@ -81,6 +82,7 @@ public class Recipe extends BaseTimeEntity {
   public static Recipe create(
           Long completionPhotoFileId,
           String description,
+          RecipeCategory category,
           RecipeInformation information,
           Long mainPhotoFileId,
           Long memberId,
@@ -96,6 +98,7 @@ public class Recipe extends BaseTimeEntity {
     Recipe recipe = new Recipe();
     recipe.completionPhotoFileId = completionPhotoFileId;
     recipe.description = description;
+    recipe.category = category;
     recipe.information = information;
     recipe.mainPhotoFileId = mainPhotoFileId;
     recipe.memberId = memberId;

@@ -6,9 +6,13 @@ import com.hongdaestudy.recipebackend.recipe.application.RegisterRecipeService;
 import com.hongdaestudy.recipebackend.recipe.application.RetrieveRecipeService;
 import com.hongdaestudy.recipebackend.recipe.application.in.RegisterRecipeCommand;
 import com.hongdaestudy.recipebackend.recipe.application.in.RetrieveRecipeCommand;
+import com.hongdaestudy.recipebackend.recipe.application.in.SearchRecipeCommand;
 import com.hongdaestudy.recipebackend.recipe.application.out.RegisterRecipeCommandResult;
 import com.hongdaestudy.recipebackend.recipe.application.out.RetrieveRecipeCommandResult;
+import com.hongdaestudy.recipebackend.recipe.domain.RecipeIndex;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,5 +61,15 @@ public class RecipeCommandController {
   @PatchMapping("/recipe/{id}")
   public ResponseEntity<Long> updateRecipe(@PathVariable final Long id, @RequestBody final RegisterRecipeCommand params) {
     return ResponseEntity.ok(modifyRecipeService.updateRecipe(id, params));
+  }
+
+  @GetMapping("/search/recipes")
+  public ResponseEntity<List<RecipeIndex>> retrieveRecipeByCondition(@RequestBody SearchRecipeCommand searchCondition,Pageable pageable) {
+    if(pageable == null) {
+      pageable = PageRequest.of(0, 50);
+    }
+    List<RecipeIndex> result = retrieveRecipeService.retrieveRecipeByCondition(searchCondition,pageable);
+
+    return ResponseEntity.ok(result);
   }
 }

@@ -46,9 +46,16 @@ class RecipeRepositoryTest {
           , RecipeCookingTime.valueOf("FIVE_MINUTES_LESS")
           , RecipeDifficultyLevel.valueOf("EASY")
       );
+      RecipeCategory givenRecipeCategory = RecipeCategory.create(
+              RecipeKind.valueOf("BREAD")
+              , RecipeSituation.valueOf("BOXED")
+              , RecipeMethod.valueOf("BOIL")
+              , RecipeIngredient.valueOf("BEEF")
+      );
     Recipe givenRecipe = Recipe.create(
                   1L
                   , "제목"
+                  ,givenRecipeCategory
                   , givenRecipeInformation
                   , 1L
                   , 1L

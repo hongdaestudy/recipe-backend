@@ -2,8 +2,6 @@ package com.hongdaestudy.recipebackend.recipe.repository;
 
 import com.hongdaestudy.recipebackend.config.TestConfig;
 import com.hongdaestudy.recipebackend.config.error.ErrorCode;
-import com.hongdaestudy.recipebackend.recipe.application.ModifyRecipeService;
-import com.hongdaestudy.recipebackend.recipe.application.out.RetrieveRecipeCommandResult;
 import com.hongdaestudy.recipebackend.recipe.domain.*;
 import com.hongdaestudy.recipebackend.recipe.domain.repository.RecipeRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -13,15 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.annotation.Commit;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
@@ -43,10 +37,17 @@ public class RecipeFunctionTest {
 				, RecipeCookingTime.valueOf("FIVE_MINUTES_LESS")
 				, RecipeDifficultyLevel.valueOf("EASY")
 		);
+		RecipeCategory givenRecipeCategory = RecipeCategory.create(
+				RecipeKind.valueOf("BREAD")
+				, RecipeSituation.valueOf("BOXED")
+				, RecipeMethod.valueOf("BOIL")
+				, RecipeIngredient.valueOf("BEEF")
+		);
 
 		Recipe givenRecipe = Recipe.create(
 				1L
 				, "제목"
+				, givenRecipeCategory
 				, givenRecipeInformation
 				, 1L
 				, 1L

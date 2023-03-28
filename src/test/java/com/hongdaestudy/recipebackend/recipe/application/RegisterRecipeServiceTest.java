@@ -2,10 +2,10 @@ package com.hongdaestudy.recipebackend.recipe.application;
 
 import com.hongdaestudy.recipebackend.ingredient.application.RegisterIngredientGroupService;
 import com.hongdaestudy.recipebackend.recipe.domain.repository.RecipeRepository;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("RegisterRecipeService 클래스")
 class RegisterRecipeServiceTest {
@@ -13,7 +13,7 @@ class RegisterRecipeServiceTest {
   private final RecipeRepository recipeRepository = Mockito.mock(RecipeRepository.class);
   private final RegisterIngredientGroupService registerIngredientGroupService = Mockito.mock(RegisterIngredientGroupService.class);
   private final RegisterRecipeService registerRecipeService = new RegisterRecipeService(
-      recipeRepository, registerIngredientGroupService
+      recipeRepository, null,registerIngredientGroupService
   );
 
   @Nested

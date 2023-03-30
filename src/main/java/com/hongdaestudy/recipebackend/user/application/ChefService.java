@@ -1,5 +1,6 @@
 package com.hongdaestudy.recipebackend.user.application;
 
+import com.hongdaestudy.recipebackend.user.application.in.UserInfoCommand;
 import com.hongdaestudy.recipebackend.user.domain.User;
 import com.hongdaestudy.recipebackend.user.repository.ChefRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +16,12 @@ public class ChefService {
     private final ChefRepository chefRepository;
 
     @Transactional
-    public List<User> selectListChef() {
+    public List<User> findAll(UserInfoCommand params) {
         return chefRepository.findAll();
     }
 
     @Transactional
-    public List<User> selectListChef(Long userId) {
+    public List<User> findAllById(Long userId) {
         return chefRepository.findAllById(userId);
     }
 }

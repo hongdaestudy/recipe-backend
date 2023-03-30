@@ -17,7 +17,7 @@ public class User extends BaseTimeEntity<User, Long> {
     @Column(name = "user_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_profile_id")
     private UserProfile userProfile;
 

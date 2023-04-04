@@ -32,9 +32,9 @@ public class FileCommandController {
   }
 
   @PostMapping("/upload")
-  public ResponseEntity<Files> registerFile(@RequestParam("file") MultipartFile file) {
+  public ResponseEntity<Long> registerFile(@RequestParam("file") MultipartFile file) {
 
-    Files result = null;
+    Long result = null;
     try {
       result = registerFileService.uploadFile(file);
     } catch (Exception e) {
@@ -44,8 +44,8 @@ public class FileCommandController {
   }
 
   @PostMapping("/uploads")
-  public ResponseEntity<List<Files>> registerFiles(@RequestParam("file") MultipartFile[] files) {
-    List<Files> result = null;
+  public ResponseEntity<List<Long>> registerFiles(@RequestParam("file") MultipartFile[] files) {
+    List<Long> result = null;
     try {
       result = registerFileService.uploadFiles(files);
     } catch (Exception e) {

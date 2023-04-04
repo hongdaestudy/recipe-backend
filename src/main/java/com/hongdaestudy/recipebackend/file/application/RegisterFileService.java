@@ -25,7 +25,7 @@ public class RegisterFileService {
   private String uploadDir;
 
   @Transactional
-  public Files uploadFile(MultipartFile uploadFile) throws Exception {
+  public Long uploadFile(MultipartFile uploadFile) throws Exception {
 
     Files savedFile = null;
 
@@ -35,20 +35,19 @@ public class RegisterFileService {
       String savedFileName = UUID.randomUUID() + "_" + originalFileName;    //저장될 파일 명
 
       String fileDir = getFolder();
-      savedFile = Files.create(originalFileName, extension, fileDir + "/", uploadFile.getSize());
+      savedFile = Files.create(originalFileName, extension, fileDir + "/", uploadFile.getSize(),0);
       uploadFile.transferTo(new File(fileDir + "/" + savedFileName));
-      fileRepository.save(savedFile);
     }
-    return savedFile;
+    return fileRepository.save(savedFile).getId();
 
   }
 
   @Transactional
-  public List<Files> uploadFiles(MultipartFile[] files) throws Exception {
-    List<Files> savedList = null;
+  public List<Long> uploadFiles(MultipartFile[] files) throws Exception {
+    List<Long> savedList = new ArrayList<>();
 
     if (files != null && files.length != 0) {
-      savedList = new ArrayList<>();
+      Integer order = 0;
       for (MultipartFile uploadFile : files) {
 
         String originalFileName = uploadFile.getOriginalFilename();    //오리지날 파일명
@@ -56,9 +55,11 @@ public class RegisterFileService {
         String savedFileName = UUID.randomUUID() + originalFileName;    //저장될 파일 명
 
         String fileDir = getFolder();
-        Files savedFile = Files.create(originalFileName, extension, fileDir + "/", uploadFile.getSize());
+        Files savedFile = Files.create(originalFileName, extension, fileDir + "/", uploadFile.getSize(),order);
         uploadFile.transferTo(new File(fileDir + "/" + savedFileName));
-        savedList.add(fileRepository.save(savedFile));
+        savedList.add(fileRepository.save(savedFile).getId());
+
+        order++;
       }
     }
     return savedList;

@@ -1,11 +1,12 @@
 package com.hongdaestudy.recipebackend.recipe.domain;
 
+import com.hongdaestudy.recipebackend.common.EnumMapperType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum RecipeMethod {
+public enum RecipeMethod implements EnumMapperType {
   STIR_FRIED("볶음"),
   BOIL("끓이기"),
   SERVE("부침"),
@@ -22,4 +23,14 @@ public enum RecipeMethod {
   OTHERS("기타");
 
   private final String description;
+
+  @Override
+  public String getCode() {
+    return name();
+  }
+
+  @Override
+  public String getDescription() {
+    return description;
+  }
 }

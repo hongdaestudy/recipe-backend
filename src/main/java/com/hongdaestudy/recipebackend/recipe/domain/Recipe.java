@@ -21,7 +21,7 @@ public class Recipe extends BaseTimeEntity {
   @Column(name = "recipe_id")
   private Long id;
 
-  private Long completionPhotoFileId;
+  private String completionPhotoFileId;
 
   private String description;
 
@@ -80,7 +80,7 @@ public class Recipe extends BaseTimeEntity {
   }
 
   public static Recipe create(
-          Long completionPhotoFileId,
+          List<Long> completionPhotoFileId,
           String description,
           RecipeCategory category,
           RecipeInformation information,
@@ -96,7 +96,7 @@ public class Recipe extends BaseTimeEntity {
   ) {
 
     Recipe recipe = new Recipe();
-    recipe.completionPhotoFileId = completionPhotoFileId;
+    recipe.completionPhotoFileId = completionPhotoFileId.toString();
     recipe.description = description;
     recipe.category = category;
     recipe.information = information;
@@ -119,9 +119,9 @@ public class Recipe extends BaseTimeEntity {
   }
 
   @Builder
-  public void updateRecipeInfo(Long completionPhotoFileId, String description, Long mainPhotoFileId, RecipeStatus status,
+  public void updateRecipeInfo(List<Long> completionPhotoFileId, String description, Long mainPhotoFileId, RecipeStatus status,
                                String tip, String title, String videoUrl) {
-    this.completionPhotoFileId = completionPhotoFileId;
+    this.completionPhotoFileId = completionPhotoFileId.toString();
     this.description = description;
     this.mainPhotoFileId = mainPhotoFileId;
     this.status = status;

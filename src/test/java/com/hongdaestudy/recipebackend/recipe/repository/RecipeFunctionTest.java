@@ -45,7 +45,7 @@ public class RecipeFunctionTest {
 		);
 
 		Recipe givenRecipe = Recipe.create(
-				1L
+				List.of(1L)
 				, "제목"
 				, givenRecipeCategory
 				, givenRecipeInformation
@@ -90,11 +90,11 @@ public class RecipeFunctionTest {
 		Long recipeId = createRecipe();
 
 		Recipe recipe = repository.findById(recipeId).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND.getMessage()));
-		recipe.updateRecipeInfo(1L, "설명", 1L, RecipeStatus.IN_PROGRESS, "팁", "타이틀", "URL");
+		recipe.updateRecipeInfo(List.of(1L), "설명", 1L, RecipeStatus.IN_PROGRESS, "팁", "타이틀", "URL");
 
 		Recipe recipe2 = repository.findById(recipeId).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND.getMessage()));
 
-		assertThat(recipe2.getCompletionPhotoFileId()).isEqualTo(1L);
+		assertThat(recipe2.getCompletionPhotoFileId()).isEqualTo(List.of(1L).toString());
 		assertThat(recipe2.getDescription()).isEqualTo("설명");
 		assertThat(recipe2.getMainPhotoFileId()).isEqualTo(1L);
 		assertThat(recipe2.getStatus()).isEqualTo(RecipeStatus.IN_PROGRESS);

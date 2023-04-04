@@ -2,12 +2,14 @@ package com.hongdaestudy.recipebackend.recipe.application;
 
 //import com.hongdaestudy.recipebackend.ingredient.application.RetrieveIngredientGroupService;
 
+import com.hongdaestudy.recipebackend.common.EnumMapperValue;
 import com.hongdaestudy.recipebackend.ingredient.application.RetrieveIngredientGroupService;
 import com.hongdaestudy.recipebackend.ingredient.application.out.RetrieveIngredientGroupCommandResult;
 import com.hongdaestudy.recipebackend.recipe.application.in.RetrieveRecipeCommand;
 import com.hongdaestudy.recipebackend.recipe.application.in.SearchRecipeCommand;
+import com.hongdaestudy.recipebackend.recipe.application.out.RetrieveRecipeCodeCommandResult;
 import com.hongdaestudy.recipebackend.recipe.application.out.RetrieveRecipeCommandResult;
-import com.hongdaestudy.recipebackend.recipe.domain.RecipeIndex;
+import com.hongdaestudy.recipebackend.recipe.domain.*;
 import com.hongdaestudy.recipebackend.recipe.domain.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +21,7 @@ import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +32,22 @@ public class RetrieveRecipeService {
   private final ElasticsearchOperations operations;
   private final RetrieveIngredientGroupService retrieveIngredientGroupService;
 
+  @Transactional
+  public RetrieveRecipeCodeCommandResult retrieveRecipeCode() {
+
+    List<EnumMapperValue> status = Arrays.stream(RecipeStatus.values()).map(EnumMapperValue::new).collect(Collectors.toList());
+    List<EnumMapperValue> cookingTime = Arrays.stream(RecipeCookingTime.values()).map(EnumMapperValue::new).collect(Collectors.toList());
+    List<EnumMapperValue> difficultyLevel = Arrays.stream(RecipeDifficultyLevel.values()).map(EnumMapperValue::new).collect(Collectors.toList());
+    List<EnumMapperValue> servingCount = Arrays.stream(RecipeServingCount.values()).map(EnumMapperValue::new).collect(Collectors.toList());
+
+    List<EnumMapperValue> kind = Arrays.stream(RecipeKind.values()).map(EnumMapperValue::new).collect(Collectors.toList());
+    List<EnumMapperValue> method = Arrays.stream(RecipeMethod.values()).map(EnumMapperValue::new).collect(Collectors.toList());
+    List<EnumMapperValue> situation = Arrays.stream(RecipeSituation.values()).map(EnumMapperValue::new).collect(Collectors.toList());
+    List<EnumMapperValue> ingredient = Arrays.stream(RecipeIngredient.values()).map(EnumMapperValue::new).collect(Collectors.toList());
+
+    RetrieveRecipeCodeCommandResult.create(status,cookingTime,difficultyLevel,servingCount,kind,method,situation,ingredient);
+    return RetrieveRecipeCodeCommandResult.create(status,cookingTime,difficultyLevel,servingCount,kind,method,situation,ingredient);
+  }
   @Transactional
   public RetrieveRecipeCommandResult retrieveRecipe(RetrieveRecipeCommand retrieveRecipeCommand) {
 

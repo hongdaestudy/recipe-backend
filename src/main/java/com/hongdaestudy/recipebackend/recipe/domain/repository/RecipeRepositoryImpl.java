@@ -27,7 +27,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         , recipe.createdAt
         , recipe.updatedAt
         , recipe.memberId
-        //, recipe.recipeSteps
+        , recipe.recipeSteps
         , recipe.title
         , recipe.description
         , recipe.videoUrl
@@ -37,7 +37,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         , recipe.mainPhotoFileId
         , recipe.completionPhotoFileId
         , recipe.tip
-        //, recipe.recipeTags
+        , recipe.recipeTags
         , recipe.status
         , recipe.deleteAt
     )).from(recipe).where(recipe.id.eq(recipeId)).fetchOne();

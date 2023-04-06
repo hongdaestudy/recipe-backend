@@ -19,6 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.as;
@@ -100,5 +101,10 @@ public class RecipeFunctionTest {
 		assertThat(recipe2.getTip()).isEqualTo("팁");
 		assertThat(recipe2.getTitle()).isEqualTo("타이틀");
 		assertThat(recipe2.getVideoUrl()).isEqualTo("URL");
+	}
+
+	@Test
+	void findByRecipeId() {
+
 	}
 }

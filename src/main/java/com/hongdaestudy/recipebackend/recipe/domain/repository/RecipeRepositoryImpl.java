@@ -76,7 +76,7 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
   }
 
   @Override
-  public List<RetrieveRecipeCommandResult> findNotDeletedRecipesById(RetrieveRecipeCommand retrieveRecipeCommand) {
+  public List<RetrieveRecipeCommandResult> findAllNotDeletedRecipesById(RetrieveRecipeCommand retrieveRecipeCommand) {
     List<RetrieveRecipeCommandResult> recipeEntity = queryFactory
         .select(Projections.constructor(RetrieveRecipeCommandResult.class
           , recipe.id
@@ -86,10 +86,10 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
           , recipe.title
           , userProfile.nickname.prepend("by ")))
         .from(recipe).innerJoin(userProfile).on(recipe.memberId.eq(userProfile.userId))
-        .where(recipe.memberId.eq(userProfile.id),
-               recipe.deleteAt.eq('N'),
+        .where(eqMemberId(retrieveRecipeCommand.getMemberId()),
+               eqStatus(retrieveRecipeCommand.getStatus()),
                likeTitle(retrieveRecipeCommand.getTitle()),
-               eqStatus(retrieveRecipeCommand.getStatus()))
+               recipe.deleteAt.eq('N'))
         .fetch();
     return recipeEntity;
   }
@@ -109,5 +109,12 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
     } else {
       return null;
     }
+  }
+
+  private BooleanExpression eqMemberId(Long memberId) {
+    if (memberId != null) {
+      return recipe.memberId.eq(memberId);
+    }
+    return null;
   }
 }

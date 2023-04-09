@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface RecipeRepositoryCustom {
   RetrieveRecipeCommandResult findOneByRecipeId(long recipeId);
-  List<RetrieveRecipeCommandResult> findNotDeletedRecipesById(RetrieveRecipeCommand retrieveRecipeCommand);
+  List<RetrieveRecipeCommandResult> findAllNotDeletedRecipesById(RetrieveRecipeCommand retrieveRecipeCommand);
 }

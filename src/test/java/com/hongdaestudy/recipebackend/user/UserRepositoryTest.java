@@ -55,7 +55,7 @@ public class UserRepositoryTest {
 
     retrieveRecipeCommand.setMemberId(5L);
     retrieveRecipeCommand.setTitle("");
-    List<RetrieveRecipeCommandResult> results = recipeRepository.findNotDeletedRecipesById(retrieveRecipeCommand);
+    List<RetrieveRecipeCommandResult> results = recipeRepository.findAllNotDeletedRecipesById(retrieveRecipeCommand);
     for (RetrieveRecipeCommandResult result : results) {
       System.out.println(result);
     }

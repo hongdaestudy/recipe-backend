@@ -1,7 +1,6 @@
 package com.hongdaestudy.recipebackend.recipe.domain;
 
 import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
-import com.hongdaestudy.recipebackend.recipe.application.in.RegisterRecipeCommand;
 import lombok.*;
 import org.hibernate.Hibernate;
 

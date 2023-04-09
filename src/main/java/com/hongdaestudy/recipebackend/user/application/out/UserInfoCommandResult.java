@@ -6,7 +6,7 @@ import lombok.*;
 @Data
 public class UserInfoCommandResult {
 
-  private Long userId;
+  private Long id;
   private String email;
   private Long userProfileId;
   private Long backgroundFileId;
@@ -14,8 +14,8 @@ public class UserInfoCommandResult {
   private Long profileFileId;
 
   @QueryProjection
-  public UserInfoCommandResult(Long userId, String email, Long userProfileId, Long backgroundFileId, String nickname, Long profileFileId) {
-    this.userId = userId;
+  public UserInfoCommandResult(Long id, String email, Long userProfileId, Long backgroundFileId, String nickname, Long profileFileId) {
+    this.id = id;
     this.email = email;
     this.userProfileId = userProfileId;
     this.backgroundFileId = backgroundFileId;

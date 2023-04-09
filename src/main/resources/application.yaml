@@ -6,11 +6,10 @@ spring:
     name: recipe-backend
 
   jpa:
+    ddl-auto: update
     hibernate:
-      ddl-auto: validate
     properties:
       hibernate:
-        # show_sql: true // seonwoo_jung
         format_sql: true
     open-in-view: false
 

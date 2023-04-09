@@ -30,6 +30,7 @@ public class RetrieveRecipeCommandResult {
   private String title;
   private String videoUrl;
   private char deleteAt;
+  private String nickname;
 
   private List<RetrieveRecipeStepCommandResult> recipeSteps;
   private List<RetrieveRecipeTagCommandResult> recipeTags;
@@ -125,5 +126,17 @@ public class RetrieveRecipeCommandResult {
     this.recipeSteps = new ArrayList<>();
     this.recipeTags = new ArrayList<>();
     this.ingredientGroups = new ArrayList<>();
+  }
+
+  // 추가
+  @QueryProjection
+  public RetrieveRecipeCommandResult(Long id, Long completionPhotoFileId, Long mainPhotoFileId, Long memberId, String title, String nickname) {
+    System.out.println("RetrieveRecipeCommandResult.RetrieveRecipeCommandResult HI!");
+    this.id = id;
+    this.completionPhotoFileId = completionPhotoFileId;
+    this.mainPhotoFileId = mainPhotoFileId;
+    this.memberId = memberId;
+    this.title = title;
+    this.nickname = nickname;
   }
 }

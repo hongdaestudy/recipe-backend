@@ -1,7 +1,10 @@
 package com.hongdaestudy.recipebackend.recipe.domain.repository;
 
+import com.hongdaestudy.recipebackend.recipe.application.in.RetrieveRecipeCommand;
 import com.hongdaestudy.recipebackend.recipe.application.out.RetrieveRecipeCommandResult;
+import com.hongdaestudy.recipebackend.recipe.domain.RecipeStatus;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +13,9 @@ import java.util.List;
 import static com.hongdaestudy.recipebackend.recipe.domain.QRecipe.recipe;
 import static com.hongdaestudy.recipebackend.recipe.domain.QRecipeStep.recipeStep;
 import static com.hongdaestudy.recipebackend.recipe.domain.QRecipeTag.recipeTag;
+import static com.hongdaestudy.recipebackend.recipe.domain.RecipeStatus.IN_PROGRESS;
+import static com.hongdaestudy.recipebackend.recipe.domain.RecipeStatus.PUBLISHED;
+import static com.hongdaestudy.recipebackend.user.domain.QUserProfile.userProfile;
 
 @Repository
 public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
@@ -67,5 +73,41 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
     recipeTags.forEach(recipeEntity::addRecipeTag);
 
     return recipeEntity;
+  }
+
+  @Override
+  public List<RetrieveRecipeCommandResult> findNotDeletedRecipesById(RetrieveRecipeCommand retrieveRecipeCommand) {
+    List<RetrieveRecipeCommandResult> recipeEntity = queryFactory
+        .select(Projections.constructor(RetrieveRecipeCommandResult.class
+          , recipe.id
+          , recipe.completionPhotoFileId
+          , recipe.mainPhotoFileId
+          , recipe.memberId
+          , recipe.title
+          , userProfile.nickname.prepend("by ")))
+        .from(recipe).innerJoin(userProfile).on(recipe.memberId.eq(userProfile.userId))
+        .where(recipe.memberId.eq(userProfile.id),
+               recipe.deleteAt.eq('N'),
+               likeTitle(retrieveRecipeCommand.getTitle()),
+               eqStatus(retrieveRecipeCommand.getStatus()))
+        .fetch();
+    return recipeEntity;
+  }
+
+  private BooleanExpression likeTitle(String title) {
+    if (title != null && !title.isEmpty()) {
+      return recipe.title.contains(title);
+    }
+    return null;
+  }
+
+  private BooleanExpression eqStatus(RecipeStatus status) {
+    if (status != null && status.equals(PUBLISHED)) {
+      return recipe.status.eq(PUBLISHED);
+    } else if (status != null && status.equals(IN_PROGRESS)) {
+      return recipe.status.eq(IN_PROGRESS);
+    } else {
+      return null;
+    }
   }
 }

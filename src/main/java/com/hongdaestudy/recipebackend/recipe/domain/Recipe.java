@@ -115,22 +115,4 @@ public class Recipe extends BaseTimeEntity {
   public void delete() {
     this.deleteAt = 'Y';
   }
-
-  // 연관관계에 있는 recipe step, tag 수정은 어떻게..?
-  @Builder
-  public void updateRecipeInfo(RegisterRecipeCommand params) {
-    if (params.getTempCompletionPhotoFileId() != null) this.completionPhotoFileId = params.getTempCompletionPhotoFileId();
-    if (params.getDescription() != null) this.description = params.getDescription();
-    if (params.getMainPhotoFileId() != null) this.mainPhotoFileId = params.getMainPhotoFileId();
-    if (params.getStatus() != null) this.status = params.getStatus();
-    if (params.getTip() != null) this.tip = params.getTip();
-    if (params.getTitle() != null) this.title = params.getTitle();
-    if (params.getVideoUrl() != null) this.videoUrl = params.getVideoUrl();
-    if (params.getRecipeTags() != null) {
-
-    }
-    if (params.getRecipeSteps() != null) {
-
-    }
-  }
 }

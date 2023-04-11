@@ -12,12 +12,12 @@ import com.hongdaestudy.recipebackend.recipe.application.out.RetrieveRecipeComma
 import com.hongdaestudy.recipebackend.recipe.domain.*;
 import com.hongdaestudy.recipebackend.recipe.domain.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.query.Criteria;
-import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
+import org.springframework.data.elasticsearch.core.query.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,7 +83,7 @@ public class RetrieveRecipeService {
     return recipeList;
   }
   public List<RecipeIndex> retrieveRecipeByCondition(SearchRecipeCommand searchCondition, Pageable pageable) {
-    CriteriaQuery query = createConditionCriteriaQuery(searchCondition).setPageable(pageable);
+    Query query = createConditionCriteriaQuery(searchCondition).setPageable(pageable);
 
     SearchHits<RecipeIndex> search = operations.search(query, RecipeIndex.class);
     return search.stream()
@@ -112,6 +112,25 @@ public class RetrieveRecipeService {
     if (searchCondition.getDifficultyLevel() != null)
       query.addCriteria(Criteria.where("difficultyLevel").is(searchCondition.getDifficultyLevel()));
 
+    return query;
+  }
+  public List<String> retrieveRecipeTitlesByCondition(SearchRecipeCommand searchCondition) {
+    Query query = createConditionNativeQuery(searchCondition);
+
+    SearchHits<RecipeIndex> search = operations.search(query, RecipeIndex.class);
+    return search.stream()
+            .map(SearchHit::getContent)
+            .map(r->r.getTitle())
+            .collect(Collectors.toList());
+  }
+  private Query createConditionNativeQuery(SearchRecipeCommand searchCondition) {
+    Query query = new NativeSearchQueryBuilder()
+              .withQuery(QueryBuilders.wildcardQuery("title", "*"+searchCondition.getTitle()+"*"))
+              .withSourceFilter(new FetchSourceFilter(
+                      new String[]{"title"},
+                      new String[]{}))
+            .withMaxResults(Integer.valueOf(10))
+              .build();
     return query;
   }
 }

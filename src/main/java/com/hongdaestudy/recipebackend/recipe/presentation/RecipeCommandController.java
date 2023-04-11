@@ -89,4 +89,11 @@ public class RecipeCommandController {
 
     return ResponseEntity.ok(result);
   }
+  @GetMapping("/search/recipeTitles")
+  public ResponseEntity<List<String>> retrieveRecipeTitlesByCondition(@RequestBody SearchRecipeCommand searchCondition) {
+
+    List<String> result = retrieveRecipeService.retrieveRecipeTitlesByCondition(searchCondition);
+
+    return ResponseEntity.ok(result);
+  }
 }

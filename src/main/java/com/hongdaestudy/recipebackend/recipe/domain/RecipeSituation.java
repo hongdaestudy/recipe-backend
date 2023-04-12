@@ -6,12 +6,24 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum RecipeDifficultyLevel implements EnumMapperType {
-  EASY("쉬움"),
-  NORMAL("보통"),
-  DIFFICULT("어려움");
+public enum RecipeSituation implements EnumMapperType {
+  ROUTINE("일상"),
+  SPEED("초스피드"),
+  SERVE("손님접대"),
+  SIDE("술안주"),
+  DIET("다이어트"),
+  BOXED("도시락"),
+  NUTRITIONAL("영양식"),
+  SNACK("간식"),
+  NIGHT("야식"),
+  STYLING("푸드스타일링"),
+  HANGOVER("해장"),
+  HOLIDAY("명절"),
+  BABY("이유식"),
+  OTHERS("기타");
 
   private final String description;
+
   @Override
   public String getCode() {
     return name();

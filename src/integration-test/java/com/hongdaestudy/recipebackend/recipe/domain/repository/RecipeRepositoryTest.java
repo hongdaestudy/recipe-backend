@@ -32,13 +32,16 @@ class RecipeRepositoryTest {
     @DisplayName("레시피 객체가 주어지면")
     class Context_with_a_recipe {
       private final Recipe recipe = Recipe.create(
-          1L,
+          List.of(1L),
           "타이틀명",
-          "설명",
+           RecipeCategory.create(RecipeKind.BREAD,RecipeSituation.BABY,RecipeMethod.BAKE,RecipeIngredient.BEEF),
+           RecipeInformation.create(RecipeServingCount.ONE, RecipeCookingTime.FIFTEEN_MINUTES_LESS, RecipeDifficultyLevel.EASY),
           1L,
-          RecipeInformation.create(RecipeServingCount.ONE, RecipeCookingTime.FIFTEEN_MINUTES_LESS, RecipeDifficultyLevel.EASY),
-          1L,
-          "팁",
+              1L,
+           RecipeStatus.IN_PROGRESS,
+          "",
+          "",
+          "",
           List.of(
               RecipeStep.create("설명1", null, 1),
               RecipeStep.create("설명2", null, 2)
@@ -46,8 +49,7 @@ class RecipeRepositoryTest {
           List.of(
               RecipeTag.create("태그명1", 1),
               RecipeTag.create("태그명2", 2)
-          ),
-          RecipeStatus.IN_PROGRESS);
+          ),'N');
 
       @Test
       @DisplayName("주어진 레시피를 저장하고, 저장된 레시피를 리턴한다.")

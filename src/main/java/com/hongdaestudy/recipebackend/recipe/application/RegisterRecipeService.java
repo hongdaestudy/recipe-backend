@@ -3,10 +3,8 @@ package com.hongdaestudy.recipebackend.recipe.application;
 import com.hongdaestudy.recipebackend.ingredient.application.RegisterIngredientGroupService;
 import com.hongdaestudy.recipebackend.recipe.application.in.RegisterRecipeCommand;
 import com.hongdaestudy.recipebackend.recipe.application.out.RegisterRecipeCommandResult;
-import com.hongdaestudy.recipebackend.recipe.domain.Recipe;
-import com.hongdaestudy.recipebackend.recipe.domain.RecipeInformation;
-import com.hongdaestudy.recipebackend.recipe.domain.RecipeStep;
-import com.hongdaestudy.recipebackend.recipe.domain.RecipeTag;
+import com.hongdaestudy.recipebackend.recipe.domain.*;
+import com.hongdaestudy.recipebackend.recipe.domain.repository.RecipeIndexRepository;
 import com.hongdaestudy.recipebackend.recipe.domain.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RegisterRecipeService {
   private final RecipeRepository recipeRepository;
+  private final RecipeIndexRepository recipeIndexRepository;
   private final RegisterIngredientGroupService registerIngredientGroupService;
 
   @Transactional
@@ -29,7 +28,10 @@ public class RegisterRecipeService {
     registerIngredientGroupService.registerIngredientGroups(
         recipe.getId(), registerRecipeCommand.getIngredientGroups()
     );
-
+    List<String> ingredients = registerRecipeCommand.getIngredientGroups().stream().map(group -> group.getIngredients())
+            .flatMap(List::stream).map(x -> x.getName()).distinct()
+            .collect(Collectors.toList());
+    recipeIndexRepository.save(RecipeIndex.create(recipe,ingredients));
     return new RegisterRecipeCommandResult(recipe.getId());
   }
 
@@ -47,14 +49,21 @@ public class RegisterRecipeService {
             recipeTagCommand.getSort()))
         .collect(Collectors.toList());
 
+    RecipeCategory recipeCategory = RecipeCategory.create(
+            registerRecipeCommand.getCategory().getKind(),
+            registerRecipeCommand.getCategory().getSituation(),
+            registerRecipeCommand.getCategory().getMethod(),
+            registerRecipeCommand.getCategory().getIngredient());
+
     RecipeInformation recipeInformation = RecipeInformation.create(
         registerRecipeCommand.getInformation().getServingCount(),
         registerRecipeCommand.getInformation().getCookingTime(),
         registerRecipeCommand.getInformation().getDifficultyLevel());
 
     return Recipe.create(
-        registerRecipeCommand.getCompletionPhotoFileId().get(0), //TODO 다중파일 데이터.. 파일 테이블 구조 변경?
+        registerRecipeCommand.getCompletionPhotoFileId(), //TODO 다중파일 데이터.. 파일 테이블 구조 변경?
         registerRecipeCommand.getDescription(),
+        recipeCategory,
         recipeInformation,
         registerRecipeCommand.getMainPhotoFileId(),
         registerRecipeCommand.getMemberId(),

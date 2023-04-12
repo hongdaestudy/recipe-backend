@@ -1,0 +1,40 @@
+{
+  "properties" : {
+    "description" : {"type" : "text"},
+    "memberId" : {"type" : "keyword"},
+    "tip" : {"type" : "text"},
+    "title" : {"type" : "text"},
+    "information" : {
+      "properties" : {
+        "servingCount" : {"type" : "keyword"},
+        "cookingTime" : {"type" : "keyword"},
+        "difficultyLevel" : {"type" : "keyword"}
+      }
+    },
+    "category" : {
+      "properties" : {
+        "kind" : {"type" : "keyword"},
+        "situation" : {"type" : "keyword"},
+        "method" : {"type" : "keyword"},
+        "ingredient" : {"type" : "keyword"}
+      }
+    },
+    "tags" : {
+      "type" : "text",
+      "fields" : {
+        "keyword" : {"type" : "keyword"}
+      }
+    },
+    "ingredient" : {
+      "type": "nested",
+      "properties": {
+        "name": {
+          "type": "keyword"
+        },
+        "amount": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}

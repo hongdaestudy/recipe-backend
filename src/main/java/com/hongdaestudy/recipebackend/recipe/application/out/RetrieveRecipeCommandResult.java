@@ -10,7 +10,9 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -20,7 +22,7 @@ public class RetrieveRecipeCommandResult {
   private Long id;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
-  private Long completionPhotoFileId;
+  private List<Long> completionPhotoFileId;
   private String description;
   private RetrieveRecipeInformationCommandResult information;
   private Long mainPhotoFileId;
@@ -103,7 +105,7 @@ public class RetrieveRecipeCommandResult {
           RecipeCookingTime cookingTime,
           RecipeDifficultyLevel difficultyLevel,
           Long mainPhotoFileId,
-          Long completionPhotoFileId,
+          String completionPhotoFileId,
           String tip,
           //List<RetrieveRecipeTagCommandResult> recipeTags,
           RecipeStatus status,
@@ -118,7 +120,8 @@ public class RetrieveRecipeCommandResult {
     this.videoUrl = videoUrl;
     this.information = RetrieveRecipeInformationCommandResult.create(servingCount, cookingTime, difficultyLevel);
     this.mainPhotoFileId = mainPhotoFileId;
-    this.completionPhotoFileId = completionPhotoFileId;
+    this.completionPhotoFileId = Arrays.asList(completionPhotoFileId.replace('[',' ').replace(']',' ')
+            .trim().split(",")).stream().map(s -> Long.parseLong(s.trim())).collect(Collectors.toList());
     this.tip = tip;
     this.status = status;
     this.deleteAt = deleteAt;

@@ -46,9 +46,16 @@ class RecipeRepositoryTest {
           , RecipeCookingTime.valueOf("FIVE_MINUTES_LESS")
           , RecipeDifficultyLevel.valueOf("EASY")
       );
+      RecipeCategory givenRecipeCategory = RecipeCategory.create(
+              RecipeKind.valueOf("BREAD")
+              , RecipeSituation.valueOf("BOXED")
+              , RecipeMethod.valueOf("BOIL")
+              , RecipeIngredient.valueOf("BEEF")
+      );
     Recipe givenRecipe = Recipe.create(
-                  1L
+                  List.of(1L,2L)
                   , "제목"
+                  ,givenRecipeCategory
                   , givenRecipeInformation
                   , 1L
                   , 1L
@@ -64,9 +71,8 @@ class RecipeRepositoryTest {
                   , List.of(
                           RecipeTag.create("tag1", 0),
                           RecipeTag.create("tag2", 1)
-                  )
-                  , 'N'
-          );
+                  ),'N'
+    );
 
       @Test
       @DisplayName("주어진 객체를 저장하고, 저장된 객체를 리턴한다")
@@ -80,7 +86,7 @@ class RecipeRepositoryTest {
         Assertions.assertEquals(recipe.getDescription(), givenRecipe.getDescription());
         Assertions.assertEquals(recipe.getVideoUrl(), givenRecipe.getVideoUrl());
         Assertions.assertEquals(recipe.getMainPhotoFileId(), givenRecipe.getMainPhotoFileId());
-        Assertions.assertEquals(recipe.getCompletionPhotoFileId(), givenRecipe.getCompletionPhotoFileId());
+        Assertions.assertEquals(recipe.getCompletionPhotoFileId().toString(), givenRecipe.getCompletionPhotoFileId());
         Assertions.assertEquals(recipe.getTip(), givenRecipe.getTip());
         Assertions.assertEquals(recipe.getRecipeSteps().size(), 3);
         Assertions.assertEquals(recipe.getRecipeTags().size(), 2);

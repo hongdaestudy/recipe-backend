@@ -18,9 +18,7 @@ public class Files extends BaseTimeEntity {
   //TODO 테이블 수정 - file_cnt, type,,,
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "file_id")
   private Long id;
-
   private String fileName;
 
   private String originalName;
@@ -32,7 +30,8 @@ public class Files extends BaseTimeEntity {
 
   private long fileSize;
 
-  public static Files create(String originalName, String extension, String filePath, long fileSize) {
+  private Integer order;
+  public static Files create(String originalName, String extension, String filePath, long fileSize,Integer order) {
 
     Files file = new Files();
     file.fileName = originalName;
@@ -40,6 +39,22 @@ public class Files extends BaseTimeEntity {
     file.extension = extension;
     file.filePath = filePath;
     file.fileSize = fileSize;
+
+    file.order = order;
+
+    return file;
+  }
+  public static Files create(Long id , String originalName, String extension, String filePath, long fileSize,Integer order) {
+
+    Files file = new Files();
+    file.id = id;
+    file.fileName = originalName;
+    file.originalName = originalName;
+    file.extension = extension;
+    file.filePath = filePath;
+    file.fileSize = fileSize;
+
+    file.order = order;
 
     return file;
   }

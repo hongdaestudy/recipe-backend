@@ -1,11 +1,12 @@
 package com.hongdaestudy.recipebackend.recipe.domain;
 
+import com.hongdaestudy.recipebackend.common.EnumMapperType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum RecipeCookingTime {
+public enum RecipeCookingTime implements EnumMapperType {
   FIVE_MINUTES_LESS("5분 이내"),
   TEN_MINUTES_LESS("10분 이내"),
   FIFTEEN_MINUTES_LESS("15분 이내"),
@@ -17,4 +18,14 @@ public enum RecipeCookingTime {
   TWO_HOURS_MORE("2시간 이후");
 
   private final String description;
+
+  @Override
+  public String getCode() {
+    return name();
+  }
+
+  @Override
+  public String getDescription() {
+    return description;
+  }
 }

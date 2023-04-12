@@ -23,6 +23,7 @@ public class Recipe extends BaseTimeEntity {
 
   private String completionPhotoFileId;
 
+  @Lob
   private String description;
 
   @Embedded

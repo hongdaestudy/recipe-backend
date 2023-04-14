@@ -16,26 +16,26 @@ public class SecurityConfig {
   private final CustomAuthenticationEntryPoint authenticationEntryPoint;
   private final JwtTokenProvider jwtTokenProvider;
 
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    return http
-        .httpBasic().disable()
-        .cors()
-        .and()
-        .formLogin().disable()
-        .csrf().disable()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
-                .anyRequest().hasRole("USER")
-                .and()
-                .addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-        .build();
-  }
+//  @Bean
+//  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//    return http
+//        .httpBasic().disable()
+//        .cors()
+//        .and()
+//        .formLogin().disable()
+//        .csrf().disable()
+//        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//        .and()
+//                .exceptionHandling()
+//                .authenticationEntryPoint(authenticationEntryPoint)
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/api/auth/**").permitAll()
+//                .anyRequest().hasRole("USER")
+//                .and()
+//                .addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+//        .build();
+//  }
 
   @Bean
   PasswordEncoder passwordEncoder() {

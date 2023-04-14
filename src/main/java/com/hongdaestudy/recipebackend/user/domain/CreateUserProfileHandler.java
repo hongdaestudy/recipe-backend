@@ -17,7 +17,7 @@ public class CreateUserProfileHandler {
     @Transactional
     public void createFirstUserProfile(UserCreatedEvent event) {
         User user = event.getUser();
-        UserProfile userProfile = new UserProfile(user.getId());
+        UserProfile userProfile = new UserProfile(user);
         userProfileRepository.save(userProfile);
         user.changeUserProfile(userProfile);
         userRepository.updateUserProfileId(user.getId(), userProfile.getId());

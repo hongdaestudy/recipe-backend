@@ -2,6 +2,7 @@ package com.hongdaestudy.recipebackend.user.domain;
 
 import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +18,8 @@ public class UserProfile extends BaseTimeEntity<UserProfile, Long> {
     @Column(name = "user_profile_id")
     private Long id;
 
-    private Long userId;
+    @OneToOne(mappedBy = "userProfile")
+    private User userId;
 
     private String nickname;
 
@@ -25,7 +27,16 @@ public class UserProfile extends BaseTimeEntity<UserProfile, Long> {
 
     private Long backgroundFileId;
 
-    public UserProfile(long userId) {
+    public UserProfile(User userId) {
         this.userId = userId;
+    }
+
+    @Builder
+    public UserProfile(Long id, User userId, String nickname, Long profileFileId, Long backgroundFileId) {
+        this.id = id;
+        this.userId = userId;
+        this.nickname = nickname;
+        this.profileFileId = profileFileId;
+        this.backgroundFileId = backgroundFileId;
     }
 }

@@ -136,7 +136,7 @@ public class RetrieveRecipeCommandResult {
   public RetrieveRecipeCommandResult(Long id, Long completionPhotoFileId, Long mainPhotoFileId, Long memberId, String title, String nickname) {
     System.out.println("RetrieveRecipeCommandResult.RetrieveRecipeCommandResult HI!");
     this.id = id;
-    this.completionPhotoFileId = completionPhotoFileId;
+//    this.completionPhotoFileId = completionPhotoFileId;
     this.mainPhotoFileId = mainPhotoFileId;
     this.memberId = memberId;
     this.title = title;

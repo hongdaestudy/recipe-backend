@@ -26,7 +26,8 @@ public class RecipeBackendApplication extends SpringBootServletInitializer {
     return new WebMvcConfigurer() {
       @Override
       public void addCorsMappings(@NonNull CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("http://localhost:3000", "https://1000recipe.esjay.click");
+        //registry.addMapping("/**").allowedOrigins("http://localhost:3000", "https://1000recipe.esjay.click");
+        registry.addMapping("/**");
       }
     };
   }

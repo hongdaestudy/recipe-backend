@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -121,7 +122,7 @@ public class RetrieveRecipeCommandResult {
     this.information = RetrieveRecipeInformationCommandResult.create(servingCount, cookingTime, difficultyLevel);
     this.mainPhotoFileId = mainPhotoFileId;
     this.completionPhotoFileId = Arrays.asList(completionPhotoFileId.replace('[',' ').replace(']',' ')
-            .trim().split(",")).stream().map(s -> Long.parseLong(s.trim())).collect(Collectors.toList());
+            .trim().split(",")).stream().map(s -> Long.parseLong(s.trim())).collect(toList());
     this.tip = tip;
     this.status = status;
     this.deleteAt = deleteAt;
@@ -131,15 +132,20 @@ public class RetrieveRecipeCommandResult {
     this.ingredientGroups = new ArrayList<>();
   }
 
-  // 추가
   @QueryProjection
-  public RetrieveRecipeCommandResult(Long id, Long completionPhotoFileId, Long mainPhotoFileId, Long memberId, String title, String nickname) {
-    System.out.println("RetrieveRecipeCommandResult.RetrieveRecipeCommandResult HI!");
+  public RetrieveRecipeCommandResult(Long id, String completionPhotoFileId, Long mainPhotoFileId, Long memberId, String title, String nickname) {
     this.id = id;
-//    this.completionPhotoFileId = completionPhotoFileId;
+    this.completionPhotoFileId = parseLongList(completionPhotoFileId);
     this.mainPhotoFileId = mainPhotoFileId;
     this.memberId = memberId;
     this.title = title;
     this.nickname = nickname;
+  }
+
+  private static List<Long> parseLongList(String completionPhotoFileId) {
+    return Arrays.stream(completionPhotoFileId.replaceAll("\\[|\\]|\\s", "")
+                                              .split(","))
+                                              .map(Long::valueOf)
+                                              .collect(toList());
   }
 }

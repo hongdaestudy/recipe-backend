@@ -30,8 +30,8 @@ public class Files extends BaseTimeEntity {
 
   private long fileSize;
 
-  private Integer order;
-  public static Files create(String originalName, String extension, String filePath, long fileSize,Integer order) {
+  private Integer fileCnt;
+  public static Files create(String originalName, String extension, String filePath, long fileSize,Integer fileCnt) {
 
     Files file = new Files();
     file.fileName = originalName;
@@ -40,11 +40,11 @@ public class Files extends BaseTimeEntity {
     file.filePath = filePath;
     file.fileSize = fileSize;
 
-    file.order = order;
+    file.fileCnt = fileCnt;
 
     return file;
   }
-  public static Files create(Long id , String originalName, String extension, String filePath, long fileSize,Integer order) {
+  public static Files create(Long id , String originalName, String extension, String filePath, long fileSize,Integer fileCnt) {
 
     Files file = new Files();
     file.id = id;
@@ -54,7 +54,7 @@ public class Files extends BaseTimeEntity {
     file.filePath = filePath;
     file.fileSize = fileSize;
 
-    file.order = order;
+    file.fileCnt = fileCnt;
 
     return file;
   }

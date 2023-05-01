@@ -7,10 +7,10 @@ import com.hongdaestudy.recipebackend.user.application.in.UserInfoCommand;
 import com.hongdaestudy.recipebackend.user.application.out.UserInfoCommandResult;
 import com.hongdaestudy.recipebackend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,12 +19,12 @@ public class UserInfoService {
     private final RecipeRepository recipeRepository;
 
     @Transactional
-    public List<UserInfoCommandResult> findAll(UserInfoCommand params) {
-        return userRepository.findAll(params);
+    public Page<UserInfoCommandResult> findAll(UserInfoCommand params, Pageable pageable) {
+        return userRepository.findAll(params, pageable);
     }
 
     @Transactional
-    public List<RetrieveRecipeCommandResult> findAllNotDeletedRecipesById(RetrieveRecipeCommand params) {
-        return recipeRepository.findAllNotDeletedRecipesById(params);
+    public Page<RetrieveRecipeCommandResult> findAllNotDeletedRecipesById(RetrieveRecipeCommand params, Pageable pageable) {
+        return recipeRepository.findAllNotDeletedRecipesById(params, pageable);
     }
 }

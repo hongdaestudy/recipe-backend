@@ -77,7 +77,7 @@ public class RecipeCommandController {
   // 수정
   @PatchMapping("/recipe/{id}")
   public ResponseEntity<Long> updateRecipe(@PathVariable final Long id, @RequestBody final RegisterRecipeCommand params) {
-    return ResponseEntity.ok(modifyRecipeService.updateRecipe(id, params));
+    return ResponseEntity.ok(modifyRecipeService.updateRecipe(params));
   }
 
   @GetMapping("/search/recipes")

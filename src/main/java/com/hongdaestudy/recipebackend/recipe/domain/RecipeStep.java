@@ -27,6 +27,7 @@ public class RecipeStep extends BaseTimeEntity {
   @ToString.Exclude
   private Recipe recipe;
 
+  @Column(length = 500)
   private String description;
 
   private Long photoFileId;

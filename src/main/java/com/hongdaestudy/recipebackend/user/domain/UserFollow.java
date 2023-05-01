@@ -1,6 +1,7 @@
 package com.hongdaestudy.recipebackend.user.domain;
 
 import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
+import com.hongdaestudy.recipebackend.user.application.in.UserInfoCommand;
 import lombok.*;
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.ColumnDefault;
@@ -35,10 +36,14 @@ public class UserFollow extends BaseTimeEntity<UserFollow, Long> {
     private String deleteYn;
 
     @Builder
-    public UserFollow(Long id, User following, User follower, String deleteYn) {
-        this.id = id;
+    public UserFollow(User following, User follower) {
         this.following = following;
         this.follower = follower;
-        this.deleteYn = deleteYn;
+    }
+
+    public static UserFollow saveFollow(UserInfoCommand params) {
+        User following = User.create(params.getFollowingId());
+        User follower = User.create(params.getFollowerId());
+        return new UserFollow(following, follower);
     }
 }

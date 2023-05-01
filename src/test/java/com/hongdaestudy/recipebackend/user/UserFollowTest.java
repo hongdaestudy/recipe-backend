@@ -3,6 +3,7 @@ package com.hongdaestudy.recipebackend.user;
 import com.hongdaestudy.recipebackend.config.TestConfig;
 import com.hongdaestudy.recipebackend.user.domain.User;
 import com.hongdaestudy.recipebackend.user.domain.UserFollow;
+import com.hongdaestudy.recipebackend.user.domain.UserProfile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,15 +39,19 @@ public class UserFollowTest {
   @Transactional
   @Rollback(value = false)
   void followTest() {
+    User following = User.builder().email("following2@naver.com").password("12345678").build();
+    User follower = User.builder().email("follower2@naver.com").password("12345678").build();
 
-    User following = User.builder().email("following@naver.com").password("12345678").build();
-    User follower = User.builder().email("follower@naver.com").password("12345678").build();
+    UserProfile userProfile1 = UserProfile.builder().userId(following).nickname("following2").build();
+    UserProfile userProfile2 = UserProfile.builder().userId(follower).nickname("follower2").build();
 
     UserFollow userFollow = UserFollow.builder()
                                       .follower(follower)
                                       .following(following)
                                       .build();
 
+    em.persist(userProfile1);
+    em.persist(userProfile2);
     em.persist(following);
     em.persist(follower);
     em.persist(userFollow);

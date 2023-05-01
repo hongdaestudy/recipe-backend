@@ -14,4 +14,6 @@ public class UserInfoCommand {
     private Long backgroundFileId;
     private Long profileId;
     private String srchCondition;
+    private Long followerId;
+    private Long followingId;
 }

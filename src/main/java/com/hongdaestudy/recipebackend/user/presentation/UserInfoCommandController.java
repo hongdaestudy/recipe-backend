@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,5 +34,16 @@ public class UserInfoCommandController {
     @GetMapping("/recipes")
     public ResponseEntity<Page<RetrieveRecipeCommandResult>> findAllByRecipesByCondition(RetrieveRecipeCommand params, Pageable pageable) {
         return ResponseEntity.ok(userInfoService.findAllNotDeletedRecipesById(params, pageable));
+    }
+
+    @PostMapping("/following")
+    public ResponseEntity<UserInfoCommandResult> registerFollow(UserInfoCommand params) {
+        return ResponseEntity.ok(userInfoService.registerFollow(params));
+    }
+
+    @GetMapping("/following")
+    public ResponseEntity<Page<RetrieveRecipeCommandResult>> findAllRecipesByFollowingChef(RetrieveRecipeCommand params, Pageable pageable) {
+        // return ResponseEntity.ok(userInfoService.findAllRecipesByFollowingChef);
+        return null;
     }
 }

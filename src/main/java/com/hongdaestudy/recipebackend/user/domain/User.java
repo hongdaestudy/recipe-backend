@@ -51,4 +51,10 @@ public class User extends BaseTimeEntity<User, Long> {
     this.email = email;
     this.password = password;
   }
+
+  public static User create(Long id) {
+    User user = new User();
+    user.id = id;
+    return user;
+  }
 }

@@ -6,8 +6,6 @@ import com.hongdaestudy.recipebackend.recipe.application.out.RetrieveRecipeComma
 import com.hongdaestudy.recipebackend.recipe.domain.repository.RecipeRepository;
 import com.hongdaestudy.recipebackend.user.application.in.UserInfoCommand;
 import com.hongdaestudy.recipebackend.user.application.out.UserInfoCommandResult;
-import com.hongdaestudy.recipebackend.user.domain.User;
-import com.hongdaestudy.recipebackend.user.domain.UserFollow;
 import com.hongdaestudy.recipebackend.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,13 +18,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 
 @ActiveProfiles("test")
 @DataJpaTest
@@ -80,7 +75,7 @@ public class UserRepositoryTest {
   @DisplayName("페이징 기능을 테스트한다.")
   void testPaging() {
     PageRequest pageRequest = PageRequest.of(0, 10);
-    UserInfoCommand dto = UserInfoCommand.builder().build();
+    UserInfoCommand dto = UserInfoCommand.builder().srchCondition("follow").build();
     Page<UserInfoCommandResult> results = userRepository.findAll(dto, pageRequest);
     System.out.println("total size = " + results.getTotalElements());
     System.out.println("total pages = " + results.getTotalPages());

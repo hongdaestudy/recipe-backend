@@ -16,8 +16,12 @@ import java.util.List;
 
 import static com.hongdaestudy.recipebackend.user.domain.QUser.user;
 import static com.hongdaestudy.recipebackend.user.domain.QUserProfile.userProfile;
+import static com.hongdaestudy.recipebackend.user.domain.QUserFollow.userFollow;
+
+import static com.querydsl.core.types.ExpressionUtils.*;
 import static com.querydsl.core.types.Order.ASC;
 import static com.querydsl.core.types.Order.DESC;
+import static com.querydsl.jpa.JPAExpressions.select;
 
 @Repository
 public class UserRepositoryImpl implements UserRepositoryCustom {
@@ -38,7 +42,9 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
             userProfile.id,
             userProfile.backgroundFileId,
             userProfile.nickname,
-            userProfile.profileFileId))
+            userProfile.profileFileId,
+            as(select(userFollow.count()).from(userFollow).where(userFollow.following.id.eq(user.id)), "followerCnt")
+        ))
         .from(user).innerJoin(userProfile).on(user.id.eq(userProfile.id))
         .where(likeNickname(userInfoCommand.getNickname()))
         .offset(pageable.getOffset())

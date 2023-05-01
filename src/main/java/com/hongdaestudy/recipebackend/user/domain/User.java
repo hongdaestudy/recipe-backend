@@ -30,6 +30,9 @@ public class User extends BaseTimeEntity<User, Long> {
   @Column(nullable = false)
   private String password;
 
+  @OneToMany(mappedBy = "follower")
+  private List<UserFollow> userFollows = new ArrayList<>();
+
   // todo: validate
   public User(String email, String password) {
     this.email = email;

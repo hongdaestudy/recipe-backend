@@ -1,11 +1,10 @@
 package com.hongdaestudy.recipebackend.user.domain;
 
 import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Check;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
@@ -14,6 +13,9 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"followingId", "followerId"}))
+@Check(constraints = "following_id != follower_id")
+@DynamicInsert
 public class UserFollow extends BaseTimeEntity<UserFollow, Long> {
 
     @Id
@@ -22,21 +24,21 @@ public class UserFollow extends BaseTimeEntity<UserFollow, Long> {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn
-    private User followingId;
+    @JoinColumn(name = "followingId", referencedColumnName = "user_id")
+    private User following;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn
-    private User followerId;
+    @JoinColumn(name = "followerId", referencedColumnName = "user_id")
+    private User follower;
 
-    @ColumnDefault("N")
+    @ColumnDefault("'N'")
     private String deleteYn;
 
     @Builder
-    public UserFollow(Long id, User followingId, User followerId, String deleteYn) {
+    public UserFollow(Long id, User following, User follower, String deleteYn) {
         this.id = id;
-        this.followingId = followingId;
-        this.followerId = followerId;
+        this.following = following;
+        this.follower = follower;
         this.deleteYn = deleteYn;
     }
 }

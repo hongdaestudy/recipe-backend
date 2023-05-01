@@ -88,34 +88,4 @@ public class UserRepositoryTest {
       System.out.println("result = " + result);
     }
   }
-
-  @Test
-  @Transactional
-  @Rollback(value = false)
-  void selectFollow() {
-
-    User user1 = User.builder()
-                     .userProfile(null)
-                     .email("laborlawseon@gmail.com")
-                     .password("12345")
-                     .build();
-
-    User user2 = User.builder()
-                     .userProfile(null)
-                     .email("seonwoo@gmail.com")
-                     .password("12345")
-                     .build();
-
-    EntityTransaction tx = em.getTransaction();
-
-    em.persist(user1);
-    em.persist(user2);
-
-    UserFollow userFollow = UserFollow.builder()
-                                      .followingId(user1)
-                                      .followerId(user2)
-                                      .build();
-    em.persist(userFollow);
-    tx.commit();
-  }
 }

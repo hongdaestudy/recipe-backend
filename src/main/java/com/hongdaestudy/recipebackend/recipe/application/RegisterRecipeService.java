@@ -4,7 +4,6 @@ import com.hongdaestudy.recipebackend.ingredient.application.RegisterIngredientG
 import com.hongdaestudy.recipebackend.recipe.application.in.RegisterRecipeCommand;
 import com.hongdaestudy.recipebackend.recipe.application.out.RegisterRecipeCommandResult;
 import com.hongdaestudy.recipebackend.recipe.domain.*;
-//import com.hongdaestudy.recipebackend.recipe.domain.repository.RecipeIndexRepository;
 import com.hongdaestudy.recipebackend.recipe.domain.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RegisterRecipeService {
   private final RecipeRepository recipeRepository;
-//  private final RecipeIndexRepository recipeIndexRepository;
   private final RegisterIngredientGroupService registerIngredientGroupService;
 
   @Transactional
@@ -31,7 +29,6 @@ public class RegisterRecipeService {
     List<String> ingredients = registerRecipeCommand.getIngredientGroups().stream().map(group -> group.getIngredients())
             .flatMap(List::stream).map(x -> x.getName()).distinct()
             .collect(Collectors.toList());
-//    recipeIndexRepository.save(RecipeIndex.create(recipe,ingredients));
     return new RegisterRecipeCommandResult(recipe.getId());
   }
 

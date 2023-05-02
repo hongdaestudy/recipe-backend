@@ -32,9 +32,9 @@ public class UserProfile extends BaseTimeEntity<UserProfile, Long> {
     }
 
     @Builder
-    public UserProfile(Long id, User userId, String nickname, Long profileFileId, Long backgroundFileId) {
+    public UserProfile(Long id, User user, String nickname, Long profileFileId, Long backgroundFileId) {
         this.id = id;
-        this.userId = userId;
+        this.user = user;
         this.nickname = nickname;
         this.profileFileId = profileFileId;
         this.backgroundFileId = backgroundFileId;

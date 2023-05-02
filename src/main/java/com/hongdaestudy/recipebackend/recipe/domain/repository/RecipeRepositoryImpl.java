@@ -3,9 +3,13 @@ package com.hongdaestudy.recipebackend.recipe.domain.repository;
 import com.hongdaestudy.recipebackend.recipe.application.in.RetrieveRecipeCommand;
 import com.hongdaestudy.recipebackend.recipe.application.out.RetrieveRecipeCommandResult;
 import com.hongdaestudy.recipebackend.recipe.domain.RecipeStatus;
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,9 +17,9 @@ import java.util.List;
 import static com.hongdaestudy.recipebackend.recipe.domain.QRecipe.recipe;
 import static com.hongdaestudy.recipebackend.recipe.domain.QRecipeStep.recipeStep;
 import static com.hongdaestudy.recipebackend.recipe.domain.QRecipeTag.recipeTag;
+import static com.hongdaestudy.recipebackend.user.domain.QUserProfile.userProfile;
 import static com.hongdaestudy.recipebackend.recipe.domain.RecipeStatus.IN_PROGRESS;
 import static com.hongdaestudy.recipebackend.recipe.domain.RecipeStatus.PUBLISHED;
-import static com.hongdaestudy.recipebackend.user.domain.QUserProfile.userProfile;
 
 @Repository
 public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
@@ -76,22 +80,30 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
   }
 
   @Override
-  public List<RetrieveRecipeCommandResult> findAllNotDeletedRecipesById(RetrieveRecipeCommand retrieveRecipeCommand) {
-    List<RetrieveRecipeCommandResult> recipeEntity = queryFactory
+  public Page<RetrieveRecipeCommandResult> findAllNotDeletedRecipesById(RetrieveRecipeCommand retrieveRecipeCommand, Pageable pageable) {
+
+    QueryResults<RetrieveRecipeCommandResult> results = queryFactory
         .select(Projections.constructor(RetrieveRecipeCommandResult.class
           , recipe.id
           , recipe.completionPhotoFileId
           , recipe.mainPhotoFileId
           , recipe.memberId
           , recipe.title
-          , userProfile.nickname.prepend("by ")))
-        .from(recipe).innerJoin(userProfile).on(recipe.memberId.eq(userProfile.userId))
+          , userProfile.nickname.prepend("by ").as("nickname")))
+        .from(recipe).innerJoin(userProfile).on(recipe.memberId.eq(userProfile.id))
         .where(eqMemberId(retrieveRecipeCommand.getMemberId()),
                eqStatus(retrieveRecipeCommand.getStatus()),
                likeTitle(retrieveRecipeCommand.getTitle()),
                recipe.deleteAt.eq('N'))
-        .fetch();
-    return recipeEntity;
+        .offset(pageable.getOffset())
+        .limit(pageable.getPageSize())
+        .fetchResults();
+
+    List<RetrieveRecipeCommandResult> content = results.getResults();
+
+    long total = results.getTotal();
+
+    return new PageImpl<>(content, pageable, total);
   }
 
   private BooleanExpression likeTitle(String title) {

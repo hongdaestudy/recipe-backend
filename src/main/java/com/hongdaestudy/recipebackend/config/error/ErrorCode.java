@@ -6,8 +6,8 @@ public enum ErrorCode {
   ACCESS_TOKEN_EXPIRED(400, "C_003", "토큰이 만료되었습니다."),
 
   SCRAP_DUPLICATION(409, "C_003", "이미 스크랩된 레시피 입니다."),
-  COMMENT_NOT_FOUND(400, "C_004", "부모 댓글을 찾을 수 없습니다.");
-
+  COMMENT_NOT_FOUND(400, "C_004", "부모 댓글을 찾을 수 없습니다."),
+  FOLLOW_DUPLICATION(410, "C_005", "이미 소식받기된 쉐프입니다.");
 
   private final String code;
   private final String message;

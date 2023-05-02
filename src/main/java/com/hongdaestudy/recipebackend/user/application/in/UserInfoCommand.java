@@ -1,7 +1,5 @@
 package com.hongdaestudy.recipebackend.user.application.in;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,4 +14,6 @@ public class UserInfoCommand {
     private Long backgroundFileId;
     private Long profileId;
     private String srchCondition;
+    private Long followerId;
+    private Long followingId;
 }

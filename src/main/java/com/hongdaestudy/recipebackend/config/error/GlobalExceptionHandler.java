@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.nio.file.AccessDeniedException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
-import static com.hongdaestudy.recipebackend.config.error.ErrorCode.HANDLE_ACCESS_DENIED;
-import static com.hongdaestudy.recipebackend.config.error.ErrorCode.MEMBER_NOT_FOUND;
+import static com.hongdaestudy.recipebackend.config.error.ErrorCode.*;
 
 @Slf4j
 @RestControllerAdvice
@@ -22,10 +22,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.valueOf(HANDLE_ACCESS_DENIED.getStatus()));
     }
 
-    @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> handleException(final Exception e) {
-        log.error("handleException: {}", e.getMessage());
-        final ErrorResponse response = ErrorResponse.of(HANDLE_ACCESS_DENIED);
-        return new ResponseEntity<>(response, HttpStatus.valueOf(MEMBER_NOT_FOUND.getStatus()));
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    protected ResponseEntity<ErrorResponse> handleSQLViolationException(SQLIntegrityConstraintViolationException e) {
+        log.error("handleSQLIntegrityConstraintViolationException: {}", e.getMessage());
+        final ErrorResponse response = ErrorResponse.of(FOLLOW_DUPLICATION);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(FOLLOW_DUPLICATION.getStatus()));
     }
 }

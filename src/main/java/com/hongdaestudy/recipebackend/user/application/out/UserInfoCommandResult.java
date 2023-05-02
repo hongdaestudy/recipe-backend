@@ -12,14 +12,21 @@ public class UserInfoCommandResult {
   private Long backgroundFileId;
   private String nickname;
   private Long profileFileId;
+  private Long followerId;
+  private Long followingId;
+  private Long followerCnt;
 
   @QueryProjection
-  public UserInfoCommandResult(Long id, String email, Long userProfileId, Long backgroundFileId, String nickname, Long profileFileId) {
+  public UserInfoCommandResult(Long id, String email, Long userProfileId, Long backgroundFileId, String nickname, Long profileFileId, Long followerCnt) {
     this.id = id;
     this.email = email;
-    this.userProfileId = userProfileId;
     this.backgroundFileId = backgroundFileId;
     this.nickname = nickname;
     this.profileFileId = profileFileId;
+    this.followerCnt = followerCnt;
+  }
+
+  public UserInfoCommandResult(Long id) {
+    this.id = id;
   }
 }

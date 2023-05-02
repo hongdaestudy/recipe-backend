@@ -31,7 +31,7 @@ public class RegisterRecipeService {
     List<String> ingredients = registerRecipeCommand.getIngredientGroups().stream().map(group -> group.getIngredients())
             .flatMap(List::stream).map(x -> x.getName()).distinct()
             .collect(Collectors.toList());
-    recipeIndexRepository.save(RecipeIndex.create(recipe,ingredients));
+            recipeIndexRepository.save(RecipeIndex.create(recipe,ingredients));
     return new RegisterRecipeCommandResult(recipe.getId());
   }
 

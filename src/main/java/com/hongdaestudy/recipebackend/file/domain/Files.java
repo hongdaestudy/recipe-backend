@@ -29,9 +29,10 @@ public class Files extends BaseTimeEntity {
   private String filePath;
 
   private long fileSize;
-
+  
   private Integer fileCnt;
-  public static Files create(String originalName, String extension, String filePath, long fileSize,Integer fileCnt) {
+
+  public static Files create(String originalName, String extension, String filePath, long fileSize, Integer fileCnt) {
 
     Files file = new Files();
     file.fileName = originalName;

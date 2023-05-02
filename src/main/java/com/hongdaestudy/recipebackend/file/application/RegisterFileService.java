@@ -47,7 +47,7 @@ public class RegisterFileService {
     List<Long> savedList = new ArrayList<>();
 
     if (files != null && files.length != 0) {
-      Integer order = 0;
+      Integer fileCnt = 0;
       for (MultipartFile uploadFile : files) {
 
         String originalFileName = uploadFile.getOriginalFilename();    //오리지날 파일명
@@ -55,11 +55,11 @@ public class RegisterFileService {
         String savedFileName = UUID.randomUUID() + originalFileName;    //저장될 파일 명
 
         String fileDir = getFolder();
-        Files savedFile = Files.create(originalFileName, extension, fileDir + "/", uploadFile.getSize(),order);
+        Files savedFile = Files.create(originalFileName, extension, fileDir + "/", uploadFile.getSize(),fileCnt);
         uploadFile.transferTo(new File(fileDir + "/" + savedFileName));
         savedList.add(fileRepository.save(savedFile).getId());
 
-        order++;
+        fileCnt++;
       }
     }
     return savedList;

@@ -77,7 +77,7 @@ public class RecipeCommandController {
   // 수정
   @PatchMapping("/recipe/{id}")
   public ResponseEntity<Long> updateRecipe(@PathVariable final Long id, @RequestBody final RegisterRecipeCommand params) {
-    return ResponseEntity.ok(modifyRecipeService.updateRecipe(params));
+    return ResponseEntity.ok(modifyRecipeService.updateRecipe(id,params));
   }
 
   @GetMapping("/search/recipes")
@@ -86,6 +86,13 @@ public class RecipeCommandController {
       pageable = PageRequest.of(0, 50);
     }
     List<RecipeIndex> result = retrieveRecipeService.retrieveRecipeByCondition(searchCondition,pageable);
+
+    return ResponseEntity.ok(result);
+  }
+  @GetMapping("/search/recipeTitles")
+  public ResponseEntity<List<String>> retrieveRecipeTitlesByCondition(@RequestBody SearchRecipeCommand searchCondition) {
+
+    List<String> result = retrieveRecipeService.retrieveRecipeTitlesByCondition(searchCondition);
 
     return ResponseEntity.ok(result);
   }

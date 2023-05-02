@@ -30,7 +30,6 @@ public class Files extends BaseTimeEntity {
 
   private long fileSize;
 
-  @Column(name = "file_order")
   private Integer order;
 
   public static Files create(String originalName, String extension, String filePath, long fileSize,Integer order) {

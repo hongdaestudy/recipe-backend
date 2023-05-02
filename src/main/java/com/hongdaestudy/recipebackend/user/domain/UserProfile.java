@@ -19,7 +19,7 @@ public class UserProfile extends BaseTimeEntity<UserProfile, Long> {
     private Long id;
 
     @OneToOne(mappedBy = "userProfile")
-    private User userId;
+    private User user;
 
     private String nickname;
 
@@ -27,8 +27,8 @@ public class UserProfile extends BaseTimeEntity<UserProfile, Long> {
 
     private Long backgroundFileId;
 
-    public UserProfile(User userId) {
-        this.userId = userId;
+    public UserProfile(User user) {
+        this.user = user;
     }
 
     @Builder

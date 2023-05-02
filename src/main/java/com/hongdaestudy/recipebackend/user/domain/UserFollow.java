@@ -3,7 +3,6 @@ package com.hongdaestudy.recipebackend.user.domain;
 import com.hongdaestudy.recipebackend.common.BaseTimeEntity;
 import com.hongdaestudy.recipebackend.user.application.in.UserInfoCommand;
 import lombok.*;
-import org.hibernate.annotations.Check;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -14,8 +13,6 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"followingId", "followerId"}))
-@Check(constraints = "following_id != follower_id")
 @DynamicInsert
 public class UserFollow extends BaseTimeEntity<UserFollow, Long> {
 
@@ -45,5 +42,10 @@ public class UserFollow extends BaseTimeEntity<UserFollow, Long> {
         User following = User.create(params.getFollowingId());
         User follower = User.create(params.getFollowerId());
         return new UserFollow(following, follower);
+    }
+
+    public static UserFollow cancelFollow(UserFollow entity) {
+        entity.deleteYn = "Y";
+        return entity;
     }
 }

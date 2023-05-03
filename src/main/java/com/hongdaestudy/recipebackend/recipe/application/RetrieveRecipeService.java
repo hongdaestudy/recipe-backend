@@ -21,6 +21,11 @@ import org.springframework.data.elasticsearch.core.query.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +33,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class RetrieveRecipeService {
+  private final static String VIEWCOOKIENAME = "viewCookie";
   private final RecipeRepository recipeRepository;
   private final ElasticsearchOperations operations;
   private final RetrieveIngredientGroupService retrieveIngredientGroupService;
@@ -132,5 +138,41 @@ public class RetrieveRecipeService {
             .withMaxResults(Integer.valueOf(10))
               .build();
     return query;
+  }
+
+  @Transactional
+  public void updateView(Long recipeId, HttpServletRequest request, HttpServletResponse response) {
+
+    Cookie oldCookie = null;
+    Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+      for (Cookie cookie : cookies) {
+        if (cookie.getName().equals(VIEWCOOKIENAME)) {
+          oldCookie = cookie;
+        }
+      }
+    }
+    if (oldCookie != null) {
+      if (!oldCookie.getValue().contains("[" + recipeId.toString() + "]")) {
+        recipeRepository.updateView(recipeId);
+        oldCookie.setValue(oldCookie.getValue() + "_[" + recipeId + "]");
+        oldCookie.setPath("/");
+        oldCookie.setMaxAge(getRemainSecondForTommorow());
+        response.addCookie(oldCookie);
+      }
+    }
+    else {
+      recipeRepository.updateView(recipeId);
+      Cookie newCookie = new Cookie(VIEWCOOKIENAME,"[" + recipeId + "]");
+      newCookie.setPath("/");
+      newCookie.setMaxAge(getRemainSecondForTommorow());
+      response.addCookie(newCookie);
+    }
+  }
+
+  private int getRemainSecondForTommorow() {
+    LocalDateTime now = LocalDateTime.now();
+    LocalDateTime tommorow = LocalDateTime.now().plusDays(1L).truncatedTo(ChronoUnit.DAYS);
+    return (int) now.until(tommorow, ChronoUnit.SECONDS);
   }
 }

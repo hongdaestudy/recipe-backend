@@ -47,6 +47,9 @@ public class Recipe extends BaseTimeEntity {
 
   private char deleteAt;
 
+  @Column(columnDefinition = "integer default 0", nullable = false)
+  private int view;
+
   // table: recipe_tag
   @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
   @ToString.Exclude

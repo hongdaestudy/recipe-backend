@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -48,9 +50,10 @@ public class RecipeCommandController {
   }
 
   @GetMapping("/recipe")
-  public ResponseEntity<RetrieveRecipeCommandResult> retrieveRecipe(@RequestBody RetrieveRecipeCommand retrieveRecipeCommand) {
-
+  public ResponseEntity<RetrieveRecipeCommandResult> retrieveRecipe(@RequestBody RetrieveRecipeCommand retrieveRecipeCommand
+                                                                    , HttpServletRequest request, HttpServletResponse response) {
     RetrieveRecipeCommandResult result = retrieveRecipeService.retrieveRecipe(retrieveRecipeCommand);
+    retrieveRecipeService.updateView(retrieveRecipeCommand.getRecipeId(), request, response);
 
     return ResponseEntity.ok(result);
   }

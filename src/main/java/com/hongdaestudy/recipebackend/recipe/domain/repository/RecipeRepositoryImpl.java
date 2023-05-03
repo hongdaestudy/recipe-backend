@@ -93,7 +93,14 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
         .fetch();
     return recipeEntity;
   }
+  @Override
+  public void updateView(long recipeId) {
 
+    queryFactory.update(recipe)
+            .set(recipe.view, recipe.view.add(1))
+            .where(recipe.id.eq(recipeId))
+            .execute();
+  }
   private BooleanExpression likeTitle(String title) {
     if (title != null && !title.isEmpty()) {
       return recipe.title.contains(title);
